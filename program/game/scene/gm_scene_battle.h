@@ -18,6 +18,7 @@ public:
 	void BattleStart();
 
 	void drawMouseUp(int x, int y);
+	void DrawHands();
 
 private:
 	
@@ -77,7 +78,9 @@ private:
 	int numOfCards = 0;
 
 	int cardPidl_6 = 51.2;
-	int cardPild_7 = 85.3;
+	float cardPild_7 = 85.3;
+	float cardPild_8 = 109.7;
+	int cardPild_9 = 128;
 
 	float hp_max = 40.0;
 	float hp_now = 0.0;
