@@ -73,6 +73,7 @@ private:
 	int img_turn_move = 0;
 
 	bool enemy_anime;
+	bool dealcard;
 
 	float hp_max = 40.0;
 	float hp_now = 0.0;

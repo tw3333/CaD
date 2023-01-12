@@ -15,6 +15,7 @@ void SceneBattle::initialzie() {
 	LoadBattleGraph();
 
 	finish = false;
+	dealcard = false;
 
 	enemy_anime = true;
 	chara_num = 1;
@@ -84,7 +85,10 @@ void SceneBattle::update(float dalta_time) {
 	
 	
 	
-	
+	//test
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_J)) {
+		dealcard = true;
+	}
 
 }
 
@@ -139,14 +143,13 @@ void SceneBattle::render() {
 
 	DrawBox(0, height1 * 7, width1 * 2, height1 * 10, Silver, true);
 
-	//カード描写(手札５枚)
-	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
-	DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
-	DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, card4, false); //4
-	DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //5
-
-
+	if (dealcard) {
+		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
+		DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
+		DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, card4, false); //4
+		DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //5
+	}
 
 	//選択フレーム
 	//DrawCard(0 + select_move, 7, 2 + select_move, 10, select_flame, true);
