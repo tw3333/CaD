@@ -17,8 +17,12 @@ public:
 
 	void BattleStart();
 
+	void drawMouseUp(int x, int y);
+
 private:
 	
+	int MouseX = 0;
+	int MouseY = 0;
 	int move = 0;
 	float timer = 0;
 	bool finish;
@@ -32,7 +36,12 @@ private:
 	int img_turn;
 
 	int select_flame;
-	
+	int CardUp_1 = 0;
+	int CardUp_2 = 0;
+	int CardUp_3 = 0;
+	int CardUp_4 = 0;
+	int CardUp_5 = 0;
+
 	int card1 = 0;
 	int card2 = 0; 
 	int card3 = 0; 
@@ -49,6 +58,9 @@ private:
 	int card14 = 0;
 	int card15 = 0;
 
+	int hp_bar = 0;
+	int hp_bar_back = 0;
+
 
 	int chara_select;
 	int chara_num = 0;
@@ -62,8 +74,17 @@ private:
 
 	bool enemy_anime;
 
+	float hp_max = 40.0;
+	float hp_now = 0.0;
+	int cost_max = 3;
+	int cost_now = 0;
+	int Bar_Width = 300;
+	int Bar = 0;
+	int test = 0;
+
 	unsigned int gray = GetColor(138, 140, 142);
 	unsigned int red = GetColor(255, 0, 0);
+	unsigned int Silver = GetColor(192,192,192);
 
 
 	float width1 = DXE_WINDOW_WIDTH / 10;
