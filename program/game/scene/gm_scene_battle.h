@@ -76,6 +76,9 @@ private:
 	bool dealcard;
 	int numOfCards = 0;
 
+	int cardPidl_6 = 51.2;
+	int cardPild_7 = 85.3;
+
 	float hp_max = 40.0;
 	float hp_now = 0.0;
 	int cost_max = 3;
