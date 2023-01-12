@@ -1,6 +1,7 @@
 #include "../gm_manager.h"
 
 #include "gm_scene_base.h"
+#include "gm_scene_battle.h"
 
 
 

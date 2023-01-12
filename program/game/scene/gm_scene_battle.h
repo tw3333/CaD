@@ -74,6 +74,7 @@ private:
 
 	bool enemy_anime;
 	bool dealcard;
+	int numOfCards = 0;
 
 	float hp_max = 40.0;
 	float hp_now = 0.0;

@@ -13,7 +13,7 @@ void SceneTitle::update(float delta_time)
 	GameManager* mgr = GameManager::GetInstance();
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN) || move == 0 && tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
-		mgr->chengeScene( new SceneSelectPhase() );
+		mgr->chengeScene( new SceneBattle() );
 	}
 
 	if (move == 1 && tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {

@@ -22,6 +22,8 @@ void SceneBattle::initialzie() {
 	img_turn_move = 25;
 
 	hp_now = hp_max;
+	int x = 320;
+	
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -90,6 +92,10 @@ void SceneBattle::update(float dalta_time) {
 		dealcard = true;
 	}
 
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_U)) {
+		numOfCards += 1;
+	}
+
 }
 
 void SceneBattle::render() {
@@ -143,13 +149,22 @@ void SceneBattle::render() {
 
 	DrawBox(0, height1 * 7, width1 * 2, height1 * 10, Silver, true);
 
+	//if (dealcard) {
+	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
+	//	DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
+	//	DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
+	//	DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, card4, false); //4
+	//	DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //5
+	//}
+
 	if (dealcard) {
-		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-		DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
-		DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
-		DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, card4, false); //4
-		DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //5
+		int x = 320;
+		for (int i = 1; i <= numOfCards; i++) {
+			DrawExtendGraph(x, (height1 * 7) - CardUp_1, x + 256, (height1 * 10) - CardUp_1, card1, false);
+			x += 256;
+		}
 	}
+
 
 	//選択フレーム
 	//DrawCard(0 + select_move, 7, 2 + select_move, 10, select_flame, true);
@@ -189,10 +204,10 @@ void SceneBattle::LoadBattleGraph() {
 	img_chara4_face = LoadGraph("graphics/chara4_face.png"); //回復士
 	img_enemy1_face = LoadGraph("graphics/enemy1_face.png"); //デブアリ
 
-	card1 = LoadGraph("graphics/card_1.png"); //誘導
-	card2 = LoadGraph("graphics/card_2.png"); //斬りつける
-	card3 = LoadGraph("graphics/card_3.png"); //逃げる
-	card4 = LoadGraph("graphics/card_4.png"); //守る
+	card1 = LoadGraph("graphics/card_chara1_flame.png"); //誘導
+	card2 = LoadGraph("graphics/card_chara1_flame.png"); //斬りつける
+	card3 = LoadGraph("graphics/card_chara1_flame.png"); //逃げる
+	card4 = LoadGraph("graphics/card_chara1_flame.png"); //守る
 	card5 = LoadGraph("graphics/card_5.png"); //鼓舞
 	card6 = LoadGraph("graphics/card_6.png"); //分析
 	card7 = LoadGraph("graphics/card_7.png"); //ポジションチェンジ
