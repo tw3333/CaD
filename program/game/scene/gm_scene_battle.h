@@ -23,6 +23,8 @@ public:
 
 	//イージング関数
 	double easeInExpo(double x);
+	double easeOutExpo(double x);
+
 private:
 	
 	int MouseX = 0;

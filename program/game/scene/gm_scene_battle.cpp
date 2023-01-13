@@ -347,9 +347,15 @@ void SceneBattle::drawMouseUp(int x, int y) {
 
 }
 
+
 double SceneBattle::easeInExpo(double x) {
 	if (x == 0) { return 0; }
 	return pow(2, 10 * x -10);
+}
+
+double SceneBattle::easeOutExpo(double x) {
+	if (x == 1) { return 1; }
+	return pow(2,-10 * x);
 }
 
 void SceneBattle::EasingTurnImage(double t, int x_s, int x_e) {
