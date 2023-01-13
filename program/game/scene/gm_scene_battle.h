@@ -19,7 +19,10 @@ public:
 
 	void drawMouseUp(int x, int y);
 	void DrawHands();
+	void EasingTurnImage(double t, int x_s, int x_e);
 
+	//イージング関数
+	double easeInExpo(double x);
 private:
 	
 	int MouseX = 0;
@@ -92,6 +95,14 @@ private:
 	int Bar = 0;
 	int test = 0;
 
+	//イージング用
+	float t = 0;
+	float dt = 0.02;
+	float x0 = -200;
+	float x1 = 200;
+
+
+	//色設定
 	unsigned int gray = GetColor(138, 140, 142);
 	unsigned int red = GetColor(255, 0, 0);
 	unsigned int Silver = GetColor(192,192,192);

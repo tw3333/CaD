@@ -85,9 +85,6 @@ void SceneBattle::update(float dalta_time) {
 		hp_now -= 1;
 	}
 
-
-
-
 	//test
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_J)) {
 		dealcard = true;
@@ -98,6 +95,11 @@ void SceneBattle::update(float dalta_time) {
 	}
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_K)) {
 		numOfCards -= 1;
+	}
+
+	t += dt;
+	if (1 <= t) {
+		t = 1;
 	}
 }
 
@@ -156,8 +158,8 @@ void SceneBattle::render() {
 	DrawHands();
 
 	//ターン描写
-	DrawExtendGraph(width1*4,height1*3,width1*6,height1*4,img_yourturn,true);
-
+	//DrawExtendGraph(width1*4,height1*3,width1*6,height1*4,img_yourturn,true);
+	EasingTurnImage(easeInExpo(t),0,width1*4);
 
 	//選択フレーム
 	//DrawCard(0 + select_move, 7, 2 + select_move, 10, select_flame, true);
@@ -345,7 +347,12 @@ void SceneBattle::drawMouseUp(int x, int y) {
 
 }
 
-double easeInExpo(double x) {
+double SceneBattle::easeInExpo(double x) {
 	if (x == 0) { return 0; }
 	return pow(2, 10 * x -10);
+}
+
+void SceneBattle::EasingTurnImage(double t, int x_s, int x_e) {
+	auto x = (1 - t) * x_s + t * x_e;
+	DrawExtendGraph(x, height1 * 3, x + width1*2, height1 * 4, img_yourturn, true);
 }
