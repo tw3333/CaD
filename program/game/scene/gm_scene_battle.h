@@ -61,7 +61,8 @@ private:
 
 	int hp_bar = 0;
 	int hp_bar_back = 0;
-
+	int img_yourturn = 0;
+	int img_enemyturn = 0;
 
 	int chara_select;
 	int chara_num = 0;
@@ -81,6 +82,7 @@ private:
 	float cardPild_7 = 85.3;
 	float cardPild_8 = 109.7;
 	int cardPild_9 = 128;
+	float cardPild_10 = 142.2;
 
 	float hp_max = 40.0;
 	float hp_now = 0.0;

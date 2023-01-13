@@ -4,6 +4,7 @@
 #include "gm_scene_battle.h"
 
 #include <iostream>
+#include <cmath>
 
 //SceneBattle::~SceneBattle() {
 //	
@@ -96,7 +97,7 @@ void SceneBattle::update(float dalta_time) {
 		numOfCards += 1;
 	}
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_K)) {
-		numOfCards += 1;
+		numOfCards -= 1;
 	}
 }
 
@@ -151,29 +152,11 @@ void SceneBattle::render() {
 
 	DrawBox(0, height1 * 7, width1 * 2, height1 * 10, Silver, true);
 
-	//if (dealcard) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
-	//	DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, card4, false); //4
-	//	DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //5
-	//}
-
-	/*if (dealcard) {
-		int x = 320;
-		for (int i = 1; i <= numOfCards; i++) {
-			if (x + 256 > 1600) {
-				DrawExtendGraph(x, (height1 * 7) - CardUp_1 - (x + 256 - 1600), 1600, (height1 * 10) - CardUp_1, card1, false);
-			}
-			else {
-				DrawExtendGraph(x, (height1 * 7) - CardUp_1, x + 256, (height1 * 10) - CardUp_1, card1, false);
-			}
-			x += 256;
-		}
-	}*/
-
-
+	//手札描写
 	DrawHands();
+
+	//ターン描写
+	DrawExtendGraph(width1*4,height1*3,width1*6,height1*4,img_yourturn,true);
 
 
 	//選択フレーム
@@ -233,13 +216,16 @@ void SceneBattle::LoadBattleGraph() {
 	hp_bar = LoadGraph("graphics/hp_bar.png"); //hpバー
 	hp_bar_back = LoadGraph("graphics/hp_bar_back.png"); //hp_barの後ろのバー
 
+	img_yourturn = LoadGraph("graphics/img_yourturn2.png"); //yourターン描写
+	img_enemyturn = LoadGraph("graphics/img_enemyturn2.png"); //enemyターン描写
+
 	img_turn = LoadGraph("graphics/turn.png"); //turn描写用
 	select_flame = LoadGraph("graphics/select_flame.png"); //選択描写用
 }
 
 void SceneBattle::DrawHands() {
 	if (numOfCards == 1) {
-		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(640 - 128 + 320, (height1 * 7) - CardUp_1, 640 + 128 + 320, (height1 * 10) - CardUp_1, card1, false); //1
 
 	}
 	else if (numOfCards == 2) {
@@ -278,18 +264,19 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(832 - cardPild_7 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_7 * 2, (height1 * 10) - CardUp_3, card3, false); //3
 		DrawExtendGraph(1088 - cardPild_7 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_7 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_7 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_7 * 4, (height1 * 10) - CardUp_5, card4, false); //5
-		DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_5, (1600 - cardPild_7 * 5) + 256, (height1 * 10) - CardUp_5, card4, false); //6
-		DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //7
+		DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_7 * 5, (height1 * 10) - CardUp_5, card4, false); //6
+		DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_5, 1600 + (256*2) - cardPild_7* 6, (height1 * 10) - CardUp_5, card4, false); //7
 	}
 	else if (numOfCards == 8) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
 		DrawExtendGraph(576 - cardPild_8, (height1 * 7) - CardUp_2, 832 - cardPild_8, (height1 * 10) - CardUp_2, card2, false); //2
 		DrawExtendGraph(832 - cardPild_8 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_8 * 2, (height1 * 10) - CardUp_3, card3, false); //3
 		DrawExtendGraph(1088 - cardPild_8 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_8 * 3, (height1 * 10) - CardUp_4, card4, false); //4
-		DrawExtendGraph(1344 - cardPild_8 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_8 * 4, (height1 * 10) - CardUp_5, card4, false); //5		
-		DrawExtendGraph((1600 - cardPild_8 * 5), (height1 * 7) - CardUp_5, (1600 - cardPild_8 * 5) + 256, (height1 * 10) - CardUp_5, card4, false); //6		
-		DrawExtendGraph((1600 - cardPild_8 * 6) + 256, (height1 * 7) - CardUp_5, (1600 - cardPild_8 * 6) + 512, (height1 * 10) - CardUp_5, card4, false); //7
-		DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, card4, false); //8		
+		DrawExtendGraph(1344 - cardPild_8 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_8 * 4, (height1 * 10) - CardUp_5, card4, false); //5	
+
+		DrawExtendGraph(1600 - cardPild_8 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_8 * 5, (height1 * 10) - CardUp_5, card4, false); //6		
+		DrawExtendGraph(1600 + (256) - cardPild_8 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_8 * 6, (height1 * 10) - CardUp_5, card4, false); //7
+		DrawExtendGraph(1600 + (256 * 2) - cardPild_8 * 7, (height1 * 7) - CardUp_5, 1600 + (256 * 3) - cardPild_8 * 7, (height1 * 10) - CardUp_5, card4, false); //8		
 	}
 	else if (numOfCards == 9) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
@@ -297,6 +284,7 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(832 - cardPild_9 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_9 * 2, (height1 * 10) - CardUp_3, card3, false); //3
 		DrawExtendGraph(1088 - cardPild_9 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_9 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_9 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_9 * 4, (height1 * 10) - CardUp_5, card4, false); //5
+
 		DrawExtendGraph(1600 - cardPild_9 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_9 * 5, (height1 * 10) - CardUp_5, card4, false); //6
 		DrawExtendGraph(1600 + (256) - cardPild_9 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_9 * 6, (height1 * 10) - CardUp_5, card4, false); //7
 		DrawExtendGraph(1600 + (256 * 2) - cardPild_9 * 7, (height1 * 7) - CardUp_5, 1600 + (256 * 3) - cardPild_9 * 7, (height1 * 10) - CardUp_5, card4, false); //8
@@ -304,6 +292,17 @@ void SceneBattle::DrawHands() {
 
 	}
 	else if (numOfCards == 10) {
+		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(576 - cardPild_10, (height1 * 7) - CardUp_2, 832 - cardPild_10, (height1 * 10) - CardUp_2, card2, false); //2
+		DrawExtendGraph(832 - cardPild_10 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_10 * 2, (height1 * 10) - CardUp_3, card3, false); //3
+		DrawExtendGraph(1088 - cardPild_10 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_10 * 3, (height1 * 10) - CardUp_4, card4, false); //4
+		DrawExtendGraph(1344 - cardPild_10 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_10 * 4, (height1 * 10) - CardUp_5, card4, false); //5
+
+		DrawExtendGraph(1600 - cardPild_10 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_10 * 5, (height1 * 10) - CardUp_5, card4, false); //6
+		DrawExtendGraph(1600 + (256) - cardPild_10 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_10 * 6, (height1 * 10) - CardUp_5, card4, false); //7
+		DrawExtendGraph(1600 + (256 * 2) - cardPild_10 * 7, (height1 * 7) - CardUp_5, 1600 + (256 * 3) - cardPild_10 * 7, (height1 * 10) - CardUp_5, card4, false); //8
+		DrawExtendGraph(1600 + (256 * 3) - cardPild_10 * 8, (height1 * 7) - CardUp_5, 1600 + (256 * 4) - cardPild_10 * 8, (height1 * 10) - CardUp_5, card4, false); //9
+		DrawExtendGraph(1600 + (256 * 4) - cardPild_10 * 9, (height1 * 7) - CardUp_5, 1600 + (256 * 5) - cardPild_10 * 9, (height1 * 10) - CardUp_5, card4, false); //10
 
 	}
 }
@@ -346,3 +345,7 @@ void SceneBattle::drawMouseUp(int x, int y) {
 
 }
 
+double easeInExpo(double x) {
+	if (x == 0) { return 0; }
+	return pow(2, 10 * x -10);
+}
