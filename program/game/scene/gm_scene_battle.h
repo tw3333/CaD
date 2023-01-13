@@ -17,9 +17,13 @@ public:
 
 	void BattleStart();
 
+	void DrawTurn();
 	void drawMouseUp(int x, int y);
 	void DrawHands();
-	void EasingTurnImage(double t, int x_s, int x_e);
+	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
+	void EaseOutTurnImage(double t, int x_s, int x_e);
+
+
 
 	//イージング関数
 	double easeInExpo(double x);
@@ -96,6 +100,12 @@ private:
 	int Bar_Width = 300;
 	int Bar = 0;
 	int test = 0;
+
+	//ターン関連
+	bool your_turn = false;
+	bool enemy_turn = false;
+	bool easeOut = false;
+	bool easeIn = false;
 
 	//イージング用
 	float t = 0;

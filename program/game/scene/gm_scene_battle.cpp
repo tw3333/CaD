@@ -83,6 +83,7 @@ void SceneBattle::update(float dalta_time) {
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H) && hp_now != 0) {
 		hp_now -= 1;
+		your_turn = true;
 	}
 
 	//test
@@ -159,7 +160,11 @@ void SceneBattle::render() {
 
 	//ターン描写
 	//DrawExtendGraph(width1*4,height1*3,width1*6,height1*4,img_yourturn,true);
-	EasingTurnImage(easeInExpo(t),0,width1*4);
+	
+	//EaseTurnImage(easeOutExpo(t), 0, width1 * 4);
+	//EaseTurnImage(easeInExpo(t), width1*4, width1 * 10);
+
+	DrawTurn();
 
 	//選択フレーム
 	//DrawCard(0 + select_move, 7, 2 + select_move, 10, select_flame, true);
@@ -267,7 +272,7 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(1088 - cardPild_7 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_7 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_7 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_7 * 4, (height1 * 10) - CardUp_5, card4, false); //5
 		DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_7 * 5, (height1 * 10) - CardUp_5, card4, false); //6
-		DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_5, 1600 + (256*2) - cardPild_7* 6, (height1 * 10) - CardUp_5, card4, false); //7
+		DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_7 * 6, (height1 * 10) - CardUp_5, card4, false); //7
 	}
 	else if (numOfCards == 8) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
@@ -347,18 +352,38 @@ void SceneBattle::drawMouseUp(int x, int y) {
 
 }
 
+void SceneBattle::DrawTurn() {
+	if (your_turn) {
+		EaseTurnImage(easeOutExpo(t), 0, width1 * 4);
+		easeOut = false;
+		easeIn = true;
+		if (easeIn) {
+			//EaseTurnImage(easeInExpo(t), width1 * 4, width1 * 10);
+		}
+		your_turn = false;
+	}
+}
 
 double SceneBattle::easeInExpo(double x) {
 	if (x == 0) { return 0; }
-	return pow(2, 10 * x -10);
+	return pow(2, 10 * x - 10);
 }
 
 double SceneBattle::easeOutExpo(double x) {
 	if (x == 1) { return 1; }
-	return pow(2,-10 * x);
+	return 1 - pow(2, -10 * x);
 }
 
-void SceneBattle::EasingTurnImage(double t, int x_s, int x_e) {
+void SceneBattle::EaseTurnImage(double out_t, double in_t, int x_s, int x_e) {
+	
 	auto x = (1 - t) * x_s + t * x_e;
-	DrawExtendGraph(x, height1 * 3, x + width1*2, height1 * 4, img_yourturn, true);
+
+	if (x <= 640) {
+		t = out_t;
+	}
+	else if (640) {
+
+	}
+	DrawExtendGraph(x, height1 * 3, x + width1 * 2, height1 * 4, img_yourturn, true);
 }
+
