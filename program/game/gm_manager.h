@@ -53,6 +53,14 @@ public :
 
 	// ゲーム全体で参照したい変数はここで用意
 
+	//バトルシーン時のカードの大きさ(256x270)
+	int cardW = 256;
+	int cardH = 270;
+
+	//画面の大きさを10で割ったもの 
+	//1600x900 →　１マス160x90
+	int width = DXE_WINDOW_WIDTH / 10;
+	int height = DXE_WINDOW_HEIGHT / 10;
 
 };
 

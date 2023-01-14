@@ -18,10 +18,12 @@ public:
 	void BattleStart();
 
 	void DrawTurn();
-	void drawMouseUp(int x, int y);
+	void drawCardUp(int x, int y);
 	void DrawHands();
 	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
-	void EaseOutTurnImage(double t, int x_s, int x_e);
+	void EaseImageCard1(double t, int x_s, int x_e);
+
+	
 
 
 
@@ -46,11 +48,18 @@ private:
 	int img_turn;
 
 	int select_flame;
+
+	//マウスポインタに合わせてカードを上げる用
 	int CardUp_1 = 0;
 	int CardUp_2 = 0;
 	int CardUp_3 = 0;
 	int CardUp_4 = 0;
 	int CardUp_5 = 0;
+	int CardUp_6 = 0;
+	int CardUp_7 = 0;
+	int CardUp_8 = 0;
+	int CardUp_9 = 0;
+	int CardUp_10 = 0;
 
 	int card1 = 0;
 	int card2 = 0; 
@@ -109,7 +118,7 @@ private:
 
 	//イージング用
 	float t = 0;
-	float dt = 0.02;
+	float dt = 0.1;
 	float x0 = -200;
 	float x1 = 200;
 
