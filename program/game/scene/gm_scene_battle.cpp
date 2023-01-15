@@ -158,9 +158,6 @@ void SceneBattle::render() {
 
 	DrawBox(0, height1 * 7, width1 * 2, height1 * 10, Silver, true);
 
-
-
-
 	//É^Å[Éìï`é 
 	//DrawExtendGraph(width1*4,height1*3,width1*6,height1*4,img_yourturn,true);
 
@@ -235,12 +232,12 @@ void SceneBattle::LoadBattleGraph() {
 
 void SceneBattle::DrawHands() {
 	if (numOfCards == 1) {
-		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 320 + 256, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(512 + 320, (height1 * 7) - CardUp_1, 512 + cardW + 320, (height1 * 10) - CardUp_1, card1, false); //1
 		//EaseImageCard1(easeOutExpo(t),0,320);
 	}
 	else if (numOfCards == 2) {
-		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-		DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
+		DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1,center, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(center + cardW, (height1 * 7) - CardUp_2, center + (cardW * 2), (height1 * 10) - CardUp_2, card2, false); //2
 	}
 	else if (numOfCards == 3) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
@@ -275,8 +272,8 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(832 - cardPild_7 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_7 * 2, (height1 * 10) - CardUp_3, card3, false); //3
 		DrawExtendGraph(1088 - cardPild_7 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_7 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_7 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_7 * 4, (height1 * 10) - CardUp_5, card4, false); //5
-		DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_7 * 5, (height1 * 10) - CardUp_5, card4, false); //6
-		DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_7 * 6, (height1 * 10) - CardUp_5, card4, false); //7
+		DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_7 * 5, (height1 * 10) - CardUp_6, card4, false); //6
+		DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_7 * 6, (height1 * 10) - CardUp_7, card4, false); //7
 	}
 	else if (numOfCards == 8) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
@@ -285,9 +282,9 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(1088 - cardPild_8 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_8 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_8 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_8 * 4, (height1 * 10) - CardUp_5, card4, false); //5	
 
-		DrawExtendGraph(1600 - cardPild_8 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_8 * 5, (height1 * 10) - CardUp_5, card4, false); //6		
-		DrawExtendGraph(1600 + (256) - cardPild_8 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_8 * 6, (height1 * 10) - CardUp_5, card4, false); //7
-		DrawExtendGraph(1600 + (256 * 2) - cardPild_8 * 7, (height1 * 7) - CardUp_5, 1600 + (256 * 3) - cardPild_8 * 7, (height1 * 10) - CardUp_5, card4, false); //8		
+		DrawExtendGraph(1600 - cardPild_8 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_8 * 5, (height1 * 10) - CardUp_6, card4, false); //6		
+		DrawExtendGraph(1600 + (256) - cardPild_8 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_8 * 6, (height1 * 10) - CardUp_7, card4, false); //7
+		DrawExtendGraph(1600 + (256 * 2) - cardPild_8 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_8 * 7, (height1 * 10) - CardUp_8, card4, false); //8		
 	}
 	else if (numOfCards == 9) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
@@ -296,10 +293,10 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(1088 - cardPild_9 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_9 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_9 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_9 * 4, (height1 * 10) - CardUp_5, card4, false); //5
 
-		DrawExtendGraph(1600 - cardPild_9 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_9 * 5, (height1 * 10) - CardUp_5, card4, false); //6
-		DrawExtendGraph(1600 + (256) - cardPild_9 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_9 * 6, (height1 * 10) - CardUp_5, card4, false); //7
-		DrawExtendGraph(1600 + (256 * 2) - cardPild_9 * 7, (height1 * 7) - CardUp_5, 1600 + (256 * 3) - cardPild_9 * 7, (height1 * 10) - CardUp_5, card4, false); //8
-		DrawExtendGraph(1600 + (256 * 3) - cardPild_9 * 8, (height1 * 7) - CardUp_5, 1600 + (256 * 4) - cardPild_9 * 8, (height1 * 10) - CardUp_5, card4, false); //9
+		DrawExtendGraph(1600 - cardPild_9 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_9 * 5, (height1 * 10) - CardUp_6, card4, false); //6
+		DrawExtendGraph(1600 + (256) - cardPild_9 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_9 * 6, (height1 * 10) - CardUp_7, card4, false); //7
+		DrawExtendGraph(1600 + (256 * 2) - cardPild_9 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_9 * 7, (height1 * 10) - CardUp_8, card4, false); //8
+		DrawExtendGraph(1600 + (256 * 3) - cardPild_9 * 8, (height1 * 7) - CardUp_9, 1600 + (256 * 4) - cardPild_9 * 8, (height1 * 10) - CardUp_9, card4, false); //9
 
 	}
 	else if (numOfCards == 10) {
@@ -309,52 +306,107 @@ void SceneBattle::DrawHands() {
 		DrawExtendGraph(1088 - cardPild_10 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_10 * 3, (height1 * 10) - CardUp_4, card4, false); //4
 		DrawExtendGraph(1344 - cardPild_10 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_10 * 4, (height1 * 10) - CardUp_5, card4, false); //5
 
-		DrawExtendGraph(1600 - cardPild_10 * 5, (height1 * 7) - CardUp_5, 1600 + (256) - cardPild_10 * 5, (height1 * 10) - CardUp_5, card4, false); //6
-		DrawExtendGraph(1600 + (256) - cardPild_10 * 6, (height1 * 7) - CardUp_5, 1600 + (256 * 2) - cardPild_10 * 6, (height1 * 10) - CardUp_5, card4, false); //7
-		DrawExtendGraph(1600 + (256 * 2) - cardPild_10 * 7, (height1 * 7) - CardUp_5, 1600 + (256 * 3) - cardPild_10 * 7, (height1 * 10) - CardUp_5, card4, false); //8
-		DrawExtendGraph(1600 + (256 * 3) - cardPild_10 * 8, (height1 * 7) - CardUp_5, 1600 + (256 * 4) - cardPild_10 * 8, (height1 * 10) - CardUp_5, card4, false); //9
-		DrawExtendGraph(1600 + (256 * 4) - cardPild_10 * 9, (height1 * 7) - CardUp_5, 1600 + (256 * 5) - cardPild_10 * 9, (height1 * 10) - CardUp_5, card4, false); //10
+		DrawExtendGraph(1600 - cardPild_10 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_10 * 5, (height1 * 10) - CardUp_6, card4, false); //6
+		DrawExtendGraph(1600 + (256) - cardPild_10 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_10 * 6, (height1 * 10) - CardUp_7, card4, false); //7
+		DrawExtendGraph(1600 + (256 * 2) - cardPild_10 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_10 * 7, (height1 * 10) - CardUp_8, card4, false); //8
+		DrawExtendGraph(1600 + (256 * 3) - cardPild_10 * 8, (height1 * 7) - CardUp_9, 1600 + (256 * 4) - cardPild_10 * 8, (height1 * 10) - CardUp_9, card4, false); //9
+		DrawExtendGraph(1600 + (256 * 4) - cardPild_10 * 9, (height1 * 7) - CardUp_10, 1600 + (256 * 5) - cardPild_10 * 9, (height1 * 10) - CardUp_10, card4, false); //10
 
 	}
 }
 
 void SceneBattle::drawCardUp(int x, int y) {
 
-	if (numOfCards == 6) {
-		if (320 <= MouseX && MouseX <= 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	if (numOfCards == 1) {
+
+	}
+
+	if (numOfCards == 2) {
+
+	}
+
+	if (numOfCards == 3) {
+
+	}
+
+	if (numOfCards == 4) {
+		
+	}
+
+	if (numOfCards == 5) {
+
+		if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
 		}
 		else {
 			CardUp_1 = 0;
 		}
 
-		if (576 - cardPidl_6 <= MouseX && MouseX <= 832 - cardPidl_6 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		if (576 < MouseX && MouseX < 832  && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_2 = 45;
 		}
 		else {
 			CardUp_2 = 0;
 		}
 
-		if (832 - cardPidl_6 * 2 <= MouseX && MouseX <= 1088 - cardPidl_6 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		if (832 < MouseX && MouseX < 1088 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_3 = 45;
 		}
 		else {
 			CardUp_3 = 0;
 		}
-		if (1088 - cardPidl_6 * 3 <= MouseX && MouseX <= 1344 - cardPidl_6 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+
+		if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_4 = 45;
 		}
 		else {
 			CardUp_4 = 0;
 		}
-		if (1344 - cardPidl_6 * 4 <= MouseX && MouseX <= 1600 - cardPidl_6 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+
+		if (1344  < MouseX && MouseX < 1600  && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_5 = 45;
 		}
 		else {
 			CardUp_5 = 0;
 		}
 
-		if (1600 - cardPidl_6 * 5 <= MouseX && MouseX <= 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	}
+
+	if (numOfCards == 6) {
+		if (320 < MouseX && MouseX < 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
+
+		if (576 - cardPidl_6 < MouseX && MouseX < 832 - cardPidl_6 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}
+
+		if (832 - cardPidl_6 * 2 < MouseX && MouseX < 1088 - cardPidl_6 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_3 = 45;
+		}
+		else {
+			CardUp_3 = 0;
+		}
+		if (1088 - cardPidl_6 * 3 < MouseX && MouseX < 1344 - cardPidl_6 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_4 = 45;
+		}
+		else {
+			CardUp_4 = 0;
+		}
+		if (1344 - cardPidl_6 * 4 < MouseX && MouseX < 1600 - cardPidl_6 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_5 = 45;
+		}
+		else {
+			CardUp_5 = 0;
+		}
+
+		if (1600 - cardPidl_6 * 5 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_6 = 45;
 		}
 		else {
@@ -364,51 +416,254 @@ void SceneBattle::drawCardUp(int x, int y) {
 	}
 
 	if (numOfCards == 7) {
-		if (320 <= MouseX && MouseX <= 576 - cardPild_7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+
+		if (320 < MouseX && MouseX < 576 - cardPild_7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
 		}
 		else {
 			CardUp_1 = 0;
 		}
-		if (576 - cardPild_7 <= MouseX && MouseX <= 832 - cardPild_7 * 2 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+
+		if (576 - cardPild_7 < MouseX && MouseX < 832 - cardPild_7 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_2 = 45;
 		}
 		else {
 			CardUp_2 = 0;
 		}
-		if (320 <= MouseX && MouseX <= 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			CardUp_1 = 45;
+
+		if (832 - cardPild_7 * 2 < MouseX && MouseX < 1088 - cardPild_7 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_3 = 45;
 		}
 		else {
-			CardUp_1 = 0;
+			CardUp_3 = 0;
 		}
-		if (320 <= MouseX && MouseX <= 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			CardUp_1 = 45;
-		}
-		else {
-			CardUp_1 = 0;
-		}
-		if (320 <= MouseX && MouseX <= 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			CardUp_1 = 45;
+
+		if (1088 - cardPild_7 * 3 < MouseX && MouseX < 1344 - cardPild_7 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_4 = 45;
 		}
 		else {
-			CardUp_1 = 0;
+			CardUp_4 = 0;
 		}
-		if (320 <= MouseX && MouseX <= 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			CardUp_1 = 45;
-		}
-		else {
-			CardUp_1 = 0;
-		}
-		if (320 <= MouseX && MouseX <= 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			CardUp_1 = 45;
+
+		if (1344 - cardPild_7 * 4 < MouseX && MouseX < 1600 - cardPild_7 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_5 = 45;
 		}
 		else {
-			CardUp_1 = 0;
+			CardUp_5 = 0;
+		}
+		if (1600 - cardPild_7 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_7 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_6 = 45;
+		}
+		else {
+			CardUp_6 = 0;
+		}
+
+		if (1600 + (256) - cardPild_7 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_7 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_7 = 45;
+		}
+		else {
+			CardUp_7 = 0;
 		}
 
 	}
 
+	if (numOfCards == 8) {
+
+		if (320 < MouseX && MouseX < 576 - cardPild_8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
+
+		if (576 - cardPild_8 < MouseX && MouseX < 832 - cardPild_8 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}
+
+		if (832 - cardPild_8 * 2 < MouseX && MouseX < 1088 - cardPild_8 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_3 = 45;
+		}
+		else {
+			CardUp_3 = 0;
+		}
+
+		if (1088 - cardPild_8 * 3 < MouseX && MouseX < 1344 - cardPild_8 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_4 = 45;
+		}
+		else {
+			CardUp_4 = 0;
+		}
+
+		if (1344 - cardPild_8 * 4 < MouseX && MouseX < 1600 - cardPild_8 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_5 = 45;
+		}
+		else {
+			CardUp_5 = 0;
+		}
+		if (1600 - cardPild_8 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_8 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_6 = 45;
+		}
+		else {
+			CardUp_6 = 0;
+		}
+
+		if (1600 + (256) - cardPild_8 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_8 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_7 = 45;
+		}
+		else {
+			CardUp_7 = 0;
+		}
+
+		if (1600 + (256 * 2) - cardPild_8 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_8 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_8 = 45;
+		}
+		else {
+			CardUp_8 = 0;
+		}
+
+	}
+
+	if (numOfCards == 9) {
+
+		if (320 < MouseX && MouseX < 576 - cardPild_9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
+
+		if (576 - cardPild_9 < MouseX && MouseX < 832 - cardPild_9 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}
+
+		if (832 - cardPild_9 * 2 < MouseX && MouseX < 1088 - cardPild_9 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_3 = 45;
+		}
+		else {
+			CardUp_3 = 0;
+		}
+
+		if (1088 - cardPild_9 * 3 < MouseX && MouseX < 1344 - cardPild_9 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_4 = 45;
+		}
+		else {
+			CardUp_4 = 0;
+		}
+
+		if (1344 - cardPild_9 * 4 < MouseX && MouseX < 1600 - cardPild_9 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_5 = 45;
+		}
+		else {
+			CardUp_5 = 0;
+		}
+		if (1600 - cardPild_9 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_9 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_6 = 45;
+		}
+		else {
+			CardUp_6 = 0;
+		}
+
+		if (1600 + (256) - cardPild_9 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_9 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_7 = 45;
+		}
+		else {
+			CardUp_7 = 0;
+		}
+
+		if (1600 + (256 * 2) - cardPild_9 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_9 * 8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_8 = 45;
+		}
+		else {
+			CardUp_8 = 0;
+		}
+
+		if (1600 + (256 * 3) - cardPild_9 * 8 < MouseX && MouseX < 1600 + (256 * 4) - cardPild_9 * 9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_9 = 45;
+		}
+		else {
+			CardUp_9 = 0;
+		}
+
+	}
+
+	if (numOfCards == 10) {
+
+		if (320 < MouseX && MouseX < 576 - cardPild_10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
+
+		if (576 - cardPild_10 < MouseX && MouseX < 832 - cardPild_10 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}
+
+		if (832 - cardPild_10 * 2 < MouseX && MouseX < 1088 - cardPild_10 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_3 = 45;
+		}
+		else {
+			CardUp_3 = 0;
+		}
+
+		if (1088 - cardPild_10 * 3 < MouseX && MouseX < 1344 - cardPild_10 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_4 = 45;
+		}
+		else {
+			CardUp_4 = 0;
+		}
+
+		if (1344 - cardPild_10 * 4 < MouseX && MouseX < 1600 - cardPild_10 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_5 = 45;
+		}
+		else {
+			CardUp_5 = 0;
+		}
+		if (1600 - cardPild_10 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_10 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_6 = 45;
+		}
+		else {
+			CardUp_6 = 0;
+		}
+
+		if (1600 + (256) - cardPild_10 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_10 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_7 = 45;
+		}
+		else {
+			CardUp_7 = 0;
+		}
+
+		if (1600 + (256 * 2) - cardPild_10 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_10 * 8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_8 = 45;
+		}
+		else {
+			CardUp_8 = 0;
+		}
+
+		if (1600 + (256 * 3) - cardPild_10 * 8 < MouseX && MouseX < 1600 + (256 * 4) - cardPild_10 * 9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_9 = 45;
+		}
+		else {
+			CardUp_9 = 0;
+		}
+
+		if (1600 + (256 * 4) - cardPild_10 * 9 < MouseX && MouseX < 1600 + (256 * 5) - cardPild_10 * 10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			CardUp_10 = 45;
+		}
+		else {
+			CardUp_10 = 0;
+		}
+
+	}
 }
 
 void SceneBattle::DrawTurn() {

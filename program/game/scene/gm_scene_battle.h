@@ -122,6 +122,11 @@ private:
 	float x0 = -200;
 	float x1 = 200;
 
+	//バトルシーンのカード用
+	int cardW = 256;
+	int cardH = 270;
+	int center = 960; // カード置き場の中心
+
 
 	//色設定
 	unsigned int gray = GetColor(138, 140, 142);
