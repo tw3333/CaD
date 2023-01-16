@@ -39,6 +39,7 @@
     <ClCompile Include="program\game\gm_chara.cpp" />
     <ClCompile Include="program\game\gm_deckclass.cpp" />
     <ClCompile Include="program\game\gm_editclass.cpp" />
+    <ClCompile Include="program\game\gm_item.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\gm_manager.cpp" />
     <ClCompile Include="program\game\model\gm_airplane.cpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="program\game\gm_chara.h" />
     <ClInclude Include="program\game\gm_deckclass.h" />
     <ClInclude Include="program\game\gm_editclass.h" />
+    <ClInclude Include="program\game\gm_item.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\gm_manager.h" />
     <ClInclude Include="program\game\model\gm_airplane.h" />

@@ -6,9 +6,17 @@ public:
 	struct CARD {
 		int No; //No
 		char Name[100]; //name
-		int Atta; //attack powar
-		int cost; //cost
-		int Card_J; //Card_Job
+		int c_damage; //attack powar
+		int c_block;
+		int c_week;
+		int c_heal;
+		int c_cure;
+		int c_slow;
+		int c_hate;
+		int c_cost;
+
+		int cost;//cost
+		int attribute; //ƒJ[ƒh‚Ì‘®«
 	};
 
 	struct PLACE {
