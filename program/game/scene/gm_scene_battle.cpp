@@ -105,6 +105,11 @@ void SceneBattle::update(float dalta_time) {
 	if (1 <= t) {
 		t = 1;
 	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_T)) {
+		t = 0;
+	}
+	
 }
 
 void SceneBattle::render() {
@@ -235,8 +240,8 @@ void SceneBattle::LoadBattleGraph() {
 
 void SceneBattle::DrawHands() {
 	if (numOfCards == 1) {
-		DrawExtendGraph(512 + 320, (height1 * 7) - CardUp_1, 512 + cardW + 320, (height1 * 10) - CardUp_1, card1, false); //1
-		//EaseImageCard1(easeOutExpo(t),0,320);
+		//DrawExtendGraph(512 + 320, (height1 * 7) - CardUp_1, 512 + cardW + 320, (height1 * 10) - CardUp_1, card1, false); //1
+		EaseImageCard1(easeOutExpo(t),0, 832, 0);
 	}
 	else if (numOfCards == 2) {
 		DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1,center, (height1 * 10) - CardUp_1, card1, false); //1
@@ -733,26 +738,26 @@ void SceneBattle::DrawTurn() {
 		easeOut = false;
 		easeIn = true;
 		if (easeIn) {
-			//EaseTurnImage(easeInExpo(t), width1 * 4, width1 * 10);
+			//EaseTurnImage(easeInExpo(t), width1 * 4, width1 * 10);t
 		}
 		your_turn = false;
 	}
 }
 
-double SceneBattle::easeInExpo(double x) {
-	if (x == 0) { return 0; }
-	return pow(2, 10 * x - 10);
+double SceneBattle::easeInExpo(double t) {
+	if (t == 0) { return 0; }
+	return pow(2, 10 * t - 10);
 }
 
-double SceneBattle::easeOutExpo(double x) {
-	if (x == 1) { return 1; }
-	return 1 - pow(2, -10 * x);
+double SceneBattle::easeOutExpo(double t) {
+	if (t == 1) { return 1; }
+	return 1 - pow(2, -10 * t);
 }
 
-void SceneBattle::EaseImageCard1(double t, int x_s, int x_e) {
+void SceneBattle::EaseImageCard1(double t, int x_s, int x_e, int delay) {
 
 	auto x = (1 - t) * x_s + t * x_e;
-	DrawExtendGraph(320 + x, (height1 * 7) - CardUp_1, 320 + 256 + x, (height1 * 10) - CardUp_1, card1, false); //1
+	DrawExtendGraph(x, (height1 * 7) - CardUp_1, x + cardW, (height1 * 10) - CardUp_1, card1, false); //1
 
 }
 

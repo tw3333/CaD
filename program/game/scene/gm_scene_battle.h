@@ -21,15 +21,15 @@ public:
 	void drawCardUp(int x, int y);
 	void DrawHands();
 	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
-	void EaseImageCard1(double t, int x_s, int x_e);
+	void EaseImageCard1(double t, int x_s, int x_e, int delay);
 
 	
 
 
 
 	//イージング関数
-	double easeInExpo(double x);
-	double easeOutExpo(double x);
+	double easeInExpo(double t);
+	double easeOutExpo(double t);
 
 private:
 	
@@ -121,6 +121,7 @@ private:
 	float dt = 0.1;
 	float x0 = -200;
 	float x1 = 200;
+	float delay = 0;
 
 	//バトルシーンのカード用
 	int cardW = 256;
