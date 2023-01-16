@@ -94,8 +94,11 @@ void SceneBattle::update(float dalta_time) {
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_U)) {
 		numOfCards += 1;
 	}
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_K)) {
+	else if (tnl::Input::IsKeyDownTrigger(eKeys::KB_K)) {
 		numOfCards -= 1;
+	}
+	else if (numOfCards > 10) {
+		numOfCards = 10;
 	}
 
 	t += dt;
@@ -237,18 +240,18 @@ void SceneBattle::DrawHands() {
 	}
 	else if (numOfCards == 2) {
 		DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1,center, (height1 * 10) - CardUp_1, card1, false); //1
-		DrawExtendGraph(center + cardW, (height1 * 7) - CardUp_2, center + (cardW * 2), (height1 * 10) - CardUp_2, card2, false); //2
+		DrawExtendGraph(center, (height1 * 7) - CardUp_2, center + cardW, (height1 * 10) - CardUp_2, card2, false); //2
 	}
 	else if (numOfCards == 3) {
-		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-		DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
-		DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
+		DrawExtendGraph(center - 128 - cardW, (height1 * 7) - CardUp_1, center - 128, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(center - 128, (height1 * 7) - CardUp_2, center + 128, (height1 * 10) - CardUp_2, card2, false); //2
+		DrawExtendGraph(center + 128, (height1 * 7) - CardUp_3, center + 128 + cardW , (height1 * 10) - CardUp_3, card3, false); //3
 	}
 	else if (numOfCards == 4) {
-		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-		DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, card2, false); //2
-		DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, card3, false); //3
-		DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, card4, false); //4
+		DrawExtendGraph(center - (cardW * 2), (height1 * 7) - CardUp_1, center - cardW, (height1 * 10) - CardUp_1, card1, false); //1
+		DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_2, center, (height1 * 10) - CardUp_2, card1, false); //2
+		DrawExtendGraph(center, (height1 * 7) - CardUp_3, center + cardW, (height1 * 10) - CardUp_3, card2, false); //3
+		DrawExtendGraph(center + cardW, (height1 * 7) - CardUp_4, center + (cardW * 2), (height1 * 10) - CardUp_4, card4, false); //4
 	}
 	else if (numOfCards == 5) {
 		DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
@@ -318,19 +321,77 @@ void SceneBattle::DrawHands() {
 void SceneBattle::drawCardUp(int x, int y) {
 
 	if (numOfCards == 1) {
-
+		if (512 + 320 < MouseX && MouseX < 512 + cardW + 320 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
 	}
 
 	if (numOfCards == 2) {
+		
+		if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
 
+		if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}
 	}
 
 	if (numOfCards == 3) {
-
+		if (center - 128 - cardW < MouseX && MouseX < center - 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}
+		if (center - 128 < MouseX && MouseX < center + 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}
+		if (center + 128 < MouseX && MouseX < center + 128 + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_3 = 45;
+		}
+		else {
+			CardUp_3 = 0;
+		}
 	}
 
 	if (numOfCards == 4) {
-		
+		if (center - (cardW * 2) < MouseX && MouseX < center - cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_1 = 45;
+		}
+		else {
+			CardUp_1 = 0;
+		}		
+		if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_2 = 45;
+		}
+		else {
+			CardUp_2 = 0;
+		}		
+		if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_3 = 45;
+		}
+		else {
+			CardUp_3 = 0;
+		}		
+		if (center + cardW < MouseX && MouseX < center + (cardW * 2) && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+			CardUp_4 = 45;
+		}
+		else {
+			CardUp_4 = 0;
+		}
 	}
 
 	if (numOfCards == 5) {
