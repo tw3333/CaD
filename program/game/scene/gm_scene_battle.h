@@ -111,6 +111,7 @@ private:
 	int test = 0;
 
 	//ターン関連
+	bool startTurn = false;
 	bool your_turn = false;
 	bool enemy_turn = false;
 	bool easeOut = false;
@@ -122,6 +123,7 @@ private:
 	float x0 = -200;
 	float x1 = 200;
 	float delay = 0;
+	float d_t = 0;
 
 	//バトルシーンのカード用
 	int cardW = 256;
@@ -133,6 +135,7 @@ private:
 	unsigned int gray = GetColor(138, 140, 142);
 	unsigned int red = GetColor(255, 0, 0);
 	unsigned int Silver = GetColor(192,192,192);
+	unsigned int black = GetColor(0,0,0);
 
 
 	float width1 = DXE_WINDOW_WIDTH / 10;

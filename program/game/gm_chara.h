@@ -8,9 +8,14 @@ public:
 
 private:
 	struct chara {
-		int img_chara;
-		int card_deck;
-		
+
+		int hp = 0;
+		int cost = 0;
+		int speed = 0;
+
+		int img_chara = 0;
+		int card_deck = 0;
+
 	};
 
 
