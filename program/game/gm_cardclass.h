@@ -15,6 +15,9 @@ public:
 		int c_hate;
 		int c_cost;
 
+
+		bool turn_next;
+
 		int cost;//cost
 		int attribute; //ƒJ[ƒh‚Ì‘®«
 	};

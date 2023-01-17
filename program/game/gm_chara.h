@@ -17,7 +17,7 @@ private:
 		bool burn = false;
 		bool poison = false;
 
-
+		
 
 		int hands = 0; //èD
 
