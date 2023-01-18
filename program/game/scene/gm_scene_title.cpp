@@ -1,6 +1,8 @@
 #include "gm_scene_title.h"
 #include "gm_scene_selectphase.h"
+
 #include "gm_scene_charaedit.h"
+#include "gm_scene_deckedit.h"
 
 #include "../gm_manager.h"
 
@@ -13,7 +15,7 @@ void SceneTitle::update(float delta_time)
 	GameManager* mgr = GameManager::GetInstance();
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN) || move == 0 && tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
-		mgr->chengeScene( new SceneCharaEdit() );
+		mgr->chengeScene( new SceneDeckEdit() );
 	}
 
 	if (move == 1 && tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
