@@ -13,6 +13,7 @@ void SceneDeckEdit::initialzie() {
 	chara2_tab = false;
 	chara3_tab = false;
 	chara4_tab = false;
+	PushCheck = false;
 
 }
 
@@ -23,31 +24,45 @@ void SceneDeckEdit::update(float delta_time) {
 		mgr->chengeScene(new SceneSelectPhase());
 	}
 
+	GetMousePoint(&MouseX, &MouseY);
+	ListMouseCheck(MouseX,MouseY);
+
 	//tab操作用関数群
-	opTab(tab);
+	/*opTab(tab);
 	opChara01_Tab(chara1_tab);
 	opChara02_Tab(chara2_tab);
 	opChara03_Tab(chara3_tab);
-	opChara04_Tab(chara4_tab);
+	opChara04_Tab(chara4_tab);*/
 
 }
 
 void SceneDeckEdit::render() {
 
-	DrawBox(0, 0, width1 * 10, height1 * 10, white, true);
+	//DrawBox(0, 0, width1 * 10, height1 * 10, white, true);
 
-	Tab(draw_tab);
+	//下地
+	DrawBox(width1 * 0, height1 * 1, width1 * 3, height1 * 10, dsgray, true);
+	DrawBox(width1 * 3, height1 * 1, width1 * 7, height1 * 10, dimgray, true);
+	DrawBox(width1 * 7, height1 * 1, width1 * 10, height1 * 10, gray, true);
+	DrawExtendGraph(width1 * 0, height1 * 0, width1 * 2, height1 * 1, chara01_face, true);
 
-	Chara01_Tab(chara1_tab);
-	Chara02_Tab(chara2_tab);
-	Chara03_Tab(chara3_tab);
-	Chara04_Tab(chara4_tab);
+	//Tab(draw_tab);
+
+	//Chara01_Tab(chara1_tab);
+
+	DrawCardZone();
+	DrawDeckZone();
+	DrawListZone();
 
 	//アタリ線
 	for (int i = 0; i < 10; ++i) {
 		DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
 		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
 	}
+
+	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
+	DrawStringEx(480, 60, -1, "DeckCount:%d", c1deck_count);
+
 }
 
 
@@ -111,425 +126,146 @@ void SceneDeckEdit::opTab(bool flag) {
 
 }
 
-void SceneDeckEdit::opChara01_Tab(bool flag) {
-	if (flag) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
-			deck_fmove_x += 1;
-		}
-		else if (deck_fmove_x > 3) {
-			deck_fmove_x = 3;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
-			deck_fmove_x -= 1;
-		}
-		else if (deck_fmove_x < 0) {
-			deck_fmove_x = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			deck_fmove_y -= 2;
-		}
-		else if (deck_fmove_y < 0) {
-			deck_fmove_y = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			deck_fmove_y += 2;
-		}
-		else if (deck_fmove_y > 6) {
-			deck_fmove_y = 6;
-		}
-
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X)) {
-
-			if (deck_fmove_x == 0 && deck_fmove_y == 0) {
-				CheckHandle(c1deck, c1_d1);
-			}
-			else if (deck_fmove_x == 1 && deck_fmove_y == 0) {
-				CheckHandle(c1deck, c1_d2);
-			}
-			else if (deck_fmove_x == 2 && deck_fmove_y == 0) {
-				CheckHandle(c1deck, c1_d3);
-			}
-			else if (deck_fmove_x == 3 && deck_fmove_y == 0) {
-				CheckHandle(c1deck, c1_d4);
-			}
-			else if (deck_fmove_x == 0 && deck_fmove_y == 2) {
-				CheckHandle(c1deck, c1_d5);
-			}
-
-			c1deck_count += 1;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-
-			for (int i = 0; i < 10; ++i) {
-				c1deck[i] = 0;
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-			chara1_tab = false;
-			tab = true;
-		}
-
-	}
-
-
-}
-
-void SceneDeckEdit::opChara02_Tab(bool flag) {
-	if (flag) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
-			deck_fmove_x += 1;
-		}
-		else if (deck_fmove_x > 3) {
-			deck_fmove_x = 3;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
-			deck_fmove_x -= 1;
-		}
-		else if (deck_fmove_x < 0) {
-			deck_fmove_x = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			deck_fmove_y -= 2;
-		}
-		else if (deck_fmove_y < 0) {
-			deck_fmove_y = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			deck_fmove_y += 2;
-		}
-		else if (deck_fmove_y > 6) {
-			deck_fmove_y = 6;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X)) {
-			
-			if (deck_fmove_x == 0 && deck_fmove_y == 0) {
-				CheckHandle(c2deck, c2_d1);
-			}
-			else if (deck_fmove_x == 1 && deck_fmove_y == 0) {
-				CheckHandle(c2deck, c2_d1);
-			}
-			else if (deck_fmove_x == 2 && deck_fmove_y == 0) {
-				CheckHandle(c2deck, c2_d1);
-			}
-			else if (deck_fmove_x == 3 && deck_fmove_y == 0) {
-				CheckHandle(c2deck, c2_d1);
-			}
-			else if (deck_fmove_x == 0 && deck_fmove_y == 2) {
-				CheckHandle(c2deck, c2_d1);
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-
-			for (int i = 0; i < 10; ++i) {
-				c2deck[i] = 0;
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-			chara2_tab = false;
-			tab = true;
-		}
-	}
-}
-
-void SceneDeckEdit::opChara03_Tab(bool flag) {
-	if (flag) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
-			deck_fmove_x += 1;
-		}
-		else if (deck_fmove_x > 3) {
-			deck_fmove_x = 3;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
-			deck_fmove_x -= 1;
-		}
-		else if (deck_fmove_x < 0) {
-			deck_fmove_x = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			deck_fmove_y -= 2;
-		}
-		else if (deck_fmove_y < 0) {
-			deck_fmove_y = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			deck_fmove_y += 2;
-		}
-		else if (deck_fmove_y > 6) {
-			deck_fmove_y = 6;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X)) {
-
-			if (deck_fmove_x == 0 && deck_fmove_y == 0) {
-				CheckHandle(c3deck, c3_d1);
-			}
-			else if (deck_fmove_x == 1 && deck_fmove_y == 0) {
-				CheckHandle(c3deck, c3_d2);
-			}
-			else if (deck_fmove_x == 2 && deck_fmove_y == 0) {
-				CheckHandle(c3deck, c3_d3);
-			}
-			else if (deck_fmove_x == 3 && deck_fmove_y == 0) {
-				CheckHandle(c3deck, c3_d4);
-			}
-			else if (deck_fmove_x == 0 && deck_fmove_y == 2) {
-				CheckHandle(c3deck, c3_d5);
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-
-			for (int i = 0; i < 10; ++i) {
-				c3deck[i] = 0;
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-			chara3_tab = false;
-			tab = true;
-		}
-	}
-}
-
-void SceneDeckEdit::opChara04_Tab(bool flag) {
-	if (flag) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
-			deck_fmove_x += 1;
-		}
-		else if (deck_fmove_x > 3) {
-			deck_fmove_x = 3;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
-			deck_fmove_x -= 1;
-		}
-		else if (deck_fmove_x < 0) {
-			deck_fmove_x = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			deck_fmove_y -= 2;
-		}
-		else if (deck_fmove_y < 0) {
-			deck_fmove_y = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			deck_fmove_y += 2;
-		}
-		else if (deck_fmove_y > 6) {
-			deck_fmove_y = 6;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X)) {
-
-			if (deck_fmove_x == 0 && deck_fmove_y == 0) {
-				CheckHandle(c4deck, c4_d1);
-			}
-			else if (deck_fmove_x == 1 && deck_fmove_y == 0) {
-				CheckHandle(c4deck, c4_d2);
-			}
-			else if (deck_fmove_x == 2 && deck_fmove_y == 0) {
-				CheckHandle(c4deck, c4_d3);
-			}
-			else if (deck_fmove_x == 3 && deck_fmove_y == 0) {
-				CheckHandle(c4deck, c4_d4);
-			}
-			else if (deck_fmove_x == 0 && deck_fmove_y == 2) {
-				CheckHandle(c4deck, c4_d5);
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-
-			for (int i = 0; i < 10; ++i) {
-				c4deck[i] = 0;
-			}
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-			chara4_tab = false;
-			tab = true;
-		}
-	}
-}
+//void SceneDeckEdit::opChara01_Tab(bool flag) {
+//	if (flag) {
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
+//			deck_fmove_x += 1;
+//		}
+//		else if (deck_fmove_x > 3) {
+//			deck_fmove_x = 3;
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
+//			deck_fmove_x -= 1;
+//		}
+//		else if (deck_fmove_x < 0) {
+//			deck_fmove_x = 0;
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
+//			deck_fmove_y -= 2;
+//		}
+//		else if (deck_fmove_y < 0) {
+//			deck_fmove_y = 0;
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
+//			deck_fmove_y += 2;
+//		}
+//		else if (deck_fmove_y > 6) {
+//			deck_fmove_y = 6;
+//		}
+//
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X)) {
+//
+//			if (deck_fmove_x == 0 && deck_fmove_y == 0) {
+//				CheckHandle(c1deck, c1_d1);
+//			}
+//			else if (deck_fmove_x == 1 && deck_fmove_y == 0) {
+//				CheckHandle(c1deck, c1_d2);
+//			}
+//			else if (deck_fmove_x == 2 && deck_fmove_y == 0) {
+//				CheckHandle(c1deck, c1_d3);
+//			}
+//			else if (deck_fmove_x == 3 && deck_fmove_y == 0) {
+//				CheckHandle(c1deck, c1_d4);
+//			}
+//			else if (deck_fmove_x == 0 && deck_fmove_y == 2) {
+//				CheckHandle(c1deck, c1_d5);
+//			}
+//
+//			c1deck_count += 1;
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+//
+//			for (int i = 0; i < 15; ++i) {
+//				c1deck[i] = 0;
+//			}
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
+//			chara1_tab = false;
+//			tab = true;
+//		}
+//
+//	}
+//
+//
+//}
 
 
 //charaのtab描写用
 void SceneDeckEdit::Chara01_Tab(bool flag) {
 
-	if (flag) {
-		DrawGraph(width1 * 2, height1 / 2, t_deckedit, false);
-		DrawGraph(width1 * 6, height1 / 2, t_deck, false);
+		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c1deck[0], false);
+		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c1deck[1], false);
+		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c1deck[2], false);
+		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c1deck[3], false);
 
-		DrawBox(width1 * 2, height1 * 1, width1 * 10, height1 * 10, gray, true);
-		DrawBox(width1 * 2, height1 * 1, width1 * 6, height1 * 10, dimgray, true);
+		DrawExtendGraph(width1 * 3, height1 * 3, width1 * 4, height1 * 5, c1deck[4], false);
+		DrawExtendGraph(width1 * 4, height1 * 3, width1 * 5, height1 * 5, c1deck[5], false);
+		DrawExtendGraph(width1 * 5, height1 * 3, width1 * 6, height1 * 5, c1deck[6], false);
+		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c1deck[7], false);
 
+		DrawExtendGraph(width1 * 3, height1 * 5, width1 * 4, height1 * 7, c1deck[8], false);
+		DrawExtendGraph(width1 * 4, height1 * 5, width1 * 5, height1 * 7, c1deck[9], false);
+		DrawExtendGraph(width1 * 5, height1 * 5, width1 * 6, height1 * 7, c1deck[10], false);
+		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c1deck[11], false);
 
-
-		DrawExtendGraph(width1 * 2, height1 * 1, width1 * 3, height1 * 3, c1_d1, false);
-		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c1_d2, false);
-		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c1_d3, false);
-		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c1_d4, false);
-		DrawExtendGraph(width1 * 2, height1 * 3, width1 * 3, height1 * 5, c1_d5, false);
-
-
-
-		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c1deck[0], false);
-		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, c1deck[1], false);
-		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, c1deck[2], false);
-		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, c1deck[3], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c1deck[4], false);
-		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, c1deck[5], false);
-		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, c1deck[6], false);
-		DrawExtendGraph(width1 * 9, height1 * 3, width1 * 10, height1 * 5, c1deck[7], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c1deck[8], false);
-		DrawExtendGraph(width1 * 7, height1 * 5, width1 * 8, height1 * 7, c1deck[9], false);
-
-
+		DrawExtendGraph(width1 * 3, height1 * 7, width1 * 8, height1 * 9, c1deck[12], false);
+		DrawExtendGraph(width1 * 4, height1 * 7, width1 * 8, height1 * 9, c1deck[13], false);
+		DrawExtendGraph(width1 * 5, height1 * 7, width1 * 8, height1 * 9, c1deck[14], false);
 
 		DrawGraph(width1 * (2 + deck_fmove_x), height1 * (1 + deck_fmove_y), deck_flame, true);
 
-	}
+}
+
+
+void SceneDeckEdit::DrawCardZone() {
 
 }
 
-void SceneDeckEdit::Chara02_Tab(bool flag) {
+void SceneDeckEdit::DrawDeckZone() {
 
-	if (flag) {
-		DrawGraph(width1 * 2, height1 / 2, t_deckedit, false);
-		DrawGraph(width1 * 6, height1 / 2, t_deck, false);
+	DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c1deck[0], false);
+	DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c1deck[1], false);
+	DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c1deck[2], false);
+	DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c1deck[3], false);
 
-		DrawBox(width1 * 2, height1 * 1, width1 * 10, height1 * 10, gray, true);
-		DrawBox(width1 * 2, height1 * 1, width1 * 6, height1 * 10, dimgray, true);
+	DrawExtendGraph(width1 * 3, height1 * 3, width1 * 4, height1 * 5, c1deck[4], false);
+	DrawExtendGraph(width1 * 4, height1 * 3, width1 * 5, height1 * 5, c1deck[5], false);
+	DrawExtendGraph(width1 * 5, height1 * 3, width1 * 6, height1 * 5, c1deck[6], false);
+	DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c1deck[7], false);
 
-		DrawExtendGraph(width1 * 2, height1 * 1, width1 * 3, height1 * 3, c2_d1, false);
-		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c2_d1, false);
-		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c2_d1, false);
-		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c2_d1, false);
-		DrawExtendGraph(width1 * 2, height1 * 3, width1 * 3, height1 * 5, c2_d1, false);
+	DrawExtendGraph(width1 * 3, height1 * 5, width1 * 4, height1 * 7, c1deck[8], false);
+	DrawExtendGraph(width1 * 4, height1 * 5, width1 * 5, height1 * 7, c1deck[9], false);
+	DrawExtendGraph(width1 * 5, height1 * 5, width1 * 6, height1 * 7, c1deck[10], false);
+	DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c1deck[11], false);
 
-		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c2deck[0], false);
-		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, c2deck[1], false);
-		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, c2deck[2], false);
-		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, c2deck[3], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c2deck[4], false);
-		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, c2deck[5], false);
-		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, c2deck[6], false);
-		DrawExtendGraph(width1 * 9, height1 * 3, width1 * 10, height1 * 5, c2deck[7], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c2deck[8], false);
-		DrawExtendGraph(width1 * 7, height1 * 5, width1 * 8, height1 * 7, c2deck[9], false);
-
-
-		DrawGraph(width1 * (2 + deck_fmove_x), height1 * (1 + deck_fmove_y), deck_flame, true);
-
-
-
-	}
-
+	DrawExtendGraph(width1 * 3, height1 * 7, width1 * 4, height1 * 9, c1deck[12], false);
+	DrawExtendGraph(width1 * 4, height1 * 7, width1 * 5, height1 * 9, c1deck[13], false);
+	DrawExtendGraph(width1 * 5, height1 * 7, width1 * 6, height1 * 9, c1deck[14], false);
 }
 
-void SceneDeckEdit::Chara03_Tab(bool flag) {
+void SceneDeckEdit::DrawListZone() {
 
-	if (flag) {
-		DrawGraph(width1 * 2, height1 / 2, t_deckedit, false);
-		DrawGraph(width1 * 6, height1 / 2, t_deck, false);
-
-		DrawBox(width1 * 2, height1 * 1, width1 * 10, height1 * 10, gray, true);
-		DrawBox(width1 * 2, height1 * 1, width1 * 6, height1 * 10, dimgray, true);
-
-		DrawExtendGraph(width1 * 2, height1 * 1, width1 * 3, height1 * 3, c3_d1, false);
-		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c3_d2, false);
-		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c3_d3, false);
-		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c3_d4, false);
-		DrawExtendGraph(width1 * 2, height1 * 3, width1 * 3, height1 * 5, c3_d5, false);
-
-		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c3deck[0], false);
-		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, c3deck[1], false);
-		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, c3deck[2], false);
-		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, c3deck[3], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c3deck[4], false);
-		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, c3deck[5], false);
-		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, c3deck[6], false);
-		DrawExtendGraph(width1 * 9, height1 * 3, width1 * 10, height1 * 5, c3deck[7], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c3deck[8], false);
-		DrawExtendGraph(width1 * 7, height1 * 5, width1 * 8, height1 * 7, c3deck[9], false);
-
-
-		DrawGraph(width1 * (2 + deck_fmove_x), height1 * (1 + deck_fmove_y), deck_flame, true);
-
-		
-
-	}
-
+	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, c1_d1, false);
+	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, c1_d2, false);
+	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, c1_d3, false);
+	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, c1_d4, false);
+	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, c1_d5, false);
 }
 
-void SceneDeckEdit::Chara04_Tab(bool flag) {
-
-	if (flag) {
-		DrawGraph(width1 * 2, height1 / 2, t_deckedit, false);
-		DrawGraph(width1 * 6, height1 / 2, t_deck, false);
-
-		DrawBox(width1 * 2, height1 * 1, width1 * 10, height1 * 10, gray, true);
-		DrawBox(width1 * 2, height1 * 1, width1 * 6, height1 * 10, dimgray, true);
-
-		DrawExtendGraph(width1 * 2, height1 * 1, width1 * 3, height1 * 3, c4_d1, false);
-		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c4_d2, false);
-		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c4_d3, false);
-		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c4_d4, false);
-		DrawExtendGraph(width1 * 2, height1 * 3, width1 * 3, height1 * 5, c4_d5, false);
-
-		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c4deck[0], false);
-		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, c4deck[1], false);
-		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, c4deck[2], false);
-		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, c4deck[3], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c4deck[4], false);
-		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, c4deck[5], false);
-		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, c4deck[6], false);
-		DrawExtendGraph(width1 * 9, height1 * 3, width1 * 10, height1 * 5, c4deck[7], false);
-
-		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c4deck[8], false);
-		DrawExtendGraph(width1 * 7, height1 * 5, width1 * 8, height1 * 7, c4deck[9], false);
 
 
-		DrawGraph(width1 * (2 + deck_fmove_x), height1 * (1 + deck_fmove_y), deck_flame, true);
-
-
-
-	}
-
-}
 
 //選択されたカードのかぶりを監視する関数
-void SceneDeckEdit::CheckHandle(std::array<int, 10>& ary, int new_handle) {
-	
-	if (std::count(ary.begin(),ary.end(),new_handle) < 3) {
+void SceneDeckEdit::CheckHandle(std::array<int, 15>& ary, int new_handle) {
+
+	if (std::count(ary.begin(), ary.end(), new_handle) < 3) {
 		for (size_t i = 0; i < ary.size(); ++i) {
 			if (ary[i]) {
 				continue;
@@ -578,5 +314,47 @@ void SceneDeckEdit::LoadDeckEditGraph() {
 	c4_d3 = LoadGraph("graphics/card_12.png");
 	c4_d4 = LoadGraph("graphics/card_13.png");
 	c4_d5 = LoadGraph("graphics/card_5.png");
+
+}
+
+void SceneDeckEdit::ListMouseCheck(int mx, int my) {
+
+	if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
+		PushCheck = true;
+		if (PushCheck) {
+
+			if (width1 * 7 < mx && mx < width1 * 8 && height1 * 1 < my && my < height1 * 3) {
+				CheckHandle(c1deck, c1_d1);
+			}
+
+			if (width1 * 8 < mx && mx < width1 * 9 && height1 * 1 < my && my < height1 * 3) {
+				CheckHandle(c1deck, c1_d2);
+			}
+
+			if (width1 * 9 < mx && mx < width1 * 10 && height1 * 1 < my && my < height1 * 3) {
+				CheckHandle(c1deck, c1_d3);
+			}
+
+			if (width1 * 7 < mx && mx < width1 * 8 && height1 * 3 < my && my < height1 * 5) {
+				CheckHandle(c1deck, c1_d4);
+			}
+
+			if (width1 * 8 < mx && mx < width1 * 9 && height1 * 3 < my && my < height1 * 5) {
+				CheckHandle(c1deck, c1_d5);
+			}
+		
+		}
+		else {
+			PushCheck = false;
+		}
+
+	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+
+		for (int i = 0; i < 15; ++i) {
+				c1deck[i] = 0;
+		}
+	}
 
 }

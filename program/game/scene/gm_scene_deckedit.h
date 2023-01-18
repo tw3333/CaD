@@ -26,8 +26,6 @@ public:
 	void Chara03_Tab(bool flag);
 	void Chara04_Tab(bool flag);
 
-
-	
 	void opChara01_Tab(bool flag);
 	void opChara02_Tab(bool flag);
 	void opChara03_Tab(bool flag);
@@ -35,14 +33,32 @@ public:
 
 	void opTab(bool flag);
 
-	void CheckHandle(std::array<int, 10>& ary, int new_handle);
+	//カード描写
+	void DrawCardZone(); //カードがどんなのかを描写
+	void DrawDeckZone(); //デッキ内容を描写
+	void DrawListZone(); //持っているカードのリストを描写
+
+	//カードとマウスの判定
+	void ListMouseCheck(int mx, int my);
+
+
+	void CheckHandle(std::array<int, 15>& ary, int new_handle);
 
 private:
 
-	std::array<int, 10> c1deck{};
-	std::array<int, 10> c2deck{};
-	std::array<int, 10> c3deck{};
-	std::array<int, 10> c4deck{};
+	//マウス用
+	int MouseX = 0; //x
+	int MouseY = 0; //y
+	bool PushCheck = 0;
+
+	//デッキ格納用配列
+	std::array<int, 15> c1deck{};
+	std::array<int, 15> c2deck{};
+	std::array<int, 15> c3deck{};
+	std::array<int, 15> c4deck{};
+
+	//デッキ格納用リスト(test)
+	//std::list<int> c1deck;
 
 
 	float width1 = DXE_WINDOW_WIDTH / 10;
@@ -115,12 +131,14 @@ private:
 	//std::vector<int> c4deck;
 
 	int tab_flame_move = 0;
+	int c1deck_count = 0;
 
+
+	//カラーコード
 	int white = GetColor(255,255,255);
 	int gray = GetColor(128,128,128);
 	int dimgray = GetColor(100,100,100);
-
-	int c1deck_count = 0;
+	int dsgray = GetColor(47, 79, 79); //darkslategray
 
 
 
