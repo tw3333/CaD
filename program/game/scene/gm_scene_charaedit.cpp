@@ -5,7 +5,7 @@ void SceneCharaEdit::initialzie() {
 	//‰æ‘œƒnƒ“ƒhƒ‹—p
 	LoadCharaEditGraph();
 
-	Chara* chara = new Chara();
+	//Chara* chara = new Chara();
 	//chara->chara_[1].img_chara;
 
 	flame = true;
