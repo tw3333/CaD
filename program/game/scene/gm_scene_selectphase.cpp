@@ -53,7 +53,12 @@ void SceneSelectPhase::update(float delta_time) {
 
 void SceneSelectPhase::render() {
 
+	//UI描写
 	DrawExtendGraph(0,0,width1*10,height1*10,background,false);
+	DrawBox(0, 0, width1 * 10, height1 * 1, gray, true);
+	DrawExtendGraph(0, 0, width1 * 2, height1 * 1, s_guild_tile, false);
+
+	DrawBox(0,height1*9,width1*10,height1*10,gray,true);
 
 	//DrawBox(0, 0, width1 * 3, height1 * 10, 0, true);
 
@@ -149,11 +154,11 @@ void SceneSelectPhase::render() {
 	DrawStringEx(width1 * 0, height1 * 4 + 50, 100, "[↑↓]：ウエ/シタ");
 
 
-	/*アタリ線
+	//アタリ線
 	for (int i = 0; i < 10; ++i) {
 		DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
 		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
-	}*/
+	}
 }
 
 
@@ -316,6 +321,8 @@ void SceneSelectPhase::opTabParty(bool flag) {
 //ロード関数
 void SceneSelectPhase::LoadSelectPhaseGraph() {
 	background = LoadGraph("graphics/select_back.jpg");
+	s_guild_tile = LoadGraph("graphics/s_guild_tile.png");
+
 	select_tab = LoadGraph("graphics/selectphase_selectflame.png");
 	select_chara = LoadGraph("graphics/selectphase_selectflame_chara.png");
 	select_dungeon = LoadGraph("graphics/selectphase_selectflame_dungeon.png");

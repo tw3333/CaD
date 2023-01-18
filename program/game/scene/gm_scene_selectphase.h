@@ -91,6 +91,8 @@ private:
 
 	int d_csv = 0;
 
+	//‰æ‘œƒnƒ“ƒhƒ‹—p
+	int s_guild_tile = 0;
 
 	int gray = GetColor(211,211,211);
 	int gray2 = GetColor(128, 128, 128);
