@@ -17,6 +17,7 @@ public:
 
 	void BattleStart();
 
+	//ŠÖ”ŒQ
 	void DrawTurn();
 	void drawCardUp(int x, int y);
 	void DrawHands();

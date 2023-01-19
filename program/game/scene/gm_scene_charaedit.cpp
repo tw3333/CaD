@@ -25,7 +25,7 @@ void SceneCharaEdit::update(float delta_time) {
 		flame = true;
 	}
 
-	
+
 
 }
 
@@ -40,7 +40,7 @@ void SceneCharaEdit::render() {
 
 	DrawExtendGraph(0, height1 * (3 + f_trans), width1 * 2, height1 * (4 + f_trans), select_flame, true); //選択フレームのタイル
 	DrawDeckTab(deckTab);
-	
+
 	//DrawExtendGraph(0,height1*2,width1*2,height1*3,chara_[0].img_chara,false);
 
 	//アタリ線
@@ -53,7 +53,7 @@ void SceneCharaEdit::render() {
 //ここから関数
 
 void SceneCharaEdit::LoadCharaEditGraph() {
-	
+
 	select_flame = LoadGraph("graphics/select_flame.png");
 	s_chara_tile = LoadGraph("graphics/s_chara_tile.png");
 	chara_tile = LoadGraph("graphics/chara1_face.png");
@@ -63,7 +63,7 @@ void SceneCharaEdit::LoadCharaEditGraph() {
 }
 
 void SceneCharaEdit::FlameMove(bool f) {
-	
+
 	if (f) {
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_W)) {
 			f_trans -= 1;
@@ -86,8 +86,8 @@ void SceneCharaEdit::FlameMove(bool f) {
 void SceneCharaEdit::DrawDeckTab(bool f) {
 
 	if (f) {
-		DrawBox(width1*2,height1*1,width1*10,height1*10,dsgray,true);
-		DrawBox(width1 * 2, height1 * 1, width1 *  4, height1 * 10, 0, false);		
+		DrawBox(width1 * 2, height1 * 1, width1 * 10, height1 * 10, dsgray, true);
+		DrawBox(width1 * 2, height1 * 1, width1 * 4, height1 * 10, 0, false);
 		DrawBox(width1 * 4, height1 * 1, width1 * 7, height1 * 10, 0, false);
 		DrawBox(width1 * 7, height1 * 2, width1 * 10, height1 * 10, 0, false);
 	}

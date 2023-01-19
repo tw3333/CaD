@@ -13,7 +13,7 @@ public:
 	void update(float delta_time) override;
 	void render() override;
 
-	
+
 	void LoadCharaEditGraph();
 	void FlameMove(bool f);
 
@@ -40,7 +40,7 @@ private:
 	bool img_frash = false;
 
 	//カラーコード
-	int gray = GetColor(128,128,128);
-	int dsgray = GetColor(47,79,79); //darkslategray
+	int gray = GetColor(128, 128, 128);
+	int dsgray = GetColor(47, 79, 79); //darkslategray
 
 };

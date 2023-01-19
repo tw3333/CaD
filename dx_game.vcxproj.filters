@@ -166,19 +166,19 @@
     <ClCompile Include="program\game\scene\gm_scene_battle.cpp">
       <Filter>program\game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\gm_cardclass.cpp">
+    <ClCompile Include="program\game\gm_card.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
     <ClCompile Include="program\game\scene\gm_scene_selectphase.cpp">
       <Filter>program\game\scene</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\gm_chara.cpp">
+    <ClCompile Include="program\game\gm_person.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
     <ClCompile Include="program\game\gm_editclass.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\gm_deckclass.cpp">
+    <ClCompile Include="program\game\gm_deck.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
     <ClCompile Include="program\game\scene\gm_scene_deckedit.cpp">
@@ -189,6 +189,15 @@
     </ClCompile>
     <ClCompile Include="program\game\scene\gm_scene_charaedit.cpp">
       <Filter>program\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_card_manager.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_person_manager.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_deck_manager.cpp">
+      <Filter>program\game</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -306,19 +315,19 @@
     <ClInclude Include="program\game\scene\gm_scene_battle.h">
       <Filter>program\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\gm_cardclass.h">
+    <ClInclude Include="program\game\gm_card.h">
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\scene\gm_scene_selectphase.h">
       <Filter>program\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\gm_chara.h">
+    <ClInclude Include="program\game\gm_person.h">
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\gm_editclass.h">
       <Filter>program\game</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\gm_deckclass.h">
+    <ClInclude Include="program\game\gm_deck.h">
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\scene\gm_scene_deckedit.h">
@@ -329,6 +338,15 @@
     </ClInclude>
     <ClInclude Include="program\game\scene\gm_scene_charaedit.h">
       <Filter>program\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_card_manager.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_person_manager.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_deck_manager.h">
+      <Filter>program\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

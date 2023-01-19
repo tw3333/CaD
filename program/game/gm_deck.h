@@ -1,5 +1,5 @@
 #pragma once
-#include "gm_cardclass.h"
+#include "gm_card.h"
 
 class DeckClass {
 	char JobName[20] = "\0"; //job–¼
