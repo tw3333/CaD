@@ -1,7 +1,7 @@
 #pragma once
 #include "../gm_manager.h"
 #include "gm_scene_base.h"
-#include "../gm_chara.h"
+
 
 
 class SceneCharaEdit : public SceneBase {

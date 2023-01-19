@@ -1,10 +1,17 @@
 #pragma once
 
-class CardClass {
+class Card {
 public:
+	
+	Card() {
+
+	}
+
+	~Card() {}
+	
 	//カード情報
-	int Nunber = 0;
-	char Name[20] = "NULL";
+	int c_nunber = 0; //カードのNo
+	char Name[20] = "NULL"; //カードの名前
 
 	int c_cost = 0; //カードの使用コスト
 	

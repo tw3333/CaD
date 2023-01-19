@@ -126,77 +126,6 @@ void SceneDeckEdit::opTab(bool flag) {
 
 }
 
-//void SceneDeckEdit::opChara01_Tab(bool flag) {
-//	if (flag) {
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
-//			deck_fmove_x += 1;
-//		}
-//		else if (deck_fmove_x > 3) {
-//			deck_fmove_x = 3;
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
-//			deck_fmove_x -= 1;
-//		}
-//		else if (deck_fmove_x < 0) {
-//			deck_fmove_x = 0;
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-//			deck_fmove_y -= 2;
-//		}
-//		else if (deck_fmove_y < 0) {
-//			deck_fmove_y = 0;
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-//			deck_fmove_y += 2;
-//		}
-//		else if (deck_fmove_y > 6) {
-//			deck_fmove_y = 6;
-//		}
-//
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X)) {
-//
-//			if (deck_fmove_x == 0 && deck_fmove_y == 0) {
-//				CheckHandle(c1deck, c1_d1);
-//			}
-//			else if (deck_fmove_x == 1 && deck_fmove_y == 0) {
-//				CheckHandle(c1deck, c1_d2);
-//			}
-//			else if (deck_fmove_x == 2 && deck_fmove_y == 0) {
-//				CheckHandle(c1deck, c1_d3);
-//			}
-//			else if (deck_fmove_x == 3 && deck_fmove_y == 0) {
-//				CheckHandle(c1deck, c1_d4);
-//			}
-//			else if (deck_fmove_x == 0 && deck_fmove_y == 2) {
-//				CheckHandle(c1deck, c1_d5);
-//			}
-//
-//			c1deck_count += 1;
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-//
-//			for (int i = 0; i < 15; ++i) {
-//				c1deck[i] = 0;
-//			}
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-//			chara1_tab = false;
-//			tab = true;
-//		}
-//
-//	}
-//
-//
-//}
-
-
 //chara‚Ìtab•`ŽÊ—p
 void SceneDeckEdit::Chara01_Tab(bool flag) {
 
@@ -322,6 +251,9 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 	//if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 	if(tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)){
 		PushCheck = true;
+
+		c1deck_count += 1;
+
 		if (PushCheck) {
 
 			if (width1 * 7 < mx && mx < width1 * 8 && height1 * 1 < my && my < height1 * 3) {
