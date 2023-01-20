@@ -1,10 +1,14 @@
 #include "gm_scene_base.h"
+#include "../gm_person_manager.h"
+
+class PersonManger;
 
 class SceneBattle : public SceneBase {
 public:
 	
 	SceneBattle() {}
 	~SceneBattle(){}
+
 
 	void initialzie() override;
 	void update(float dalta_time) override;
@@ -25,12 +29,12 @@ public:
 	void EaseImageCard1(double t, int x_s, int x_e, int delay);
 
 	
-
-
-
 	//イージング関数
 	double easeInExpo(double t);
 	double easeOutExpo(double t);
+
+	//PersonManager
+	PersonManager pmgr;
 
 private:
 	
