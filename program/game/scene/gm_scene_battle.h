@@ -1,7 +1,8 @@
+#include "../gm_manager.h"
 #include "gm_scene_base.h"
 #include "../gm_person_manager.h"
 
-class PersonManger;
+
 
 class SceneBattle : public SceneBase {
 public:
@@ -34,7 +35,7 @@ public:
 	double easeOutExpo(double t);
 
 	//PersonManager
-	PersonManager pmgr;
+		
 
 private:
 	

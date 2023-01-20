@@ -1,6 +1,6 @@
 #pragma once
-#include <vector>
 #include "../dxlib_ext/dxlib_ext.h"
+#include <vector>
 #include <string>
 
 class Person {
@@ -10,6 +10,7 @@ public:
 
 
 	~Person(){}
+	
 	
 	//ŒöŠJ‚Å‘‚¢‚Ä‚İ‚é
 	int HP;

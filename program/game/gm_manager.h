@@ -1,6 +1,6 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
-
+#include "gm_person_manager.h"
 
 class SceneBase;
 
@@ -61,6 +61,8 @@ public :
 	//1600x900 Å®Å@ÇPÉ}ÉX160x90
 	int width = DXE_WINDOW_WIDTH / 10;
 	int height = DXE_WINDOW_HEIGHT / 10;
+	
+	//PersonManager
 
 };
 

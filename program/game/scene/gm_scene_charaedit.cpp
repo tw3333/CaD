@@ -1,5 +1,7 @@
 #include "gm_scene_charaedit.h"
 
+#include "gm_scene_battle.h"
+
 void SceneCharaEdit::initialzie() {
 
 	//画像ハンドル用
@@ -12,6 +14,13 @@ void SceneCharaEdit::initialzie() {
 }
 
 void SceneCharaEdit::update(float delta_time) {
+	GameManager* mgr = GameManager::GetInstance();
+
+	//シーン切り替え
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
+		mgr->chengeScene(new SceneBattle());
+	}
+
 
 	FlameMove(flame);
 
@@ -48,6 +57,8 @@ void SceneCharaEdit::render() {
 		DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
 		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
 	}
+
+	DrawStringEx(1300,20,1,"chara1HP:%d",test2.person1->HP);
 }
 
 //ここから関数

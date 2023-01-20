@@ -2,6 +2,9 @@
 #include "scene/gm_scene_base.h"
 #include "scene/gm_scene_title.h"
 
+
+//#include "scene/gm_scene_battle.h"
+
 GameManager* GameManager::instance_ = nullptr;
 
 //-----------------------------------------------------------------------------------------
@@ -12,6 +15,7 @@ GameManager::GameManager() {
 	img_black_ = LoadGraph("graphics/black.bmp");
 	SetBackgroundColor(32, 32, 32);
 
+	PersonManager pmgr;
 
 }
 

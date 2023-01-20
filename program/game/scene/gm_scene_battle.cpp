@@ -1,13 +1,11 @@
-#include "../gm_manager.h"
-#include "../gm_person_manager.h"
-
-#include "gm_scene_play.h"
 #include "gm_scene_battle.h"
 
 #include <iostream>
 #include <cmath>
 #include <stdio.h>
 #include <windows.h>
+
+#include "gm_scene_charaedit.h"
 
 
 //SceneBattle::~SceneBattle() {
@@ -34,6 +32,7 @@ void SceneBattle::initialzie() {
 
 void SceneBattle::update(float dalta_time) {
 	GameManager* mgr = GameManager::GetInstance();
+
 	
 	BattleStart();
 
@@ -46,7 +45,7 @@ void SceneBattle::update(float dalta_time) {
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
-		mgr->chengeScene(new ScenePlay());
+		mgr->chengeScene(new SceneCharaEdit());
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
@@ -200,8 +199,8 @@ void SceneBattle::render() {
 	DrawStringEx(1300, 20, -1, "scene battle");
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(10, height1 * 7, 1, "HP:%d", pmgr.person1->HP);
-	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr.person2->COST, pmgr.person2->COST);
+	DrawStringEx(10, height1 * 7, 1, "HP:%d", mgr.person1->HP);
+	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr.person2->COST, test2.person2->COST);
 }
 
 void SceneBattle::DrawCard(int x, int y, int x2, int y2, int chara, bool flag)

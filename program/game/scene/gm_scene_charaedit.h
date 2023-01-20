@@ -1,6 +1,7 @@
-#pragma once
 #include "../gm_manager.h"
 #include "gm_scene_base.h"
+
+
 
 
 
@@ -19,6 +20,8 @@ public:
 
 	void DrawDeckTab(bool f);
 
+	PersonManager pmgr;
+	PersonManager& test2 = pmgr;
 private:
 	int width1 = DXE_WINDOW_WIDTH / 10;
 	int height1 = DXE_WINDOW_HEIGHT / 10;
