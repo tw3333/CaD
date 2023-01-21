@@ -4,11 +4,12 @@
 
 
 
+
 class SceneBattle : public SceneBase {
 public:
 	
-	SceneBattle() {}
-	~SceneBattle(){}
+	SceneBattle(){}
+	~SceneBattle();
 
 
 	void initialzie() override;
@@ -35,10 +36,15 @@ public:
 	double easeOutExpo(double t);
 
 	//PersonManager
-		
+	PersonManager pmgr;
 
+
+	//GameManager mgr;
+	//int p1HP = mgr.pmgr_->person1->HP;
+	
 private:
 	
+
 	int MouseX = 0;
 	int MouseY = 0;
 	int move = 0;

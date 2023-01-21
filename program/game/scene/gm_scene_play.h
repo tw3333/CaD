@@ -26,6 +26,8 @@ public:
 	void update(float delta_time) override;
 	void render() override;
 
+
+
 private:
 
 	float width1 = DXE_WINDOW_WIDTH / 10;

@@ -7,6 +7,7 @@ ScenePlay::~ScenePlay() {
 	delete ctrl_box_;
 	delete floor_;
 	delete dungeon_;
+	
 
 	for (auto box : field_boxs_) delete box;
 }

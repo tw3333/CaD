@@ -15,7 +15,6 @@ GameManager::GameManager() {
 	img_black_ = LoadGraph("graphics/black.bmp");
 	SetBackgroundColor(32, 32, 32);
 
-	PersonManager pmgr;
 
 }
 

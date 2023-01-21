@@ -3,6 +3,7 @@
 #include "gm_person_manager.h"
 
 class SceneBase;
+class PersonManager;
 
 class GameManager {
 private :
@@ -63,7 +64,9 @@ public :
 	int height = DXE_WINDOW_HEIGHT / 10;
 	
 	//PersonManager
+	
 
+	
 };
 
 

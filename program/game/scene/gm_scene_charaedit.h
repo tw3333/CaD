@@ -20,11 +20,13 @@ public:
 
 	void DrawDeckTab(bool f);
 
-	PersonManager pmgr;
-	PersonManager& test2 = pmgr;
+	int p1HP = 0;
 private:
 	int width1 = DXE_WINDOW_WIDTH / 10;
 	int height1 = DXE_WINDOW_HEIGHT / 10;
+
+	//キャラ関連
+
 
 
 	//フレーム動かす用

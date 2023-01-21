@@ -7,7 +7,7 @@
 
 #include "gm_scene_charaedit.h"
 
-
+//
 //SceneBattle::~SceneBattle() {
 //	
 //}
@@ -27,12 +27,15 @@ void SceneBattle::initialzie() {
 	hp_now = hp_max;
 	int x = 320;
 	
+	//PersonManager pgmr_;
 	
+
 }
 
 void SceneBattle::update(float dalta_time) {
 	GameManager* mgr = GameManager::GetInstance();
 
+	
 	
 	BattleStart();
 
@@ -86,7 +89,7 @@ void SceneBattle::update(float dalta_time) {
 
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H) && hp_now != 0) {
-		pmgr.person1->HP -= 1;
+		p1HP -= 1;
 		your_turn = true;
 	}
 
@@ -199,8 +202,8 @@ void SceneBattle::render() {
 	DrawStringEx(1300, 20, -1, "scene battle");
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(10, height1 * 7, 1, "HP:%d", mgr.person1->HP);
-	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr.person2->COST, test2.person2->COST);
+	DrawStringEx(10, height1 * 7, 1, "HP:%d", p1HP);
+	//DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr_->person2->COST, pmgr_->person2->COST);
 }
 
 void SceneBattle::DrawCard(int x, int y, int x2, int y2, int chara, bool flag)
