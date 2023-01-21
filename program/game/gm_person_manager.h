@@ -14,7 +14,7 @@ public:
 	Person* person3 = new Person(40, 3);
 	Person* person4 = new Person(40, 3);
 	
-	static PersonManager* pmgr_;
+	static PersonManager pgmr;
 
 	
 

@@ -64,7 +64,7 @@ public :
 	int height = DXE_WINDOW_HEIGHT / 10;
 	
 	//PersonManager
-	
+	PersonManager pmgr;
 
 	
 };

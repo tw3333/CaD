@@ -202,7 +202,7 @@ void SceneBattle::render() {
 	DrawStringEx(1300, 20, -1, "scene battle");
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(10, height1 * 7, 1, "HP:%d", p1HP);
+	DrawStringEx(10, height1 * 7, 1, "HP:%d", PersonManager::pgmr.person1->HP);
 	//DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr_->person2->COST, pmgr_->person2->COST);
 }
 

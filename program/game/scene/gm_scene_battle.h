@@ -36,7 +36,7 @@ public:
 	double easeOutExpo(double t);
 
 	//PersonManager
-	PersonManager pmgr;
+	
 
 
 	//GameManager mgr;
