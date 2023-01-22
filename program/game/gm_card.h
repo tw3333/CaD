@@ -1,12 +1,10 @@
 #pragma once
+#include "../dxlib_ext/dxlib_ext.h"
 
 class Card {
 public:
 	
-	Card() {
-
-	}
-
+	Card() {}
 	~Card() {}
 	
 	//カード情報
@@ -32,7 +30,10 @@ public:
 
 	
 	bool tapCard = false; //使用されたかどうか
-	int cardGraphic = 0; //カードのグラフィックハンドル
+	int cardGraph = 0; //カードのグラフィックハンドル
+
+	//関数群
+	void SetCardGraph(int i);
 
 private:
 	

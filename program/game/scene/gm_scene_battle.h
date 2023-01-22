@@ -1,6 +1,8 @@
 #include "../gm_manager.h"
 #include "gm_scene_base.h"
+
 #include "../gm_person_manager.h"
+
 
 
 
@@ -36,9 +38,10 @@ public:
 	double easeOutExpo(double t);
 
 	//PersonManager
+	//PersonManager& pmgr = PersonManager::GetInstance();
+	//PersonManager pmgr = PersonManager();
 	
-
-
+	
 	//GameManager mgr;
 	//int p1HP = mgr.pmgr_->person1->HP;
 	

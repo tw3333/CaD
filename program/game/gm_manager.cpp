@@ -14,8 +14,6 @@ GameManager::GameManager() {
 	scene_now_->initialzie();
 	img_black_ = LoadGraph("graphics/black.bmp");
 	SetBackgroundColor(32, 32, 32);
-
-
 }
 
 //-----------------------------------------------------------------------------------------

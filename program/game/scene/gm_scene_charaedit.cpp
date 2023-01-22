@@ -13,9 +13,11 @@ void SceneCharaEdit::initialzie() {
 	flame = true;
 }
 
+
+
 void SceneCharaEdit::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
-	p1HP = mgr->pmgr_->person1->HP;
+	
 
 
 	//ƒV[ƒ“Ø‚è‘Ö‚¦
@@ -60,7 +62,7 @@ void SceneCharaEdit::render() {
 		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
 	}
 
-	DrawStringEx(1300,20,1,"chara1HP:%d",p1HP);
+	//DrawStringEx(1300, 20, 1, "chara1HP:%d", pmgr.person1->HP);
 }
 
 //‚±‚±‚©‚çŠÖ”

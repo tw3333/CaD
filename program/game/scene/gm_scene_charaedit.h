@@ -1,8 +1,7 @@
 #include "../gm_manager.h"
 #include "gm_scene_base.h"
 
-
-
+#include "../gm_person_manager.h"
 
 
 class SceneCharaEdit : public SceneBase {
@@ -21,6 +20,9 @@ public:
 	void DrawDeckTab(bool f);
 
 	int p1HP = 0;
+
+	//PersonManager pmgr = PersonManager();
+	
 private:
 	int width1 = DXE_WINDOW_WIDTH / 10;
 	int height1 = DXE_WINDOW_HEIGHT / 10;

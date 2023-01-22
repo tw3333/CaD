@@ -1,24 +1,31 @@
 #pragma once
 #include "gm_person.h"
+#include <vector>
 
 
 
 class PersonManager {
 public:
 	
-	PersonManager();
-	~PersonManager();
+	Person* createPerson(int HP, int COST) {
+		Person* newPerson = new Person(HP, COST);
+		personList.push_back(newPerson);
+		return newPerson;
+	}
 
-	Person* person1 = new Person(40, 3);
-	Person* person2 = new Person(40, 3);
-	Person* person3 = new Person(40, 3);
-	Person* person4 = new Person(40, 3);
-	
-	static PersonManager pgmr;
+	Person* getPerson(int index) {
+		return personList[index];
+	}
 
-	
+	void deletePerson(int index){
+		delete personList[index];
+		personList.erase(personList.begin() + index);
+	}
+
+	void getPersonAll();
 
 private:
-
-
+	
+	std::vector<Person*> personList;
+	
 };
