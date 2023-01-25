@@ -16,6 +16,11 @@ public:
 	int SPEED; //ターン順位に使用する素早さ
 
 
+	//実装予定ステータス
+	bool burn; //燃えているかどうか
+	bool poison; //毒状態かどうか
+	int hate; //ヘイト
+
 private:
 
 	

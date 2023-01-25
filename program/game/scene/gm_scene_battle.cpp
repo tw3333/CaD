@@ -195,7 +195,7 @@ void SceneBattle::render() {
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
 	DrawStringEx(10, height1 * 7, 1, "HP:%d", pmgr->person1->HP);
-	//DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person2->COST, pmgr_->person2->COST);
+	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person2->COST, pmgr->person2->COSTMAX);
 
 	DrawHpBar(hp_now, hp_max);
 }

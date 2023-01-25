@@ -199,6 +199,12 @@
     <ClCompile Include="program\game\gm_deck_manager.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\gm_enemy.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_enemy_manager.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="program\library\picojson.h">
@@ -346,6 +352,12 @@
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\gm_deck_manager.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_enemy.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_enemy_manager.h">
       <Filter>program\game</Filter>
     </ClInclude>
   </ItemGroup>
