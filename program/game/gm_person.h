@@ -5,29 +5,22 @@
 
 class Person {
 public:
-	
-	Person(int hp, int cost) : HP(hp), COST(cost) {}
+	Person(int hp, int hpmax, int cost,int costmax, int speed)
+	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed) {}
 
-
-	~Person(){}
-	
-	
-	//公開で書いてみる
-	int HP;
-	int COST;
-
-	//想定しているステータス
-	char NAME[20]; //名前
+	//テストステータス
+	int HP; //HP
+	int HPMAX; //最大HP
+	int COST; //コスト
+	int COSTMAX; //最大コスト
 	int SPEED; //ターン順位に使用する素早さ
-	int LEVEL; //レベル
-	int EXP; //経験値
-	int DECK_MAX; //山札にもてるカードの最大数
 
 
-	
 private:
 
 	
 
+
 };
+
 

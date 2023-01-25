@@ -14,7 +14,8 @@ class DeckClass {
 	int DeckSeet = 0;
 	int Deck_Same_Card = 0;
 	int maxCardList = 0;
-	PersonManager* person;
+	
+	//PersonManager* person;
 	int same = 0;
 public:
 

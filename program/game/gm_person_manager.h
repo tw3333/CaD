@@ -4,31 +4,32 @@
 
 //インスタンスを共有したい
 
+class Person;
 
+//シングルトン設計
 class PersonManager {
 public:
-
-	Person* person1 = nullptr;
 	
-	Person* createPerson(int HP, int COST) {
-		Person* newPerson = new Person(HP, COST);
-		personList.push_back(newPerson);
-		return newPerson;
-	}
+	Person* person1 = new Person(30, 30, 3, 3, 10); //chara1
+	Person* person2 = new Person(10, 10, 3, 3, 9); //chara2
+	Person* person3 = new Person(40, 40, 3, 3, 8); //chara3
+	Person* person4 = new Person(20, 20, 3, 3, 5); //chara4
 
-	Person* getPerson(int index) {
-		return personList[index];
-	}
 
-	void deletePerson(int index){
-		delete personList[index];
-		personList.erase(personList.begin() + index);
+	static PersonManager* getInstance() {
+		if (!instance_) {
+			instance_ = new PersonManager();
+		}
+		return instance_;
 	}
-
-	void getPersonAll();
 
 private:
+
+	static PersonManager* instance_;
 	
-	std::vector<Person*> personList;
+	//コンストラクタ
+	PersonManager(){
+	}
+	
 	
 };

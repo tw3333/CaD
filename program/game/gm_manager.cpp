@@ -10,7 +10,7 @@ GameManager* GameManager::instance_ = nullptr;
 //-----------------------------------------------------------------------------------------
 // コンストラクタ
 GameManager::GameManager() {
-	scene_now_ = new SceneBattle();
+	scene_now_ = new SceneTitle();
 	scene_now_->initialzie();
 	img_black_ = LoadGraph("graphics/black.bmp");
 	SetBackgroundColor(32, 32, 32);
