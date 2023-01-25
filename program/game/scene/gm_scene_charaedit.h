@@ -21,7 +21,10 @@ public:
 
 	int p1HP = 0;
 
-	//PersonManager pmgr = PersonManager();
+	void DrawCharaStatus();
+	
+	PersonManager* pmgr = PersonManager::getInstance();
+	
 	
 private:
 	int width1 = DXE_WINDOW_WIDTH / 10;

@@ -1,6 +1,5 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
-#include "gm_person_manager.h"
 
 class SceneBase;
 

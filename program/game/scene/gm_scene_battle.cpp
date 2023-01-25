@@ -2,20 +2,17 @@
 
 #include <iostream>
 #include <cmath>
-#include <stdio.h>
-#include <windows.h>
 
 #include "gm_scene_charaedit.h"
 #include "../gm_person_manager.h"
 
-//
-//SceneBattle::~SceneBattle() {
-//	
-//}
+
+SceneBattle::~SceneBattle() {
+	
+}
 
 
 void SceneBattle::initialzie() {
-
 
 	LoadBattleGraph();
 
@@ -33,7 +30,7 @@ void SceneBattle::initialzie() {
 
 void SceneBattle::update(float dalta_time) {
 	GameManager* mgr = GameManager::GetInstance();
-	//PersonManager* pmgr = PersonManager::getInstance();
+	PersonManager* pmgr = PersonManager::getInstance();
 	
 	
 	
@@ -89,7 +86,7 @@ void SceneBattle::update(float dalta_time) {
 
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H) && hp_now != 0) {
-//		pmgr->person1->HP;
+		pmgr->person1->HP -= 1;
 		your_turn = true;
 	}
 

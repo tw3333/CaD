@@ -2,6 +2,8 @@
 
 #include "gm_scene_battle.h"
 
+#include "../gm_person_manager.h"
+
 void SceneCharaEdit::initialzie() {
 
 	//画像ハンドル用
@@ -43,6 +45,8 @@ void SceneCharaEdit::update(float delta_time) {
 }
 
 void SceneCharaEdit::render() {
+	PersonManager* pmgr = PersonManager::getInstance();
+	
 	//静的グラフィック
 	DrawBox(0, 0, width1 * 10, height1 * 1, gray, true);
 	DrawBox(0, 0, width1 * 2, height1 * 10, gray, true);
@@ -63,6 +67,7 @@ void SceneCharaEdit::render() {
 	}
 
 	//DrawStringEx(1300, 20, 1, "chara1HP:%d", pmgr.person1->HP);
+	DrawCharaStatus();
 }
 
 //ここから関数
@@ -106,6 +111,15 @@ void SceneCharaEdit::DrawDeckTab(bool f) {
 		DrawBox(width1 * 4, height1 * 1, width1 * 7, height1 * 10, 0, false);
 		DrawBox(width1 * 7, height1 * 2, width1 * 10, height1 * 10, 0, false);
 	}
+
+}
+
+void SceneCharaEdit::DrawCharaStatus() {
+
+	DrawStringEx(width1*3,height1*2,-1,"Status : chara1");
+	DrawStringEx(width1 * 3 + 50, height1 * 2 + 50, -1, "HP:%d",pmgr->person1->HP);
+	DrawStringEx(width1 * 3 + 50, height1 * 2 + 100, -1, "COST:%d",pmgr->person1->COST);
+
 
 }
 
