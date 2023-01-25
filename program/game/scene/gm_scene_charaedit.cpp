@@ -45,7 +45,7 @@ void SceneCharaEdit::update(float delta_time) {
 }
 
 void SceneCharaEdit::render() {
-	PersonManager* pmgr = PersonManager::getInstance();
+//	PersonManager* pmgr = PersonManager::getInstance();
 	
 	//静的グラフィック
 	DrawBox(0, 0, width1 * 10, height1 * 1, gray, true);
@@ -117,8 +117,8 @@ void SceneCharaEdit::DrawDeckTab(bool f) {
 void SceneCharaEdit::DrawCharaStatus() {
 
 	DrawStringEx(width1*3,height1*2,-1,"Status : chara1");
-	DrawStringEx(width1 * 3 + 50, height1 * 2 + 50, -1, "HP:%d",pmgr->person1->HP);
-	DrawStringEx(width1 * 3 + 50, height1 * 2 + 100, -1, "COST:%d",pmgr->person1->COST);
+	DrawStringEx(width1 * 3 + 50, height1 * 2 + 50, -1, "HP:%d",pmgr->person1->HPMAX);
+	DrawStringEx(width1 * 3 + 50, height1 * 2 + 100, -1, "COST:%d",pmgr->person1->COSTMAX);
 
 
 }

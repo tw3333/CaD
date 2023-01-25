@@ -8,7 +8,7 @@
 
 
 SceneBattle::~SceneBattle() {
-	
+
 }
 
 
@@ -23,17 +23,11 @@ void SceneBattle::initialzie() {
 	chara_num = 1;
 	img_turn_move = 25;
 
-	hp_now = hp_max;
-	int x = 320;
-	
 }
 
 void SceneBattle::update(float dalta_time) {
 	GameManager* mgr = GameManager::GetInstance();
-	PersonManager* pmgr = PersonManager::getInstance();
-	
-	
-	
+
 	BattleStart();
 
 	//簡易敵アニメーション 
@@ -85,8 +79,8 @@ void SceneBattle::update(float dalta_time) {
 	}
 
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H) && hp_now != 0) {
-		pmgr->person1->HP -= 1;
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H) ) {
+		hp_now -= 1;
 		your_turn = true;
 	}
 
@@ -125,11 +119,13 @@ void SceneBattle::update(float dalta_time) {
 	}
 
 
-	
+
 }
 
 void SceneBattle::render() {
-	PersonManager* pmgr = PersonManager::getInstance();
+
+
+	//PersonManager* pmgr = PersonManager::getInstance();
 
 	//背景
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, height1 * 10, img_background, true);
@@ -181,7 +177,7 @@ void SceneBattle::render() {
 	//EaseTurnImage(easeOutExpo(t), 0, width1 * 4);
 	//EaseTurnImage(easeInExpo(t), width1*4, width1 * 10);
 
-	
+
 
 	DrawTurn();
 
@@ -192,22 +188,21 @@ void SceneBattle::render() {
 	//DrawBox(0, height1 * 7, DXE_WINDOW_WIDTH, DXE_WINDOW_WIDTH, GetColor(138, 140, 142), false);
 
 	//カード説明描写
-	DrawBox(width1*8, height1 * 1, width1*10, height1*6, black, true);
+	DrawBox(width1 * 8, height1 * 1, width1 * 10, height1 * 6, black, true);
 
-	DrawExtendGraph(10, (height1 * 7) + 20, 300, (height1 * 7) + 30, hp_bar_back, false);
-	DrawExtendGraph(10, (height1 * 7) + 20, (hp_now / hp_max) * 300, (height1 * 7) + 30, hp_bar, false);
 
 	DrawStringEx(1300, 20, -1, "scene battle");
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(10, height1 * 7, 1, "HP:%d",pmgr->person1->HP);
+	DrawStringEx(10, height1 * 7, 1, "HP:%d", pmgr->person1->HP);
 	//DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person2->COST, pmgr_->person2->COST);
+
+	DrawHpBar(hp_now, hp_max);
 }
 
 void SceneBattle::DrawCard(int x, int y, int x2, int y2, int chara, bool flag)
 {
 	DrawExtendGraph(width1 * x, (height1 * y), width1 * x2, (height1 * y2), chara, flag);
-
 
 }
 
@@ -221,10 +216,10 @@ void SceneBattle::BattleStart()
 void SceneBattle::DrawHands() {
 	if (numOfCards == 1) {
 		//DrawExtendGraph(512 + 320, (height1 * 7) - CardUp_1, 512 + cardW + 320, (height1 * 10) - CardUp_1, card1, false); //1
-		EaseImageCard1(easeOutExpo(t),0, 832, 0);
+		EaseImageCard1(easeOutExpo(t), 0, 832, 0);
 	}
 	else if (numOfCards == 2) {
-	    //DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1,center, (height1 * 10) - CardUp_1, card1, false); //1
+		//DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1,center, (height1 * 10) - CardUp_1, card1, false); //1
 		//DrawExtendGraph(center, (height1 * 7) - CardUp_2, center + cardW, (height1 * 10) - CardUp_2, card2, false); //2
 		if (t < 0.5) {
 			EaseImageCard1(easeOutExpo(t), 0, center - cardW, 0);
@@ -232,13 +227,13 @@ void SceneBattle::DrawHands() {
 		else {
 			EaseImageCard1(easeOutExpo(t), 0, center, 0);
 		}
-	
+
 
 	}
 	else if (numOfCards == 3) {
 		DrawExtendGraph(center - 128 - cardW, (height1 * 7) - CardUp_1, center - 128, (height1 * 10) - CardUp_1, card1, false); //1
 		DrawExtendGraph(center - 128, (height1 * 7) - CardUp_2, center + 128, (height1 * 10) - CardUp_2, card2, false); //2
-		DrawExtendGraph(center + 128, (height1 * 7) - CardUp_3, center + 128 + cardW , (height1 * 10) - CardUp_3, card3, false); //3
+		DrawExtendGraph(center + 128, (height1 * 7) - CardUp_3, center + 128 + cardW, (height1 * 10) - CardUp_3, card3, false); //3
 	}
 	else if (numOfCards == 4) {
 		DrawExtendGraph(center - (cardW * 2), (height1 * 7) - CardUp_1, center - cardW, (height1 * 10) - CardUp_1, card1, false); //1
@@ -322,7 +317,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 	}
 
 	if (numOfCards == 2) {
-		
+
 		if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_1 = 45;
 		}
@@ -365,19 +360,19 @@ void SceneBattle::drawCardUp(int x, int y) {
 		}
 		else {
 			CardUp_1 = 0;
-		}		
+		}
 		if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_2 = 45;
 		}
 		else {
 			CardUp_2 = 0;
-		}		
+		}
 		if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_3 = 45;
 		}
 		else {
 			CardUp_3 = 0;
-		}		
+		}
 		if (center + cardW < MouseX && MouseX < center + (cardW * 2) && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_4 = 45;
 		}
@@ -395,7 +390,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 			CardUp_1 = 0;
 		}
 
-		if (576 < MouseX && MouseX < 832  && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		if (576 < MouseX && MouseX < 832 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_2 = 45;
 		}
 		else {
@@ -416,7 +411,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 			CardUp_4 = 0;
 		}
 
-		if (1344  < MouseX && MouseX < 1600  && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_5 = 45;
 		}
 		else {
@@ -722,7 +717,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 // t: 経過時間, b: 初期値, c: 変化量, d: トータル時間
 
 void SceneBattle::DrawTurn() {
-	
+
 }
 
 double SceneBattle::easeInExpo(double t) {
@@ -788,4 +783,12 @@ void SceneBattle::LoadBattleGraph() {
 
 	img_turn = LoadGraph("graphics/turn.png"); //turn描写用
 	select_flame = LoadGraph("graphics/select_flame.png"); //選択描写用
+}
+
+void SceneBattle::DrawHpBar(int hp_now, int hp_max) {
+	int color = GetColor(255, 255, 255);
+	int color2 = GetColor(255, 0, 0);
+
+	DrawBox(10, (height1 * 7) + 20, 300 * hp_now / hp_max, (height1 * 7) + 30, color2, true);
+	DrawBox(10, (height1 * 7) + 20, 300, (height1 * 7) + 30, color, false);
 }

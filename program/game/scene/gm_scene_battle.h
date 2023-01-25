@@ -35,15 +35,18 @@ public:
 	void DrawHands();
 	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
 	void EaseImageCard1(double t, int x_s, int x_e, int delay);
-
+	void DrawHpBar(int hp_now, int hp_max); //HPバーの描写
 	
 	//イージング関数
 	double easeInExpo(double t);
 	double easeOutExpo(double t);
 
 	//PersonManager
-	
+	PersonManager* pmgr = PersonManager::getInstance();
+	int& hp_max = pmgr->person1->HPMAX;
+	int& hp_now = pmgr->person1->HP;
 
+	int test = 30;
 private:
 	
 
@@ -116,13 +119,11 @@ private:
 	int cardPild_9 = 128;
 	float cardPild_10 = 142.2;
 
-	float hp_max = 40.0;
-	float hp_now = 0.0;
 	int cost_max = 3;
 	int cost_now = 0;
 	int Bar_Width = 300;
 	int Bar = 0;
-	int test = 0;
+//	int test = 0;
 
 	//ターン関連
 	bool startTurn = false;
