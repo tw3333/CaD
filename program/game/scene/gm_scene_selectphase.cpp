@@ -359,7 +359,7 @@ void SceneSelectPhase::pickCheck(int pick1,int pick2, int pick3, int pick_chara)
 		
 	}
 	else if(pick1 != 0 && pick2 == 0) {
-		pick2 == pick_chara;
+		pick2 = pick_chara;
 	}
 	else if (pick1 != 0 && pick2 != 0 && pick3 == 0) {
 		pick3 = pick_chara;

@@ -2,9 +2,7 @@
 
 class Enemy {
 public:
-	Enemy() {
-
-	}
+	Enemy(int hp, int hpmax, int attack, int speed) : HP(hp), HPMAX(hpmax), ATTACK(attack), SPEED(speed) {}
 
 private:
 

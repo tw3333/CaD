@@ -2,7 +2,6 @@
 #include "gm_person.h"
 #include <vector>
 
-//インスタンスを共有したい
 
 class Person;
 
