@@ -1,8 +1,12 @@
 #include "gm_card.h"
+#include <fstream>
+#include <sstream>
+#include <vector>
 
 //ƒJ[ƒh‚Ì‰æ‘œ‚ğ“Ç‚İ‚İ/æ“¾‚·‚éŠÖ”
 //arg1...cardNo‚ğ“ü—Í
 void Card::SetCardGraph(int i) {
+	
 	switch (i)
 	{
 		case1: cardGraph = LoadGraph("graphics/card_1.png"); break;
@@ -23,7 +27,48 @@ void Card::SetCardGraph(int i) {
 
 		default: cardGraph = LoadGraph("graphics/card_chara1_flame.png"); break;
 	}
+
+
 }
+
+
+ std::vector<Card> Card::ReadCardsFromCSV(const char* filename) {
+     std::vector<Card> cards;
+     std::ifstream file(filename);
+     std::string line;
+     while (std::getline(file, line)) {
+         std::stringstream lineStream(line);
+         std::string cell;
+         Card card;
+         std::getline(lineStream, cell, ',');
+         card.c_number = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         strcpy(card.cardJob, cell.c_str());
+         std::getline(lineStream, cell, ',');
+         strcpy(card.Name, cell.c_str());
+         std::getline(lineStream, cell, ',');
+         card.c_cost = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_damage = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_protec = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_weak = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_slow = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_heal = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_hate = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_addcost = std::stoi(cell);
+         std::getline(lineStream, cell, ',');
+         card.c_effect = (cell == "TRUE");
+         cards.push_back(card);
+     }
+     return cards;
+}
+
 
 
 

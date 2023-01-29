@@ -35,6 +35,8 @@ public:
 
 	//関数群
 	void SetCardGraph(int i);
+	static std::vector<Card> ReadCardsFromCSV(const char* filename);
+	
 
 	//セッター
 	void SetCardNumber(int temp) { c_number = temp; }
