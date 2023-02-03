@@ -9,18 +9,23 @@ class CardManager {
 public:
 
 	//std::vector<Card> CardDate;
+	
 
-	std::vector<Card> CardDate = Card::ReadCardsFromCSV("date/card.csv");
+	std::vector<Card> CardList = Card::ReadCardsFromCSV("date/card.csv");
+
+	
+	std::vector<Card> getCards() {
+		return CardList;
+	}
 	
 	static CardManager* getInstance() {
 		if (!instance_) {
-			instance_ = new CardManager;
+			instance_ = new CardManager();
 		}
 		return instance_;
 	}
 
-	void LoadCardDate(Card CD[]);
-	
+	void LoadCard();
 
 private:
 
@@ -30,6 +35,8 @@ private:
 	CardManager() {
 
 	}
+
+
 
 };
 

@@ -2,6 +2,7 @@
 #include "gm_scene_base.h"
 
 #include "../gm_person_manager.h"
+#include "../gm_card_manager.h"
 
 
 class SceneCharaEdit : public SceneBase {
@@ -24,6 +25,8 @@ public:
 	void DrawCharaStatus();
 	
 	PersonManager* pmgr = PersonManager::getInstance();
+	CardManager* cmgr = CardManager::getInstance();
+	
 	
 	
 private:

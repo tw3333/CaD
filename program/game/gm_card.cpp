@@ -33,9 +33,11 @@ void Card::SetCardGraph(int i) {
 
 
  std::vector<Card> Card::ReadCardsFromCSV(const char* filename) {
+     
      std::vector<Card> cards;
      std::ifstream file(filename);
      std::string line;
+    
      while (std::getline(file, line)) {
          std::stringstream lineStream(line);
          std::string cell;
@@ -48,7 +50,8 @@ void Card::SetCardGraph(int i) {
          strcpy(card.cardJob, cell.c_str());
 
          std::getline(lineStream, cell, ',');
-         strcpy(card.Name, cell.c_str());
+         strcpy(card.c_name, cell.c_str());
+
          std::getline(lineStream, cell, ',');
          card.c_cost = std::stoi(cell);
          std::getline(lineStream, cell, ',');
@@ -58,7 +61,6 @@ void Card::SetCardGraph(int i) {
          std::getline(lineStream, cell, ',');
          card.c_weak = std::stoi(cell);
          std::getline(lineStream, cell, ',');
-
          card.c_slow = std::stoi(cell);
          std::getline(lineStream, cell, ',');
          card.c_heal = std::stoi(cell);
@@ -67,9 +69,11 @@ void Card::SetCardGraph(int i) {
          std::getline(lineStream, cell, ',');
          card.c_addcost = std::stoi(cell);
          std::getline(lineStream, cell, ',');
+         
          card.c_effect = (cell == "TRUE");
          cards.push_back(card);
      }
+     
      return cards;
 }
 

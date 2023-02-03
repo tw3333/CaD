@@ -8,7 +8,7 @@ public:
 	//カード情報
 	int c_number = 0; //カードのNo
 	char cardJob[10] = "NULL";
-	char Name[20] = "NULL"; //カードの名前
+	char c_name[20] = "NULL"; //カードの名前
 
 
 	int c_cost = 0; //カードの使用コスト
@@ -36,6 +36,7 @@ public:
 	//関数群
 	void SetCardGraph(int i);
 	static std::vector<Card> ReadCardsFromCSV(const char* filename);
+	void LoadCardDate();
 	
 
 	//セッター

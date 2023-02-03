@@ -4,13 +4,6 @@
 
 CardManager* CardManager::instance_ = nullptr;
 
-void CardManager::LoadCardDate(Card CD[]) {
 
-	
-
-
-
-
-}
 
 
