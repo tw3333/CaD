@@ -40,10 +40,13 @@ void Card::SetCardGraph(int i) {
          std::stringstream lineStream(line);
          std::string cell;
          Card card;
+
          std::getline(lineStream, cell, ',');
          card.c_number = std::stoi(cell);
+
          std::getline(lineStream, cell, ',');
          strcpy(card.cardJob, cell.c_str());
+
          std::getline(lineStream, cell, ',');
          strcpy(card.Name, cell.c_str());
          std::getline(lineStream, cell, ',');
@@ -55,6 +58,7 @@ void Card::SetCardGraph(int i) {
          std::getline(lineStream, cell, ',');
          card.c_weak = std::stoi(cell);
          std::getline(lineStream, cell, ',');
+
          card.c_slow = std::stoi(cell);
          std::getline(lineStream, cell, ',');
          card.c_heal = std::stoi(cell);

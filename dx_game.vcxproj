@@ -58,6 +58,7 @@
     <ClCompile Include="program\game\scene\gm_scene_result.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_selectphase.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_title.cpp" />
+    <ClCompile Include="program\game\scene\gm_test.cpp" />
     <ClCompile Include="program\library\tnl_font_texture.cpp" />
     <ClCompile Include="program\library\tnl_input.cpp" />
     <ClCompile Include="program\library\tnl_intersect.cpp" />
@@ -102,6 +103,7 @@
     <ClInclude Include="program\game\scene\gm_scene_result.h" />
     <ClInclude Include="program\game\scene\gm_scene_selectphase.h" />
     <ClInclude Include="program\game\scene\gm_scene_title.h" />
+    <ClInclude Include="program\game\scene\gm_test.h" />
     <ClInclude Include="program\library\picojson.h" />
     <ClInclude Include="program\library\stb_image.h" />
     <ClInclude Include="program\library\tnl_flyweight_map.h" />
