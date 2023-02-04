@@ -19,7 +19,7 @@ private:
 	bool burn; //”R‚¦‚Ä‚¢‚é‚©‚Ç‚¤‚©
 	bool poison; //“Åó‘Ô‚©‚Ç‚¤‚©
 
-
+	int enemyGraph;
 
 
 };
