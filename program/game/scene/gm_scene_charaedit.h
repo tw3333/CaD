@@ -5,6 +5,10 @@
 #include "../gm_card_manager.h"
 
 
+
+
+
+
 class SceneCharaEdit : public SceneBase {
 public:
 	SceneCharaEdit() {}
@@ -26,6 +30,7 @@ public:
 	
 	PersonManager* pmgr = PersonManager::getInstance();
 	CardManager* cmgr = CardManager::getInstance();
+
 	
 	
 	

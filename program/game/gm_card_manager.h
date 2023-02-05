@@ -1,6 +1,7 @@
 #pragma once
 #include "gm_card.h"
 #include <vector>
+#include <list>
 
 class Card;
 
@@ -8,15 +9,8 @@ class Card;
 class CardManager {
 public:
 
-	//std::vector<Card> CardDate;
 	
-
-	std::vector<Card> CardList = Card::ReadCardsFromCSV("date/card.csv");
-
 	
-	std::vector<Card> getCards() {
-		return CardList;
-	}
 	
 	static CardManager* getInstance() {
 		if (!instance_) {
@@ -25,8 +19,10 @@ public:
 		return instance_;
 	}
 
-	void LoadCard();
+	void LoadCardDate();
 
+	std::vector<Card*> cardDate;
+	
 private:
 
 	static CardManager* instance_;

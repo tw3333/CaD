@@ -1,29 +1,31 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
+#include <iostream>
+#include <string>
 
 class Card {
 public:
 
+	//コンストラクタ
+	Card(int i, std::string j, std::string n, int c, int d, int p, int w, int s, int h, int ht, int ac, bool e,int g)
+		: c_number(i), c_job(j), c_name(n), c_cost(c), c_damage(d), c_protec(p), c_weak(w), c_slow(s), c_heal(h), c_hate(ht), c_addcost(ac), c_effect(e) ,c_graph(g) {}
+
 
 	//カード情報
 	int c_number = 0; //カードのNo
-	char cardJob[10] = "NULL";
-	char c_name[20] = "NULL"; //カードの名前
+	std::string c_job  = "NULL";
+	std::string c_name = "NULL"; //カードの名前
 
-
-	int c_cost = 0; //カードの使用コスト
-
+	int c_cost = 0;	//カードの使用コスト
 	int c_damage = 0; //ダメージ
 	int c_protec = 0; //防御
 	int c_weak = 0; //脆弱
 	int c_slow = 0; //鈍足
 	int c_heal = 0; //HPを回復
 	int c_hate = 0; //ヘイト
-
 	int c_addcost = 0; //コストを加える
 	bool c_effect = false;
-
-	int cardGraph = 0; //カードのグラフィックハンドル
+	int c_graph = 0; //カードのグラフィックハンドル
 
 	//bool cure = false; //状態異常を直す
 	//bool insteadDamage = false; //代わりにダメージを受けるかどうか
@@ -33,9 +35,10 @@ public:
 	//bool overallEffect = false; //全体効果かどうか
 	//bool tapCard = false; //使用されたかどうか
 
+
 	//関数群
 	void SetCardGraph(int i);
-	static std::vector<Card> ReadCardsFromCSV(const char* filename);
+	static std::vector<Card> CreateCardsFromCSV(const char* filename);
 	void LoadCardDate();
 	
 
