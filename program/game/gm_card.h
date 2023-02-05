@@ -38,7 +38,7 @@ public:
 
 	//ŠÖ”ŒQ
 	void SetCardGraph(int i);
-	static std::vector<Card> CreateCardsFromCSV(const char* filename);
+	
 	void LoadCardDate();
 	
 

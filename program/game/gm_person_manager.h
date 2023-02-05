@@ -14,6 +14,8 @@ public:
 	Person* person3 = new Person(40, 40, 3, 3, 8); //chara3
 	Person* person4 = new Person(20, 20, 3, 3, 5); //chara4
 
+	
+
 
 	static PersonManager* getInstance() {
 		if (!instance_) {

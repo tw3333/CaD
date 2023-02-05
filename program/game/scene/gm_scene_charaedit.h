@@ -30,6 +30,7 @@ public:
 	
 	PersonManager* pmgr = PersonManager::getInstance();
 	CardManager* cmgr = CardManager::getInstance();
+	
 
 	
 	

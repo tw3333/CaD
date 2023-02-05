@@ -20,6 +20,7 @@ public:
 	}
 
 	void LoadCardDate();
+	void LoadCardGraph();
 
 	std::vector<Card*> cardDate;
 	
@@ -31,6 +32,7 @@ private:
 	CardManager() {
 
 	}
+
 
 
 

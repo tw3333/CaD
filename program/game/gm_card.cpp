@@ -5,42 +5,7 @@
 #include <string>
 
 
-//std::ifstream file("date/cards.csv");
-//std::string line;
 
-
-//void Card::LoadCardDate() {
-//	
-//	while (getline(file, line)) {
-//		std::istringstream linestream(line);
-//		std::string value;
-//
-//		std::vector<std::string> values;
-//		while (getline(linestream, value, ',')) {
-//			values.push_back(value);
-//		}
-//
-//		int id = stoi(values[0]);
-//		std::string job = values[1];
-//		std::string name = values[2];
-//		int cost = stoi(values[3]);
-//		int damage = stoi(values[4]);
-//		int protection = stoi(values[5]);
-//		int weak = stoi(values[6]);
-//		int slow = stoi(values[7]);
-//		int heal = stoi(values[8]);
-//		int hate = stoi(values[9]);
-//		int addcost = stoi(values[10]);
-//		bool effect = (values[11] == "TRUE");
-//
-//		Card card(id, job, name, cost, damage, protection, weak, slow, heal, hate, addcost, effect);
-//		cards.push_back(card);
-//	}
-//
-//
-//	file.close();
-//
-//}
 
 
 
@@ -75,46 +40,7 @@
 //}
 
 
-// std::vector<Card> Card::CreateCardsFromCSV(const char* filename) {
-//     
-//     std::vector<Card> cards;
-//     std::ifstream file(filename);
-//
-//	 if(!file.good()) { return cards;}
-//
-//	 std::string line;
-//	 getline(file, line); //ç≈èâÇÃàÍçsîÚÇŒÇ∑
-//    
-//	 while (getline(file, line)) {
-//		 std::istringstream linestream(line);
-//		 std::string value;
-//
-//		 std::vector<std::string> values;
-//		 while (getline(linestream, value, ',')) {
-//			 values.push_back(value);
-//		 }
-//
-//		 int id = stoi(values[0]);
-//		 std::string job = values[1];
-//		 std::string name = values[2];
-//		 int cost = stoi(values[3]);
-//		 int damage = stoi(values[4]);
-//		 int protection = stoi(values[5]);
-//		 int weak = stoi(values[6]);
-//		 int slow = stoi(values[7]);
-//		 int heal = stoi(values[8]);
-//		 int hate = stoi(values[9]);
-//		 int addcost = stoi(values[10]);
-//		 bool effect = (values[11] == "TRUE");
-//
-//		 Card card(id, job, name, cost, damage, protection, weak, slow, heal, hate, addcost, effect);
-//		 cards.push_back(card);
-//
-//	 }
-//
-//	 return cards;
-//	 file.close();
-//}
+
 
 
 

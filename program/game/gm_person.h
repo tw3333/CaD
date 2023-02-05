@@ -6,6 +6,7 @@
 
 class Person {
 public:
+	
 	Person(int hp, int hpmax, int cost,int costmax, int speed)
 	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed) {}
 
@@ -16,9 +17,9 @@ public:
 	int COSTMAX; //最大コスト
 	int SPEED; //ターン順位に使用する素早さ
 	
-	std::vector<Card> deck; //山札
-	std::vector<Card> hands; //手札
-	std::vector<Card> possCardList; //そのキャラが所持しているカード一覧
+	std::vector<Card*> deck; //山札
+	std::vector<Card*> hands; //手札
+	std::vector<Card*> possCardList; //そのキャラが所持しているカード一覧
 
 
 
