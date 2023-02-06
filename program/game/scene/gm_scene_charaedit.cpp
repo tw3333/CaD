@@ -4,6 +4,8 @@
 
 #include "../gm_person_manager.h"
 
+#include <string>
+
 
 
 void SceneCharaEdit::initialzie() {
@@ -124,7 +126,7 @@ void SceneCharaEdit::DrawCharaStatus() {
 	DrawStringEx(width1*3,height1*2,-1,"Status : chara1");
 	DrawStringEx(width1 * 3 + 50, height1 * 2 + 50, -1, "HP:%d",pmgr->person1->HPMAX);
 	DrawStringEx(width1 * 3 + 50, height1 * 2 + 100, -1, "COST:%d",pmgr->person1->COSTMAX);
-	DrawStringEx(width1 * 3 + 50, height1 * 2 + 150, -1, "%d", cmgr->cardDate[0]->c_damage);
+	DrawStringEx(width1 * 3 + 50, height1 * 2 + 150, -1, "%s", cmgr->cardDate[0]->c_name);
 
 
 	pmgr->person1->deck;
