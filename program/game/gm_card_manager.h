@@ -9,9 +9,6 @@ class Card;
 class CardManager {
 public:
 
-	
-	
-	
 	static CardManager* getInstance() {
 		if (!instance_) {
 			instance_ = new CardManager();
@@ -31,12 +28,8 @@ private:
 	static CardManager* instance_;
 
 	//コンストラクタ
-	CardManager() {
-
-	}
-
-
-
+	CardManager() {};
+	~CardManager();
 
 };
 
