@@ -1,0 +1,6 @@
+所持可能ジョブ
+
+chara01 = 1
+chara02 = 2
+chara03 = 3
+chara04 = 4
