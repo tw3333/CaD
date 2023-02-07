@@ -44,6 +44,8 @@ public:
 
 	void CheckHandle(std::array<int, 15>& ary, int new_handle);
 
+	//CardManager用
+	
 private:
 
 	//マウス用

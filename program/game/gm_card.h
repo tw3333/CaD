@@ -7,14 +7,17 @@ class Card {
 public:
 
 	//コンストラクタ
-	Card(int i, std::string j, std::string n, int c, int d, int p, int w, int s, int h, int ht, int ac, bool e,int g)
+	Card(int i, std::string j, std::string n, int c, int d, int p, int w, int s, int h, int ht, int ac, bool e, int g)
 		: c_number(i), c_job(j), c_name(n), c_cost(c), c_damage(d), c_protec(p), c_weak(w), c_slow(s), c_heal(h), c_hate(ht), c_addcost(ac), c_effect(e) ,c_graph(g) {}
 
 
 	//カード情報
 	int c_number = 0; //カードのNo
-	std::string c_job  = "NULL";
-	std::string c_name = "NULL"; //カードの名前
+	std::string c_job;
+	std::string c_name; //カードの名前
+
+	/*char c_job[4];
+	char c_name[20];*/
 
 	int c_cost = 0;	//カードの使用コスト
 	int c_damage = 0; //ダメージ

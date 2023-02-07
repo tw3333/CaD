@@ -22,6 +22,13 @@ public:
 
 	std::vector<Card*> cardDate; //実装されているすべてのカードのデータ
 
+	//各キャラごとに持っているカード一覧
+	std::vector<Card*> cardListChara1;
+	std::vector<Card*> cardListChara2;
+	std::vector<Card*> cardListChara3;
+	std::vector<Card*> cardListChara4;
+
+
 	
 private:
 

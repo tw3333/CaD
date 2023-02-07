@@ -55,7 +55,6 @@ void CardManager::LoadCardDate() {
 
 }
 
-
 void CardManager::LoadCardGraph() {
 	
 	
@@ -82,6 +81,8 @@ void CardManager::LoadCardGraph() {
 		}
 	}
 }
+
+
 
 
 
