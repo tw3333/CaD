@@ -22,7 +22,9 @@ public:
 	void LoadCardDate();
 	void LoadCardGraph();
 
-	std::vector<Card*> cardDate;
+
+	std::vector<Card*> cardDate; //実装されているすべてのカードのデータ
+
 	
 private:
 
