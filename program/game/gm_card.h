@@ -13,7 +13,7 @@ public:
 
 	//カード情報
 	int c_number = 0; //カードのNo
-	std::string c_job;
+	std::string c_job; //所持可能ジョブ
 	std::string c_name; //カードの名前
 
 	/*char c_job[4];
@@ -45,31 +45,31 @@ public:
 	void LoadCardDate();
 	
 
-	//セッター
-	void SetCardNumber(int temp) { c_number = temp; }
-	void SetCardCost(int temp) { c_cost = temp; }
-	void SetCardDamage(int temp) { c_damage = temp; }
-	void SetCardProtec(int temp) { c_protec = temp; }
-	void SetCardWeak(int temp) { c_weak = temp; }
-	void SetCardSlow(int temp) { c_slow = temp; }
-	void SetCardHate(int temp) { c_hate = temp; }
+	////セッター
+	//void SetCardNumber(int temp) { c_number = temp; }
+	//void SetCardCost(int temp) { c_cost = temp; }
+	//void SetCardDamage(int temp) { c_damage = temp; }
+	//void SetCardProtec(int temp) { c_protec = temp; }
+	//void SetCardWeak(int temp) { c_weak = temp; }
+	//void SetCardSlow(int temp) { c_slow = temp; }
+	//void SetCardHate(int temp) { c_hate = temp; }
 
-	void SetCardAddCost(int temp) { c_addcost = temp; }
-	void SetCardEffect(bool temp) { c_effect = temp; }
+	//void SetCardAddCost(int temp) { c_addcost = temp; }
+	//void SetCardEffect(bool temp) { c_effect = temp; }
 
 
 
-	//ゲッター
-	int GetCardNumber() { return c_number; }
-	int GetCardCost() { return c_cost; }
-	int GetCardDamage() { return c_damage; }
-	int GetCardProtec() { return c_protec; }
-	int GetCardWeak() { return c_weak; }
-	int GetCardSlow() { return c_slow; }
-	int GetCardHate() { return c_hate; }
+	////ゲッター
+	//int GetCardNumber() { return c_number; }
+	//int GetCardCost() { return c_cost; }
+	//int GetCardDamage() { return c_damage; }
+	//int GetCardProtec() { return c_protec; }
+	//int GetCardWeak() { return c_weak; }
+	//int GetCardSlow() { return c_slow; }
+	//int GetCardHate() { return c_hate; }
 
-	int GetCardAddCost() { return c_addcost; }
-	bool GetCardEffect() { return c_effect; }
+	//int GetCardAddCost() { return c_addcost; }
+	//bool GetCardEffect() { return c_effect; }
 
 
 private:

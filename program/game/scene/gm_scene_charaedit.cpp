@@ -129,7 +129,7 @@ void SceneCharaEdit::DrawCharaStatus() {
 	DrawStringEx(width1*3,height1*2,-1,"Status : chara1");
 	DrawStringEx(width1 * 3 + 50, height1 * 2 + 50, -1, "HP:%d",pmgr->person1->HPMAX);
 	DrawStringEx(width1 * 3 + 50, height1 * 2 + 100, -1, "COST:%d",pmgr->person1->COSTMAX);
-	DrawStringEx(width1 * 3 + 50, height1 * 2 + 150, -1, "%s\n", cmgr->cardDate[0]->c_name);
+	DrawStringEx(width1 * 3 + 50, height1 * 2 + 150, -1, "%s\n", cmgr->cardData[0]->c_name.c_str());
 
 
 	

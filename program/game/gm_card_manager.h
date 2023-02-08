@@ -16,17 +16,22 @@ public:
 		return instance_;
 	}
 
-	void LoadCardDate();
-	void LoadCardGraph();
+	//CardManager関数群
+	void LoadCardDate(); //実装カードのデータを読み込む
+	void LoadCardGraph(); //実装カードの画像を読み込む
+	void SortJobCard(); //データからジョブごとのカードにソートする関数
+	
+	//TODO↓
+	void LoatCardALL(); //上記の関数をまとめてやるようの関数？
 
 
-	std::vector<Card*> cardDate; //実装されているすべてのカードのデータ
+	std::vector<Card*> cardData; //実装されているすべてのカードのデータ
 
 	//各キャラごとに持っているカード一覧
-	std::vector<Card*> cardListChara1;
-	std::vector<Card*> cardListChara2;
-	std::vector<Card*> cardListChara3;
-	std::vector<Card*> cardListChara4;
+	std::vector<Card*> cardDataChara1;
+	std::vector<Card*> cardDataChara2;
+	std::vector<Card*> cardDataChara3;
+	std::vector<Card*> cardDataChara4;
 
 
 	
