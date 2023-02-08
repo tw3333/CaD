@@ -8,6 +8,8 @@
 
 
 
+
+
 void SceneCharaEdit::initialzie() {
 
 	//‰æ‘œƒnƒ“ƒhƒ‹—p

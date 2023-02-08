@@ -31,6 +31,8 @@ private:
 	//コンストラクタ
 	PersonManager(){
 	}
+
+	
 	
 	
 };
