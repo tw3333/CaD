@@ -144,5 +144,10 @@ void SceneCharaEdit::DrawCharaStatus() {
 		DrawStringEx(width1 * 5 + 200, height1 * 2 + (i * 30), -1, "%d", cmgr->cardData[i]->c_graph);
 	}
 
+	for (int i = 0; i < cmgr->cardDataChara1.size(); i++) {
+		DrawStringEx(width1 * 5 + 300, height1 * 2 + (i * 30), -1, "%s\n", cmgr->cardDataChara1[i]->c_name.c_str());
+	}
+
+
 }
 

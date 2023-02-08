@@ -7,7 +7,7 @@
 void SceneDeckEdit::initialzie() {
 	cmgr->LoadCardDate();
 	cmgr->LoadCardGraph();
-	cmgr->SortJobCard();
+	//cmgr->SortJobCard();
 
 	//tabŠÇ——pƒtƒ‰ƒO
 	tab = true;
