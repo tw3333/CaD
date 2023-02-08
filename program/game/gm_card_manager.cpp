@@ -85,9 +85,7 @@ void CardManager::SortJobCard() {
 	for (int i = 0; i < 15; i++) {
 		
 		if (cardData[i]->c_job == "ê‘") {
-			
 			cardDataChara1.push_back(cardData[i]);
-
 		}
 
 		else if (cardData[i]->c_job == "ê‘") {
