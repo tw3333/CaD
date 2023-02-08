@@ -18,6 +18,8 @@ void SceneCharaEdit::initialzie() {
 	//‰æ‘œƒnƒ“ƒhƒ‹—p
 	LoadCharaEditGraph();
 	cmgr->LoadCardDate();
+	cmgr->LoadCardGraph();
+	cmgr->SortJobCard();
 
 	//Chara* chara = new Chara();
 	//chara->chara_[1].img_chara;
@@ -133,9 +135,14 @@ void SceneCharaEdit::DrawCharaStatus() {
 	DrawStringEx(width1*3,height1*2,-1,"Status : chara1");
 	DrawStringEx(width1 * 3 + 50, height1 * 2 + 50, -1, "HP:%d",pmgr->person1->HPMAX);
 	DrawStringEx(width1 * 3 + 50, height1 * 2 + 100, -1, "COST:%d",pmgr->person1->COSTMAX);
-	DrawStringEx(width1 * 3 + 50, height1 * 2 + 150, -1, "%s\n", cmgr->cardData[0]->c_name.c_str());
-
-
 	
+	for (int i = 0; i < 15; i++) {
+		DrawStringEx(width1 * 5 + 50, height1 * 2 + (i * 30), -1, "%s\n", cmgr->cardData[i]->c_name.c_str());
+	}
+
+	for (int i = 0; i < 15; i++) {
+		DrawStringEx(width1 * 5 + 200, height1 * 2 + (i * 30), -1, "%d", cmgr->cardData[i]->c_graph);
+	}
+
 }
 

@@ -3,7 +3,7 @@
 #include "../gm_card_manager.h"
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+
 #include <array>
 
 
@@ -83,48 +83,6 @@ private:
 	bool chara3_tab;
 	bool chara4_tab;
 
-
-	int c1_d1 = 0;
-	int c1_d2 = 0;
-	int c1_d3 = 0;
-	int c1_d4 = 0;
-	int c1_d5 = 0;
-
-	int c1_c1 = 0;
-	int c1_c2 = 0;
-	int c1_c3 = 0;
-	int c1_c4 = 0;
-	int c1_c5 = 0;
-	int c1_c6 = 0;
-	int c1_c7 = 0;
-	int c1_c8 = 0;
-	int c1_c9 = 0;
-	int c1_c10 = 0;
-
-
-
-	int c2_d1 = 0;
-	int c2_d2 = 0;
-	int c2_d3 = 0;
-	int c2_d4 = 0;
-	int c2_d5 = 0;
-
-	int c3_d1 = 0;
-	int c3_d2 = 0;
-	int c3_d3 = 0;
-	int c3_d4 = 0;
-	int c3_d5 = 0;
-
-	int c4_d1 = 0;
-	int c4_d2 = 0;
-	int c4_d3 = 0;
-	int c4_d4 = 0;
-	int c4_d5 = 0;
-
-	//std::vector<int> c1deck;
-	//std::vector<int> c2deck;
-	//std::vector<int> c3deck;
-	//std::vector<int> c4deck;
 
 	int tab_flame_move = 0;
 	int c1deck_count = 0;

@@ -9,8 +9,6 @@ CardManager* CardManager::instance_ = nullptr;
 
 void CardManager::LoadCardDate() {
 	
-	//Card* card1 = new Card(1, "Ô", "a‚é", 1, 2, 0, 0, 0, 0, 0, 0, false);
-
 	std::ifstream file("data/card.csv");
 
     if (!file.is_open()) {
@@ -59,7 +57,7 @@ void CardManager::LoadCardDate() {
 
 void CardManager::LoadCardGraph() {
 	
-	for (int i = 0; i < 15; i++) {
+	for (int i = 0; i < cardData.size(); i++) {
 
 		switch (i)
 		{

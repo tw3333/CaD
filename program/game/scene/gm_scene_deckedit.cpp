@@ -5,7 +5,6 @@
 
 
 void SceneDeckEdit::initialzie() {
-	/*LoadDeckEditGraph();*/
 	cmgr->LoadCardDate();
 	cmgr->LoadCardGraph();
 	cmgr->SortJobCard();
@@ -23,16 +22,13 @@ void SceneDeckEdit::initialzie() {
 
 void SceneDeckEdit::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
-	//cmgr->LoadCardDate();
-	//cmgr->LoadCardGraph();
-	//cmgr->SortJobCard();
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
 		mgr->chengeScene(new SceneSelectPhase());
 	}
 
 	GetMousePoint(&MouseX, &MouseY);
-	ListMouseCheck(MouseX,MouseY);
+	ListMouseCheck(MouseX, MouseY);
 
 	//tab操作用関数群
 	/*opTab(tab);
@@ -171,10 +167,10 @@ void SceneDeckEdit::DrawCardZone() {
 void SceneDeckEdit::DrawDeckZone() {
 
 	for (int i = 0; i < cmgr->chara1Deck.size(); ++i) {
-	
+		int x = i % 4;
+		int y = i / 4;
 
-
-		DrawExtendGraph(width1 * (3 + i), height1 * 1, width1 * (4 + i), height1 * (3), cmgr->chara1Deck[i]->c_graph, false);
+		DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), cmgr->chara1Deck[i]->c_graph, false);
 
 	}
 
@@ -200,12 +196,11 @@ void SceneDeckEdit::DrawDeckZone() {
 
 void SceneDeckEdit::DrawListZone() {
 
-		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
-		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
-		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
-		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
-		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
-	
+	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
+	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
+	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
+	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
+	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
 
 }
 
@@ -213,11 +208,11 @@ void SceneDeckEdit::DrawListZone() {
 
 
 //選択されたカードのかぶりを監視しつつ、カードをデッキに挿入する関数
-void SceneDeckEdit::CheckHandle(std::vector<Card*>&deck, Card* card) {
+void SceneDeckEdit::CheckHandle(std::vector<Card*>& deck, Card* card) {
 
 
 	int count = 0;
-	for ( auto d : deck) {
+	for (auto d : deck) {
 		if (d == card) count++;
 	}
 	if (count < 3) {
@@ -229,7 +224,7 @@ void SceneDeckEdit::CheckHandle(std::vector<Card*>&deck, Card* card) {
 
 //グラフィック描写用
 void SceneDeckEdit::LoadDeckEditGraph() {
-	
+
 
 }
 
@@ -237,7 +232,7 @@ void SceneDeckEdit::LoadDeckEditGraph() {
 void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 
 	//if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
-	if(tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)){
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 		PushCheck = true;
 
 		c1deck_count += 1;
@@ -263,7 +258,7 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 			if (width1 * 8 < mx && mx < width1 * 9 && height1 * 3 < my && my < height1 * 5) {
 				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[4]);
 			}
-		
+
 		}
 		else {
 			PushCheck = false;
