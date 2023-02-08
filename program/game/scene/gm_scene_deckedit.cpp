@@ -3,8 +3,12 @@
 #include <iostream>
 #include <vector>
 
+
 void SceneDeckEdit::initialzie() {
-	LoadDeckEditGraph();
+	/*LoadDeckEditGraph();*/
+	cmgr->LoadCardDate();
+	cmgr->LoadCardGraph();
+	cmgr->SortJobCard();
 
 	//tab管理用フラグ
 	tab = true;
@@ -19,6 +23,9 @@ void SceneDeckEdit::initialzie() {
 
 void SceneDeckEdit::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
+	//cmgr->LoadCardDate();
+	//cmgr->LoadCardGraph();
+	//cmgr->SortJobCard();
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
 		mgr->chengeScene(new SceneSelectPhase());
@@ -38,6 +45,10 @@ void SceneDeckEdit::update(float delta_time) {
 
 void SceneDeckEdit::render() {
 
+	//cmgr->LoadCardDate();
+	//cmgr->LoadCardGraph();
+	//cmgr->SortJobCard();
+
 	//DrawBox(0, 0, width1 * 10, height1 * 10, white, true);
 
 	//下地
@@ -50,9 +61,9 @@ void SceneDeckEdit::render() {
 
 	//Chara01_Tab(chara1_tab);
 
-	DrawCardZone();
-	DrawDeckZone();
+	//DrawCardZone();
 	DrawListZone();
+	DrawDeckZone(); //選択されたカード（デッキの中身）
 
 	//アタリ線
 	for (int i = 0; i < 10; ++i) {
@@ -127,30 +138,30 @@ void SceneDeckEdit::opTab(bool flag) {
 }
 
 //charaのtab描写用
-void SceneDeckEdit::Chara01_Tab(bool flag) {
-
-		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c1deck[0], false);
-		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c1deck[1], false);
-		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c1deck[2], false);
-		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c1deck[3], false);
-
-		DrawExtendGraph(width1 * 3, height1 * 3, width1 * 4, height1 * 5, c1deck[4], false);
-		DrawExtendGraph(width1 * 4, height1 * 3, width1 * 5, height1 * 5, c1deck[5], false);
-		DrawExtendGraph(width1 * 5, height1 * 3, width1 * 6, height1 * 5, c1deck[6], false);
-		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c1deck[7], false);
-
-		DrawExtendGraph(width1 * 3, height1 * 5, width1 * 4, height1 * 7, c1deck[8], false);
-		DrawExtendGraph(width1 * 4, height1 * 5, width1 * 5, height1 * 7, c1deck[9], false);
-		DrawExtendGraph(width1 * 5, height1 * 5, width1 * 6, height1 * 7, c1deck[10], false);
-		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c1deck[11], false);
-
-		DrawExtendGraph(width1 * 3, height1 * 7, width1 * 8, height1 * 9, c1deck[12], false);
-		DrawExtendGraph(width1 * 4, height1 * 7, width1 * 8, height1 * 9, c1deck[13], false);
-		DrawExtendGraph(width1 * 5, height1 * 7, width1 * 8, height1 * 9, c1deck[14], false);
-
-		DrawGraph(width1 * (2 + deck_fmove_x), height1 * (1 + deck_fmove_y), deck_flame, true);
-
-}
+//void SceneDeckEdit::Chara01_Tab(bool flag) {
+//
+//		DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c1deck[0], false);
+//		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c1deck[1], false);
+//		DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c1deck[2], false);
+//		DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c1deck[3], false);
+//
+//		DrawExtendGraph(width1 * 3, height1 * 3, width1 * 4, height1 * 5, c1deck[4], false);
+//		DrawExtendGraph(width1 * 4, height1 * 3, width1 * 5, height1 * 5, c1deck[5], false);
+//		DrawExtendGraph(width1 * 5, height1 * 3, width1 * 6, height1 * 5, c1deck[6], false);
+//		DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c1deck[7], false);
+//
+//		DrawExtendGraph(width1 * 3, height1 * 5, width1 * 4, height1 * 7, c1deck[8], false);
+//		DrawExtendGraph(width1 * 4, height1 * 5, width1 * 5, height1 * 7, c1deck[9], false);
+//		DrawExtendGraph(width1 * 5, height1 * 5, width1 * 6, height1 * 7, c1deck[10], false);
+//		DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c1deck[11], false);
+//
+//		DrawExtendGraph(width1 * 3, height1 * 7, width1 * 8, height1 * 9, c1deck[12], false);
+//		DrawExtendGraph(width1 * 4, height1 * 7, width1 * 8, height1 * 9, c1deck[13], false);
+//		DrawExtendGraph(width1 * 5, height1 * 7, width1 * 8, height1 * 9, c1deck[14], false);
+//
+//		DrawGraph(width1 * (2 + deck_fmove_x), height1 * (1 + deck_fmove_y), deck_flame, true);
+//
+//}
 
 
 void SceneDeckEdit::DrawCardZone() {
@@ -159,92 +170,69 @@ void SceneDeckEdit::DrawCardZone() {
 
 void SceneDeckEdit::DrawDeckZone() {
 
-	DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, c1deck[0], false);
-	DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, c1deck[1], false);
-	DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, c1deck[2], false);
-	DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, c1deck[3], false);
+	for (int i = 0; i < cmgr->chara1Deck.size(); ++i) {
+	
 
-	DrawExtendGraph(width1 * 3, height1 * 3, width1 * 4, height1 * 5, c1deck[4], false);
-	DrawExtendGraph(width1 * 4, height1 * 3, width1 * 5, height1 * 5, c1deck[5], false);
-	DrawExtendGraph(width1 * 5, height1 * 3, width1 * 6, height1 * 5, c1deck[6], false);
-	DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, c1deck[7], false);
 
-	DrawExtendGraph(width1 * 3, height1 * 5, width1 * 4, height1 * 7, c1deck[8], false);
-	DrawExtendGraph(width1 * 4, height1 * 5, width1 * 5, height1 * 7, c1deck[9], false);
-	DrawExtendGraph(width1 * 5, height1 * 5, width1 * 6, height1 * 7, c1deck[10], false);
-	DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, c1deck[11], false);
+		DrawExtendGraph(width1 * (3 + i), height1 * 1, width1 * (4 + i), height1 * (3), cmgr->chara1Deck[i]->c_graph, false);
 
-	DrawExtendGraph(width1 * 3, height1 * 7, width1 * 4, height1 * 9, c1deck[12], false);
-	DrawExtendGraph(width1 * 4, height1 * 7, width1 * 5, height1 * 9, c1deck[13], false);
-	DrawExtendGraph(width1 * 5, height1 * 7, width1 * 6, height1 * 9, c1deck[14], false);
+	}
+
+	/*DrawExtendGraph(width1 * 3, height1 * 1, width1 * 4, height1 * 3, cmgr->chara1Deck[0]->c_graph, false);
+	DrawExtendGraph(width1 * 4, height1 * 1, width1 * 5, height1 * 3, cmgr->chara1Deck[1]->c_graph, false);
+	DrawExtendGraph(width1 * 5, height1 * 1, width1 * 6, height1 * 3, cmgr->chara1Deck[2]->c_graph, false);
+	DrawExtendGraph(width1 * 6, height1 * 1, width1 * 7, height1 * 3, cmgr->chara1Deck[3]->c_graph, false);
+
+	DrawExtendGraph(width1 * 3, height1 * 3, width1 * 4, height1 * 5, cmgr->chara1Deck[4]->c_graph, false);
+	DrawExtendGraph(width1 * 4, height1 * 3, width1 * 5, height1 * 5, cmgr->chara1Deck[5]->c_graph, false);
+	DrawExtendGraph(width1 * 5, height1 * 3, width1 * 6, height1 * 5, cmgr->chara1Deck[6]->c_graph, false);
+	DrawExtendGraph(width1 * 6, height1 * 3, width1 * 7, height1 * 5, cmgr->chara1Deck[7]->c_graph, false);
+
+	DrawExtendGraph(width1 * 3, height1 * 5, width1 * 4, height1 * 7, cmgr->chara1Deck[8]->c_graph, false);
+	DrawExtendGraph(width1 * 4, height1 * 5, width1 * 5, height1 * 7, cmgr->chara1Deck[9]->c_graph, false);
+	DrawExtendGraph(width1 * 5, height1 * 5, width1 * 6, height1 * 7, cmgr->chara1Deck[10]->c_graph, false);
+	DrawExtendGraph(width1 * 6, height1 * 5, width1 * 7, height1 * 7, cmgr->chara1Deck[11]->c_graph, false);
+
+	DrawExtendGraph(width1 * 3, height1 * 7, width1 * 4, height1 * 9, cmgr->chara1Deck[12]->c_graph, false);
+	DrawExtendGraph(width1 * 4, height1 * 7, width1 * 5, height1 * 9, cmgr->chara1Deck[13]->c_graph, false);
+	DrawExtendGraph(width1 * 5, height1 * 7, width1 * 6, height1 * 9, cmgr->chara1Deck[14]->c_graph, false);*/
 }
 
 void SceneDeckEdit::DrawListZone() {
 
-	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, c1_d1, false);
-	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, c1_d2, false);
-	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, c1_d3, false);
-	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, c1_d4, false);
-	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, c1_d5, false);
+		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
+		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
+		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
+		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
+		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
+	
+
 }
 
 
 
 
-//選択されたカードのかぶりを監視する関数
-void SceneDeckEdit::CheckHandle(std::array<int, 15>& ary, int new_handle) {
+//選択されたカードのかぶりを監視しつつ、カードをデッキに挿入する関数
+void SceneDeckEdit::CheckHandle(std::vector<Card*>&deck, Card* card) {
 
-	if (std::count(ary.begin(), ary.end(), new_handle) < 3) {
-		for (size_t i = 0; i < ary.size(); ++i) {
-			if (ary[i]) {
-				continue;
-			}
-			ary[i] = new_handle;
-			return;
-		}
+
+	int count = 0;
+	for ( auto d : deck) {
+		if (d == card) count++;
 	}
+	if (count < 3) {
+		deck.push_back(card);
+	}
+
+
 }
 
 //グラフィック描写用
 void SceneDeckEdit::LoadDeckEditGraph() {
-	chara01_face = LoadGraph("graphics/chara1_face.png");
-	chara02_face = LoadGraph("graphics/chara2_face.png");
-	chara03_face = LoadGraph("graphics/chara3_face.png");
-	chara04_face = LoadGraph("graphics/chara4_face.png");
-
-
-	tab_flame = LoadGraph("graphics/x2_y1_flame_R.png");
-	deck_flame = LoadGraph("graphics/deck_flame.png");
-
-	t_chara = LoadGraph("graphics/edit_chara.png");
-	t_deckedit = LoadGraph("graphics/edit_deckedit.png");
-	t_deck = LoadGraph("graphics/edit_deck.png");
-
-	c1_d1 = LoadGraph("graphics/card_1.png");
-	c1_d2 = LoadGraph("graphics/card_2.png");
-	c1_d3 = LoadGraph("graphics/card_3.png");
-	c1_d4 = LoadGraph("graphics/card_6.png");
-	c1_d5 = LoadGraph("graphics/card_7.png");
-
-	c2_d1 = LoadGraph("graphics/card_2.png");
-	c2_d2 = LoadGraph("graphics/card_2.png");
-	c2_d3 = LoadGraph("graphics/card_2.png");
-	c2_d4 = LoadGraph("graphics/card_2.png");
-	c2_d5 = LoadGraph("graphics/card_2.png");
-
-	c3_d1 = LoadGraph("graphics/card_4.png");
-	c3_d2 = LoadGraph("graphics/card_10.png");
-	c3_d3 = LoadGraph("graphics/card_15.png");
-	c3_d4 = LoadGraph("graphics/card_11.png");
-	c3_d5 = LoadGraph("graphics/card_14.png");
-
-	c4_d1 = LoadGraph("graphics/card_8.png");
-	c4_d2 = LoadGraph("graphics/card_9.png");
-	c4_d3 = LoadGraph("graphics/card_12.png");
-	c4_d4 = LoadGraph("graphics/card_13.png");
-	c4_d5 = LoadGraph("graphics/card_5.png");
+	
 
 }
+
 
 void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 
@@ -257,23 +245,23 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 		if (PushCheck) {
 
 			if (width1 * 7 < mx && mx < width1 * 8 && height1 * 1 < my && my < height1 * 3) {
-				CheckHandle(c1deck, c1_d1);
+				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[0]);
 			}
 
 			if (width1 * 8 < mx && mx < width1 * 9 && height1 * 1 < my && my < height1 * 3) {
-				CheckHandle(c1deck, c1_d2);
+				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[1]);
 			}
 
 			if (width1 * 9 < mx && mx < width1 * 10 && height1 * 1 < my && my < height1 * 3) {
-				CheckHandle(c1deck, c1_d3);
+				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[2]);
 			}
 
 			if (width1 * 7 < mx && mx < width1 * 8 && height1 * 3 < my && my < height1 * 5) {
-				CheckHandle(c1deck, c1_d4);
+				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[3]);
 			}
 
 			if (width1 * 8 < mx && mx < width1 * 9 && height1 * 3 < my && my < height1 * 5) {
-				CheckHandle(c1deck, c1_d5);
+				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[4]);
 			}
 		
 		}
@@ -283,11 +271,11 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 
 	}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+	/*if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
 
 		for (int i = 0; i < 15; ++i) {
 				c1deck[i] = 0;
 		}
-	}
+	}*/
 
 }

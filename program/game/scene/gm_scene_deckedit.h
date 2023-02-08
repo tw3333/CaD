@@ -1,5 +1,6 @@
 #include "gm_scene_base.h"
 #include "../gm_manager.h"
+#include "../gm_card_manager.h"
 #include <iostream>
 #include <vector>
 #include <unordered_map>
@@ -42,9 +43,10 @@ public:
 	void ListMouseCheck(int mx, int my);
 
 
-	void CheckHandle(std::array<int, 15>& ary, int new_handle);
+	void CheckHandle(std::vector<Card*> &deck, Card* card );
 
 	//CardManager用
+	CardManager* cmgr = CardManager::getInstance();
 	
 private:
 
@@ -53,14 +55,6 @@ private:
 	int MouseY = 0; //y
 	bool PushCheck = 0;
 
-	//デッキ格納用配列
-	std::array<int, 15> c1deck{};
-	std::array<int, 15> c2deck{};
-	std::array<int, 15> c3deck{};
-	std::array<int, 15> c4deck{};
-
-	//デッキ格納用リスト(test)
-	//std::list<int> c1deck;
 
 
 	float width1 = DXE_WINDOW_WIDTH / 10;

@@ -29,11 +29,17 @@ public:
 
 	//各キャラごとに持っているカード一覧
 	std::vector<Card*> cardDataChara1;
-	std::vector<Card*> cardDataChara2;
+	std::vector<Card*> cardDataChara2; //未実装キャラ
 	std::vector<Card*> cardDataChara3;
 	std::vector<Card*> cardDataChara4;
 
+	//キャラごとのデッキ
+	std::vector<Card*> chara1Deck;
+	std::vector<Card*> chara2Deck; //未実装キャラ
+	std::vector<Card*> chara3Deck;
+	std::vector<Card*> chara4Deck;
 
+	
 	
 private:
 
@@ -41,7 +47,7 @@ private:
 
 	//コンストラクタ
 	CardManager() {};
-	~CardManager();
+	
 
 };
 

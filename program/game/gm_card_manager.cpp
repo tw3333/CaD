@@ -48,36 +48,36 @@ void CardManager::LoadCardDate() {
 
 
 		cardData.push_back(new Card(id, job, name, cost, damage, protection, weak, slow, heal, hate, addcost, effect,graph));
+		//cardData.push_back(Card(id, job, name, cost, damage, protection, weak, slow, heal, hate, addcost, effect, graph));
 
 	}
 
 	file.close();
 
+
 }
 
 void CardManager::LoadCardGraph() {
-	
 	
 	for (int i = 0; i < 15; i++) {
 
 		switch (i)
 		{
-			case 0: cardData[0]->c_graph = LoadGraph("graphics/card_1.png");
-			case 1: cardData[1]->c_graph = LoadGraph("graphics/card_2.png");
-			case 2: cardData[2]->c_graph = LoadGraph("graphics/card_3.png");
-			case 3: cardData[3]->c_graph = LoadGraph("graphics/card_4.png");
-			case 4: cardData[4]->c_graph = LoadGraph("graphics/card_5.png");
-			case 5: cardData[5]->c_graph = LoadGraph("graphics/card_6.png");
-			case 6: cardData[6]->c_graph = LoadGraph("graphics/card_7.png");
-			case 7: cardData[7]->c_graph = LoadGraph("graphics/card_8.png");
-			case 8: cardData[8]->c_graph = LoadGraph("graphics/card_9.png");
-			case 9: cardData[9]->c_graph = LoadGraph("graphics/card_10.png");
-
-			case 10: cardData[10]->c_graph = LoadGraph("graphics/card_11.png");
-			case 11: cardData[11]->c_graph = LoadGraph("graphics/card_12.png");
-			case 12: cardData[12]->c_graph = LoadGraph("graphics/card_13.png");
-			case 13: cardData[13]->c_graph = LoadGraph("graphics/card_14.png");
-			case 14: cardData[14]->c_graph = LoadGraph("graphics/card_15.png");		
+			case 0: cardData[0]->c_graph = LoadGraph("graphics/card_1.png"); break;
+			case 1: cardData[1]->c_graph = LoadGraph("graphics/card_2.png"); break;
+			case 2: cardData[2]->c_graph = LoadGraph("graphics/card_3.png"); break;
+			case 3: cardData[3]->c_graph = LoadGraph("graphics/card_4.png"); break;
+			case 4: cardData[4]->c_graph = LoadGraph("graphics/card_5.png"); break;
+			case 5: cardData[5]->c_graph = LoadGraph("graphics/card_6.png"); break;
+			case 6: cardData[6]->c_graph = LoadGraph("graphics/card_7.png"); break;
+			case 7: cardData[7]->c_graph = LoadGraph("graphics/card_8.png"); break;
+			case 8: cardData[8]->c_graph = LoadGraph("graphics/card_9.png"); break;
+			case 9: cardData[9]->c_graph = LoadGraph("graphics/card_10.png"); break;
+			case 10: cardData[10]->c_graph = LoadGraph("graphics/card_11.png"); break;
+			case 11: cardData[11]->c_graph = LoadGraph("graphics/card_12.png"); break;
+			case 12: cardData[12]->c_graph = LoadGraph("graphics/card_13.png"); break;
+			case 13: cardData[13]->c_graph = LoadGraph("graphics/card_14.png"); break;
+			case 14: cardData[14]->c_graph = LoadGraph("graphics/card_15.png");	break;
 		}
 	}
 }
@@ -90,9 +90,9 @@ void CardManager::SortJobCard() {
 			cardDataChara1.push_back(cardData[i]);
 		}
 
-		//if (cardData[i]->c_job == "Ô") {
-		//	cardDataChara1.push_back(cardData[i]);
-		//}
+		if (cardData[i]->c_job == "Ô") {
+			cardDataChara1.push_back(cardData[i]);
+		}
 
 		if (cardData[i]->c_job == "Â") {
 			cardDataChara3.push_back(cardData[i]);
@@ -101,7 +101,6 @@ void CardManager::SortJobCard() {
 		if (cardData[i]->c_job == "—Î") {
 			cardDataChara4.push_back(cardData[i]);
 		}
-
 
 	}
 

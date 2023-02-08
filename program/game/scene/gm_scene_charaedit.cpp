@@ -1,19 +1,23 @@
 #include "gm_scene_charaedit.h"
 
 #include "gm_scene_battle.h"
+#include "gm_scene_deckedit.h"
 
 #include "../gm_person_manager.h"
 
 #include <string>
 
 
-
+//SceneCharaEdit::~SceneCharaEdit() {
+//
+//}
 
 
 void SceneCharaEdit::initialzie() {
 
 	//画像ハンドル用
 	LoadCharaEditGraph();
+	cmgr->LoadCardDate();
 
 	//Chara* chara = new Chara();
 	//chara->chara_[1].img_chara;
@@ -30,7 +34,7 @@ void SceneCharaEdit::update(float delta_time) {
 
 	//シーン切り替え
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
-		mgr->chengeScene(new SceneBattle());
+		mgr->chengeScene(new SceneDeckEdit());
 	}
 
 
@@ -53,8 +57,8 @@ void SceneCharaEdit::update(float delta_time) {
 void SceneCharaEdit::render() {
 //	PersonManager* pmgr = PersonManager::getInstance();
 	//cmgr->CreateCard();
-	cmgr->LoadCardDate();
-	cmgr->LoadCardGraph();
+	//cmgr->LoadCardDate();
+//	cmgr->LoadCardGraph();
 	
 	
 	//静的グラフィック

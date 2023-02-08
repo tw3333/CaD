@@ -40,9 +40,9 @@ public:
 
 
 	//関数群
-	void SetCardGraph(int i);
-	
-	void LoadCardDate();
+	//void SetCardGraph(int i);
+	//void LoadCardDate();
+
 	
 
 	////セッター
@@ -70,6 +70,23 @@ public:
 
 	//int GetCardAddCost() { return c_addcost; }
 	//bool GetCardEffect() { return c_effect; }
+
+	bool operator==(const Card &other) const {
+		return 
+			c_number == other.c_number && 
+			c_job == other.c_job && 
+			c_name == other.c_name&&
+			c_cost == other.c_cost&&
+			c_damage == other.c_damage&&
+			c_protec == other.c_protec&&
+			c_weak == other.c_weak&&
+			c_slow == other.c_slow&&
+			c_heal == other.c_heal&&
+			c_hate == other.c_hate&&
+			c_addcost == other.c_addcost&&
+			c_effect == other.c_effect&&
+			c_graph == other.c_graph;
+	}
 
 
 private:
