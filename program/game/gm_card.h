@@ -29,6 +29,10 @@ public:
 	int c_addcost = 0; //コストを加える
 	bool c_effect = false;
 	int c_graph = 0; //カードのグラフィックハンドル
+	
+	int c_egraph = 0; //カード使用時のエフェクト用ハンドル
+
+
 
 	//bool cure = false; //状態異常を直す
 	//bool insteadDamage = false; //代わりにダメージを受けるかどうか

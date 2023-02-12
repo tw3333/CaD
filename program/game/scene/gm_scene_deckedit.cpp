@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 
+#include "gm_scene_battle.h"
+
 
 void SceneDeckEdit::initialzie() {
 	cmgr->LoadCardDate();
@@ -26,6 +28,12 @@ void SceneDeckEdit::update(float delta_time) {
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
 		mgr->chengeScene(new SceneSelectPhase());
 	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_1)) {
+		mgr->chengeScene(new SceneBattle());
+	}
+
+
 
 	GetMousePoint(&MouseX, &MouseY);
 	ListMouseCheck(MouseX, MouseY);

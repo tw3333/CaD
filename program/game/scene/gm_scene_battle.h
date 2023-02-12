@@ -4,6 +4,8 @@
 #include "../gm_person.h"
 #include "../gm_person_manager.h"
 
+#include "../gm_card_manager.h"
+
 
 
 
@@ -32,10 +34,15 @@ public:
 	//関数群
 	void DrawTurn();
 	void drawCardUp(int x, int y);
-	void DrawHands();
+	void DrawHand();
 	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
 	void EaseImageCard1(double t, int x_s, int x_e, int delay);
 	void DrawHpBar(int hp_now, int hp_max); //HPバーの描写
+	
+	void DealFromDeckToHand(const std::vector<Card*>& deck, std::vector<Card*>& hand,int handNum);
+
+
+	void Debug();
 	
 	//イージング関数
 	double easeInExpo(double t);
@@ -46,9 +53,21 @@ public:
 	int& hp_max = pmgr->person1->HPMAX;
 	int& hp_now = pmgr->person1->HP;
 
+	//CardManager
+	CardManager* cmgr = CardManager::getInstance();
+
+
 	int test = 30;
 private:
 	
+	//デッキ(山札)からへ手札へ
+	//各キャラの手札用配列
+	std::vector<Card*> chara1Hand;
+	std::vector<Card*> chara2Hand; //未実装
+	std::vector<Card*> chara3Hand;
+	std::vector<Card*> chara4Hand;
+
+	bool dealHand = false;
 
 	int MouseX = 0;
 	int MouseY = 0;
