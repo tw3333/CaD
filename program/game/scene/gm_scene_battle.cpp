@@ -249,7 +249,28 @@ void SceneBattle::DrawHand() {
 
 	//
 	for (int i = 0; i < chara1Hand.size(); i++) {
-		DrawExtendGraph(320 + (i * 256), (height1 * 7) - CardUp_1 + (i * CardUp_2), 576 + (i * 256), (height1 * 10) - CardUp_1 + (i * CardUp_2), chara1Hand[i]->c_graph, false);
+
+		switch (i)
+		{
+		case 0:
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, chara1Hand[i]->c_graph, false); //1
+			break;
+		case 1:
+			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, chara1Hand[i]->c_graph, false); //2
+			break;
+		case 2:
+			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, chara1Hand[i]->c_graph, false); //3
+			break;
+		case 3:
+			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, chara1Hand[i]->c_graph, false); //4
+			break;
+		case 4:
+			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, chara1Hand[i]->c_graph, false); //5
+			break;
+		default:
+			break;
+		}
+
 	}
 
 
@@ -343,9 +364,49 @@ void SceneBattle::DrawHand() {
 	//	DrawExtendGraph(1600 + (256 * 4) - cardPild_10 * 9, (height1 * 7) - CardUp_10, 1600 + (256 * 5) - cardPild_10 * 9, (height1 * 10) - CardUp_10, card4, false); //10
 
 	//}
+
 }
 
 void SceneBattle::drawCardUp(int x, int y) {
+
+
+	if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		CardUp_1 = 45;
+	}
+	else {
+		CardUp_1 = 0;
+	}
+
+	if (576 < MouseX && MouseX < 832 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		CardUp_2 = 45;
+	}
+	else {
+		CardUp_2 = 0;
+	}
+
+	if (832 < MouseX && MouseX < 1088 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		CardUp_3 = 45;
+	}
+	else {
+		CardUp_3 = 0;
+	}
+
+	if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		CardUp_4 = 45;
+	}
+	else {
+		CardUp_4 = 0;
+	}
+
+	if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+		CardUp_5 = 45;
+	}
+	else {
+		CardUp_5 = 0;
+	}
+
+
+
 
 	if (numOfCards == 1) {
 		if (512 + 320 < MouseX && MouseX < 512 + cardW + 320 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {

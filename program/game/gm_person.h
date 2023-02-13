@@ -16,6 +16,8 @@ public:
 	int COST; //コスト
 	int COSTMAX; //最大コスト
 	int SPEED; //ターン順位に使用する素早さ
+
+
 	
 	std::vector<Card*> deck; //山札
 	std::vector<Card*> hands; //手札
