@@ -1,13 +1,17 @@
 #pragma once
+#include <string>
 
 class Enemy {
 public:
-	Enemy(int hp, int hpmax, int attack, int speed) : HP(hp), HPMAX(hpmax), ATTACK(attack), SPEED(speed) {}
+	Enemy(std::string name, int hp, int hpmax, int attack, int speed,int graph, int egraph) 
+		:NAME(name), HP(hp), HPMAX(hpmax), ATTACK(attack), SPEED(speed) ,GRAPH(graph),EGRAPH(egraph) {}
 
 private:
 
 	//ステータス
 	//テスト
+	std::string NAME; //名前
+
 	int HP; //HP
 	int HPMAX; //最大HP
 	
@@ -19,7 +23,8 @@ private:
 	bool burn; //燃えているかどうか
 	bool poison; //毒状態かどうか
 
-	int enemyGraph;
+	int GRAPH; //敵の画像
+	int EGRAPH; //敵の攻撃エフェクト
 
 
 };

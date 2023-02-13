@@ -7,6 +7,7 @@
 #include "gm_scene_charaedit.h"
 #include "../gm_person_manager.h"
 #include "../gm_card_manager.h"
+#include "../gm_enemy.h"
 
 
 SceneBattle::~SceneBattle() {
@@ -29,6 +30,7 @@ void SceneBattle::initialzie() {
 	img_turn_move = 25;
 
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
+	Enemy ememy1("“G‚P", 100, 100, 5, 15, 0, 0);
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -96,7 +98,7 @@ void SceneBattle::update(float dalta_time) {
 	}
 
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H) ) {
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H)) {
 		hp_now -= 1;
 		your_turn = true;
 	}
@@ -215,6 +217,12 @@ void SceneBattle::render() {
 	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person2->COST, pmgr->person2->COSTMAX);
 
 	DrawHpBar(hp_now, hp_max);
+
+	DrawBox(10, height1 * 7 + 60, width1 * 2 - 10, height1 * 8 +25, black, false);
+	DrawBox(10, height1 * 8 + 30, width1 * 2 - 10, height1 * 9, black, false);;
+	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false);
+	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false);
+
 }
 
 void SceneBattle::DrawCard(int x, int y, int x2, int y2, int chara, bool flag)
@@ -231,7 +239,7 @@ void SceneBattle::BattleStart()
 
 
 void SceneBattle::DrawHand() {
-	
+
 	//‚Æ‚è‚ ‚¦‚¸‚T–‡•\Ž¦
 	//DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, chara1Hand[0]->c_graph, false); //1
 	//DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, chara1Hand[1]->c_graph, false); //2
