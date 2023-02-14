@@ -3,6 +3,7 @@
 #include "scene/gm_scene_title.h"
 #include "scene/gm_scene_charaedit.h"
 #include "scene/gm_test.h"
+#include "scene/gm_scene_selectphase.h"
 
 //#include "scene/gm_scene_battle.h"
 
@@ -11,7 +12,7 @@ GameManager* GameManager::instance_ = nullptr;
 //-----------------------------------------------------------------------------------------
 // コンストラクタ
 GameManager::GameManager() {
-	scene_now_ = new SceneCharaEdit();
+	scene_now_ = new SceneSelectPhase();
 	scene_now_->initialzie();
 	img_black_ = LoadGraph("graphics/black.bmp");
 	SetBackgroundColor(32, 32, 32);

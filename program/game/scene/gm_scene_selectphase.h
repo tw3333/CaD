@@ -1,6 +1,9 @@
 #include "../gm_manager.h"
 #include "gm_scene_base.h"
 
+#include "../gm_person_manager.h"
+#include "../gm_card_manager.h"
+
 
 class SceneSelectPhase : public SceneBase {
 public:
@@ -11,7 +14,7 @@ public:
 	void update(float delta_time) override;
 	void render() override;
 
-	void drawTab(int x, int y, int x2, int y2, int load);
+	void DrawTab(int x, int y, int x2, int y2, int load);
 
 	void LoadSelectPhaseGraph();
 	void LoadDungeonCsv();
@@ -22,11 +25,17 @@ public:
 	void opTabDungeon(bool flag);
 	void opTabParty(bool flag);
 
-	void pickCheck(int pick1, int pick2, int pick3, int pick_chara);
+	void PickCheck(int pick1, int pick2, int pick3, int pick_chara);
 
 	
 
 	std::vector<std::vector<std::string>> dungeon;
+
+	//PersonManager
+	PersonManager* pmgr = PersonManager::GetInstance();
+
+	//CardManager
+	CardManager* cmgr = CardManager::getInstance();
 
 
 private:
@@ -73,6 +82,7 @@ private:
 	int pick_chara1 = 0;
 	int pick_chara2 = 0;
 	int pick_chara3 = 0;
+
 
 
 	

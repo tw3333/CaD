@@ -3,6 +3,7 @@
 #include "gm_scene_title.h"
 #include "gm_scene_play.h"
 #include "gm_scene_deckedit.h"
+#include "../gm_person_manager.h"
 
 
 
@@ -20,6 +21,9 @@ void SceneSelectPhase::initialzie() {
 	tab_party = false;
 
 	tab2 = false;
+	cmgr->LoadCardDate();
+	cmgr->LoadCardGraph();
+	cmgr->SortJobCard();
 
 }
 
@@ -62,11 +66,11 @@ void SceneSelectPhase::render() {
 
 	//DrawBox(0, 0, width1 * 3, height1 * 10, 0, true);
 
-	drawTab(0, 1, 3, 2, select_dungeon);
-	drawTab(0, 2, 3, 3, select_chara);
-	drawTab(0, 3, 3, 4, select_party);
+	DrawTab(0, 1, 3, 2, select_dungeon);
+	DrawTab(0, 2, 3, 3, select_chara);
+	DrawTab(0, 3, 3, 4, select_party);
 
-	drawTab(0, 4, 3, 5, select_tab);
+	DrawTab(0, 4, 3, 5, select_tab);
 	/*drawTab(0, 5, 3, 6, select_tab);
 	drawTab(0, 6, 3, 7, select_tab);
 	drawTab(0, 7, 3, 8, select_tab);
@@ -74,7 +78,7 @@ void SceneSelectPhase::render() {
 	drawTab(0, 9, 3, 10, select_tab);*/
 
 
-	drawTab(0, 1 + flame_move, 3, 2 + flame_move, select_flame);
+	DrawTab(0, 1 + flame_move, 3, 2 + flame_move, select_flame);
 	//drawTab(0,1,3,2,select_);
 
 	if (select_dungeon_tab) {
@@ -118,6 +122,7 @@ void SceneSelectPhase::render() {
 	}
 
 	if (select_party_tab) {
+		
 		DrawBox(width1 * 3, height1 * 1, width1 * 10, height1 * 10, gray2, true);
 		DrawGraph(width1 * 4, height1 * 1 + (height1 / 2), member_img, true);
 		DrawGraph(width1 * 4, height1 * 2, x2y1_flame_B, true);
@@ -165,7 +170,7 @@ void SceneSelectPhase::render() {
 
 
 //文字アリtab描写用関数
-void SceneSelectPhase::drawTab(int x, int y, int x2, int y2, int load) {
+void SceneSelectPhase::DrawTab(int x, int y, int x2, int y2, int load) {
 	DrawExtendGraph(width1 * x, height1 * y, width1 * x2, height1 * y2, load, true);
 }
 
@@ -234,6 +239,7 @@ void SceneSelectPhase::opTabDungeon(bool flag) {
 		}
 	}
 }
+
 void SceneSelectPhase::opTabParty(bool flag) {
 	
 	if (tab_party) {
@@ -252,18 +258,24 @@ void SceneSelectPhase::opTabParty(bool flag) {
 			p_flame_move = 3;
 		}
 
+		//chara1pick
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 0) {
 			
 			if (pick_chara1 == 0) {
 				pick_chara1 = chara01;
-			} else if (pick_chara1 != 0  && pick_chara2 == 0) {
+			} 
+			else if (pick_chara1 != 0  && pick_chara2 == 0) {
 				pick_chara2 = chara01;
-			}else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
+			}
+			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
 				pick_chara3 = chara01;
 			}
 			
+			pmgr->person1->PICK = true;
+			
 		}
 
+		//chara2pick
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 1) {
 			
 			if (pick_chara1 == 0) {
@@ -275,9 +287,13 @@ void SceneSelectPhase::opTabParty(bool flag) {
 			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
 				pick_chara3 = chara02;
 			}
+
+			pmgr->person2->PICK = true;
 		}
 
+		//chara3pick
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 2) {
+			
 			if (pick_chara1 == 0) {
 				pick_chara1 = chara03;
 			}
@@ -287,8 +303,13 @@ void SceneSelectPhase::opTabParty(bool flag) {
 			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
 				pick_chara3 = chara03;
 			}
+
+			pmgr->person3->PICK = true;
 		}
+
+		//chara4pick
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 3) {
+			
 			if (pick_chara1 == 0) {
 				pick_chara1 = chara04;
 			}
@@ -298,12 +319,22 @@ void SceneSelectPhase::opTabParty(bool flag) {
 			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
 				pick_chara3 = chara04;
 			}
+
+			pmgr->person4->PICK = true;
+
 		}
 		
+		//全て取り消し
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
 			pick_chara1 = 0;
 			pick_chara2 = 0;
 			pick_chara3 = 0;
+
+			pmgr->person1->PICK = false;
+			pmgr->person2->PICK = false;
+			pmgr->person3->PICK = false;
+			pmgr->person4->PICK = false;
+
 
 		}
 
@@ -352,7 +383,7 @@ void SceneSelectPhase::LoadSelectPhaseGraph() {
 }
 
 //キャラ選択描写用関数
-void SceneSelectPhase::pickCheck(int pick1,int pick2, int pick3, int pick_chara) {
+void SceneSelectPhase::PickCheck(int pick1,int pick2, int pick3, int pick_chara) {
 	
 	if (pick1 == 0) {
 		pick1 = pick_chara;

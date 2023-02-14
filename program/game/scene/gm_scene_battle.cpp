@@ -31,6 +31,10 @@ void SceneBattle::initialzie() {
 
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
 	Enemy ememy1("敵１", 100, 100, 5, 15, 0, 0);
+
+	if (pmgr->person1->PICK == true) {
+
+	}
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -200,6 +204,8 @@ void SceneBattle::render() {
 
 	DrawTurn();
 
+	DrawOrder();
+
 	//選択フレーム
 	//DrawCard(0 + select_move, 7, 2 + select_move, 10, select_flame, true);
 
@@ -218,7 +224,7 @@ void SceneBattle::render() {
 
 	DrawHpBar(hp_now, hp_max);
 
-	DrawBox(10, height1 * 7 + 60, width1 * 2 - 10, height1 * 8 +25, black, false);
+	DrawBox(10, height1 * 7 + 60, width1 * 2 - 10, height1 * 8 + 25, black, false);
 	DrawBox(10, height1 * 8 + 30, width1 * 2 - 10, height1 * 9, black, false);;
 	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false);
 	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false);
@@ -819,6 +825,12 @@ void SceneBattle::drawCardUp(int x, int y) {
 
 void SceneBattle::DrawTurn() {
 
+
+
+
+
+
+
 }
 
 double SceneBattle::easeInExpo(double t) {
@@ -853,6 +865,7 @@ void SceneBattle::EaseTurnImage(double out_t, double in_t, int x_s, int x_e) {
 
 void SceneBattle::LoadBattleGraph() {
 	img_background = LoadGraph("graphics/background2.png");
+
 	img_mon1 = LoadGraph("graphics/m1.png");
 	img_chara1_face = LoadGraph("graphics/chara1_face.png"); //冒険者
 	img_chara2_face = LoadGraph("graphics/chara2_face.png"); //シーフ
@@ -860,21 +873,21 @@ void SceneBattle::LoadBattleGraph() {
 	img_chara4_face = LoadGraph("graphics/chara4_face.png"); //回復士
 	img_enemy1_face = LoadGraph("graphics/enemy1_face.png"); //デブアリ
 
-	card1 = LoadGraph("graphics/card_1.png"); //誘導
-	card2 = LoadGraph("graphics/card_2.png"); //斬りつける
-	card3 = LoadGraph("graphics/card_3.png"); //逃げる
-	card4 = LoadGraph("graphics/card_4.png"); //守る
-	card5 = LoadGraph("graphics/card_5.png"); //鼓舞
-	card6 = LoadGraph("graphics/card_6.png"); //分析
-	card7 = LoadGraph("graphics/card_7.png"); //ポジションチェンジ
-	card8 = LoadGraph("graphics/card_8.png"); //ファイア
-	card9 = LoadGraph("graphics/card_9.png"); //ヒール
-	card10 = LoadGraph("graphics/card_10.png"); //盾を構える
-	card11 = LoadGraph("graphics/card_11.png"); //指摘
-	card12 = LoadGraph("graphics/card_12.png"); //状態異常回復
-	card13 = LoadGraph("graphics/card_13.png"); //クイック
-	card14 = LoadGraph("graphics/card_14.png"); //戦闘準備
-	card15 = LoadGraph("graphics/card_15.png"); //挑発
+	//card1 = LoadGraph("graphics/card_1.png"); //誘導
+	//card2 = LoadGraph("graphics/card_2.png"); //斬りつける
+	//card3 = LoadGraph("graphics/card_3.png"); //逃げる
+	//card4 = LoadGraph("graphics/card_4.png"); //守る
+	//card5 = LoadGraph("graphics/card_5.png"); //鼓舞
+	//card6 = LoadGraph("graphics/card_6.png"); //分析
+	//card7 = LoadGraph("graphics/card_7.png"); //ポジションチェンジ
+	//card8 = LoadGraph("graphics/card_8.png"); //ファイア
+	//card9 = LoadGraph("graphics/card_9.png"); //ヒール
+	//card10 = LoadGraph("graphics/card_10.png"); //盾を構える
+	//card11 = LoadGraph("graphics/card_11.png"); //指摘
+	//card12 = LoadGraph("graphics/card_12.png"); //状態異常回復
+	//card13 = LoadGraph("graphics/card_13.png"); //クイック
+	//card14 = LoadGraph("graphics/card_14.png"); //戦闘準備
+	//card15 = LoadGraph("graphics/card_15.png"); //挑発
 
 	hp_bar = LoadGraph("graphics/hp_bar.png"); //hpバー
 	hp_bar_back = LoadGraph("graphics/hp_bar_back.png"); //hp_barの後ろのバー
@@ -917,5 +930,21 @@ void SceneBattle::Debug() {
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
 		dealHand = true;
 	}
+
+}
+
+void SceneBattle::DrawOrder() {
+
+
+	//DrawExtendGraph(0, height1 * 0, width1 * 2, height1 * 1, img_mon1, false);
+	//DrawExtendGraph(0, height1 * 1, width1 * 2 - 50, height1 * 2, img_chara1_face, false);
+	//DrawExtendGraph(0, height1 * 2, width1 * 2 - 50, height1 * 3, img_chara1_face, false);
+	//DrawExtendGraph(0, height1 * 3, width1 * 2 - 50, height1 * 4, img_chara1_face, false);
+
+	//まずは合計４人を想定
+	DrawExtendGraph(0, height1 * 0, width1 * 2, height1 * 1, order1thImage, false);
+	DrawExtendGraph(0, height1 * 1, width1 * 2 - 50, height1 * 2, order2thImage, false);
+	DrawExtendGraph(0, height1 * 2, width1 * 2 - 50, height1 * 3, order3thImage, false);
+	DrawExtendGraph(0, height1 * 4, width1 * 2 - 50, height1 * 5, order4thImage, false);
 
 }

@@ -37,7 +37,6 @@
     <ClCompile Include="program\game\gm_camera.cpp" />
     <ClCompile Include="program\game\gm_card.cpp" />
     <ClCompile Include="program\game\gm_card_manager.cpp" />
-    <ClCompile Include="program\game\gm_deck_manager.cpp" />
     <ClCompile Include="program\game\gm_enemy.cpp" />
     <ClCompile Include="program\game\gm_enemy_manager.cpp" />
     <ClCompile Include="program\game\gm_person.cpp" />
@@ -81,7 +80,6 @@
     <ClInclude Include="program\game\gm_camera.h" />
     <ClInclude Include="program\game\gm_card.h" />
     <ClInclude Include="program\game\gm_card_manager.h" />
-    <ClInclude Include="program\game\gm_deck_manager.h" />
     <ClInclude Include="program\game\gm_enemy.h" />
     <ClInclude Include="program\game\gm_enemy_manager.h" />
     <ClInclude Include="program\game\gm_person.h" />

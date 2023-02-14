@@ -196,9 +196,6 @@
     <ClCompile Include="program\game\gm_person_manager.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\gm_deck_manager.cpp">
-      <Filter>program\game</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\gm_enemy.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
@@ -352,9 +349,6 @@
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\gm_person_manager.h">
-      <Filter>program\game</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\gm_deck_manager.h">
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\gm_enemy.h">

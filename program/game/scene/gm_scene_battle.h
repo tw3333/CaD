@@ -41,6 +41,7 @@ public:
 	
 	void DealFromDeckToHand(const std::vector<Card*>& deck, std::vector<Card*>& hand,int handNum);
 
+	void DrawOrder();
 
 	void Debug();
 	
@@ -49,7 +50,7 @@ public:
 	double easeOutExpo(double t);
 
 	//PersonManager
-	PersonManager* pmgr = PersonManager::getInstance();
+	PersonManager* pmgr = PersonManager::GetInstance();
 	int& hp_max = pmgr->person1->HPMAX;
 	int& hp_now = pmgr->person1->HP;
 
@@ -112,6 +113,14 @@ private:
 	int card13 = 0;
 	int card14 = 0;
 	int card15 = 0;
+
+	//OrderŠÖ˜A
+	int order1thImage = 0;
+	int order2thImage = 0;
+	int order3thImage = 0;
+	int order4thImage = 0;
+	int order5thImage = 0;
+
 
 	int hp_bar = 0;
 	int hp_bar_back = 0;

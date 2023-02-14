@@ -1,6 +1,8 @@
 #pragma once
 #include "../dxlib_ext/dxlib_ext.h"
 
+#include <vector>
+
 class SceneBase;
 
 class GameManager {
@@ -65,6 +67,9 @@ public :
 	//PersonManager pmgr;
 
 	//PersonManager* pgmr = PersonManager::getInstance();
+	
+
+	
 	
 };
 

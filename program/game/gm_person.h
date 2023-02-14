@@ -7,8 +7,8 @@
 class Person {
 public:
 	
-	Person(int hp, int hpmax, int cost,int costmax, int speed)
-	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed) {}
+	Person(int hp, int hpmax, int cost, int costmax, int speed, bool pick)
+	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed),PICK(pick) {}
 
 	//テストステータス
 	int HP; //HP
@@ -16,7 +16,7 @@ public:
 	int COST; //コスト
 	int COSTMAX; //最大コスト
 	int SPEED; //ターン順位に使用する素早さ
-
+	bool PICK = false;
 
 	
 	std::vector<Card*> deck; //山札
