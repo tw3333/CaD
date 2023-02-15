@@ -27,6 +27,8 @@ public:
 
 	void PickCheck(int pick1, int pick2, int pick3, int pick_chara);
 
+	//remake
+	void DrawDungeonWindow(bool f);
 	
 
 	std::vector<std::vector<std::string>> dungeon;
@@ -104,8 +106,22 @@ private:
 	//画像ハンドル用
 	int s_guild_tile = 0;
 
+	//カラーコード
 	int gray = GetColor(211,211,211);
 	int gray2 = GetColor(128, 128, 128);
 	int black = GetColor(50,50,50);
+	int white = GetColor(255,255,255);
+
+	//remake
+	//どのWindowが選択されているかのフラグ
+	bool dungeonWindow = false;
+	bool charaWindow = false;
+	bool libraryWindow = false;
+	bool shopWindow = false;
+	bool guildWindow = false;
+
+
+
+
 
 };

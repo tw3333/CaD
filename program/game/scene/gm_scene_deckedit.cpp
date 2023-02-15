@@ -241,6 +241,7 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 
 	//if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+		
 		PushCheck = true;
 
 		c1deck_count += 1;

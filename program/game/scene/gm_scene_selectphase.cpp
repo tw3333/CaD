@@ -25,6 +25,8 @@ void SceneSelectPhase::initialzie() {
 	cmgr->LoadCardGraph();
 	cmgr->SortJobCard();
 
+	dungeonWindow = true; //最初はダンジョンWindow表示
+
 }
 
 
@@ -57,107 +59,111 @@ void SceneSelectPhase::update(float delta_time) {
 
 void SceneSelectPhase::render() {
 
-	//UI描写
-	DrawExtendGraph(0,0,width1*10,height1*10,background,false);
-	DrawBox(0, 0, width1 * 10, height1 * 1, gray, true);
-	DrawExtendGraph(0, 0, width1 * 2, height1 * 1, s_guild_tile, false);
+	////UI描写
+	//DrawExtendGraph(0,0,width1*10,height1*10,background,false);
+	//DrawBox(0, 0, width1 * 10, height1 * 1, gray, true);
+	//DrawExtendGraph(0, 0, width1 * 2, height1 * 1, s_guild_tile, false);
 
-	DrawBox(0,height1*9,width1*10,height1*10,gray,true);
+	//DrawBox(0,height1*9,width1*10,height1*10,gray,true);
 
-	//DrawBox(0, 0, width1 * 3, height1 * 10, 0, true);
+	////DrawBox(0, 0, width1 * 3, height1 * 10, 0, true);
 
-	DrawTab(0, 1, 3, 2, select_dungeon);
-	DrawTab(0, 2, 3, 3, select_chara);
-	DrawTab(0, 3, 3, 4, select_party);
+	//DrawTab(0, 1, 3, 2, select_dungeon);
+	//DrawTab(0, 2, 3, 3, select_chara);
+	//DrawTab(0, 3, 3, 4, select_party);
 
-	DrawTab(0, 4, 3, 5, select_tab);
-	/*drawTab(0, 5, 3, 6, select_tab);
-	drawTab(0, 6, 3, 7, select_tab);
-	drawTab(0, 7, 3, 8, select_tab);
-	drawTab(0, 8, 3, 9, select_tab);
-	drawTab(0, 9, 3, 10, select_tab);*/
-
-
-	DrawTab(0, 1 + flame_move, 3, 2 + flame_move, select_flame);
-	//drawTab(0,1,3,2,select_);
-
-	if (select_dungeon_tab) {
-		//DrawExtendGraph(width1 * 3, height1 * 1, width1 * 7, height1 * 10, select_tab, false);
-
-		DrawBox(width1 * 3, height1 * 1, width1 * 7, height1 * 10, gray2, true);
-
-		DrawExtendGraph(width1 * 4, height1 * 1, width1 * 6, height1 * 2, dungeon_1, true);
-		DrawExtendGraph(width1 * 4, height1 * 2, width1 * 6, height1 * 3, dungeon_2, true);
-		DrawExtendGraph(width1 * 4, height1 * 3, width1 * 6, height1 * 4, dungeon_3, true);
-		DrawExtendGraph(width1 * 4, height1 * 4, width1 * 6, height1 * 5, dungeon_4, true);
-		DrawExtendGraph(width1 * 4, height1 * 5, width1 * 6, height1 * 6, dungeon_5, true);
-		DrawExtendGraph(width1 * 4, height1 * 7, width1 * 6, height1 * 7, dungeon_6, true);
-
-		DrawExtendGraph(width1 * 4, height1 * (1 + dun_flame_move), width1 * 6, height1 * (2 + dun_flame_move), dungeon_select_flame, true);
-
-		DrawBox(width1 * 7, height1 * 1, width1 * 10, height1 * 10, black, true);
-
-		if (dun_flame_move == 0) {
-			DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン１");
-			DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★☆☆☆☆");
-		}
-
-		if (dun_flame_move == 1) {
-			DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン２");
-			DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★☆☆☆");
-		}
-		if (dun_flame_move == 2) {
-			DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン３");
-			DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★☆☆");
-		}
-		if (dun_flame_move == 3) {
-			DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン４");
-			DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★★☆");
-		}
-
-		if (dun_flame_move == 4) {
-			DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン５");
-			DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★★★");
-		}
-	}
-
-	if (select_party_tab) {
-		
-		DrawBox(width1 * 3, height1 * 1, width1 * 10, height1 * 10, gray2, true);
-		DrawGraph(width1 * 4, height1 * 1 + (height1 / 2), member_img, true);
-		DrawGraph(width1 * 4, height1 * 2, x2y1_flame_B, true);
-
-		//選ばれたキャラ描写
-		//pickCheck(pick_chara1, pick_chara2, pick_chara3, pick);
-		DrawExtendGraph(width1 * 4, height1 * 2,width1*6,height1*3, pick_chara1, false);
-		DrawExtendGraph(width1 * 4, height1 * 3,width1*6,height1*4, pick_chara2, false);
-		DrawExtendGraph(width1 * 4, height1 * 4,width1*6,height1*5, pick_chara3, false);
-
-		DrawGraph(width1 * 4, height1 * 2, x2y1_flame_1, true);
-		DrawGraph(width1 * 4, height1 * 3, x2y1_flame_2, true);
-		DrawGraph(width1 * 4, height1 * 4, x2y1_flame_3, true);
+	//DrawTab(0, 4, 3, 5, select_tab);
+	///*drawTab(0, 5, 3, 6, select_tab);
+	//drawTab(0, 6, 3, 7, select_tab);
+	//drawTab(0, 7, 3, 8, select_tab);
+	//drawTab(0, 8, 3, 9, select_tab);
+	//drawTab(0, 9, 3, 10, select_tab);*/
 
 
-		DrawExtendGraph(width1 * 7, height1 * 2, width1 * 9, height1 * 3, chara01, false);
-		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 9, height1 * 4, chara02, false);
-		DrawExtendGraph(width1 * 7, height1 * 4, width1 * 9, height1 * 5, chara03, false);
-		DrawExtendGraph(width1 * 7, height1 * 5, width1 * 9, height1 * 6, chara04, false);
-		DrawGraph(width1 * 7, height1 * (2 + p_flame_move), x2y1_flame_R, true);
+	//DrawTab(0, 1 + flame_move, 3, 2 + flame_move, select_flame);
+	////drawTab(0,1,3,2,select_);
 
-		DrawBox(width1*3,height1*7,width1*10,height1*10,10,true);
+	//if (select_dungeon_tab) {
+	//	//DrawExtendGraph(width1 * 3, height1 * 1, width1 * 7, height1 * 10, select_tab, false);
 
-		DrawStringEx(width1 * 3, height1 * 7, -1, "[z]:全て取り消し　[x]:選択");
-		DrawStringEx(width1 * 3, height1 * 7 + 30, -1, "３人をパーティ編成してください");
+	//	DrawBox(width1 * 3, height1 * 1, width1 * 7, height1 * 10, gray2, true);
 
-		//DrawExtendGraph();
+	//	DrawExtendGraph(width1 * 4, height1 * 1, width1 * 6, height1 * 2, dungeon_1, true);
+	//	DrawExtendGraph(width1 * 4, height1 * 2, width1 * 6, height1 * 3, dungeon_2, true);
+	//	DrawExtendGraph(width1 * 4, height1 * 3, width1 * 6, height1 * 4, dungeon_3, true);
+	//	DrawExtendGraph(width1 * 4, height1 * 4, width1 * 6, height1 * 5, dungeon_4, true);
+	//	DrawExtendGraph(width1 * 4, height1 * 5, width1 * 6, height1 * 6, dungeon_5, true);
+	//	DrawExtendGraph(width1 * 4, height1 * 7, width1 * 6, height1 * 7, dungeon_6, true);
 
-	}
+	//	DrawExtendGraph(width1 * 4, height1 * (1 + dun_flame_move), width1 * 6, height1 * (2 + dun_flame_move), dungeon_select_flame, true);
+
+	//	DrawBox(width1 * 7, height1 * 1, width1 * 10, height1 * 10, black, true);
+
+	//	if (dun_flame_move == 0) {
+	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン１");
+	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★☆☆☆☆");
+	//	}
+
+	//	if (dun_flame_move == 1) {
+	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン２");
+	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★☆☆☆");
+	//	}
+	//	if (dun_flame_move == 2) {
+	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン３");
+	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★☆☆");
+	//	}
+	//	if (dun_flame_move == 3) {
+	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン４");
+	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★★☆");
+	//	}
+
+	//	if (dun_flame_move == 4) {
+	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン５");
+	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★★★");
+	//	}
+	//}
+
+	//if (select_party_tab) {
+	//	
+	//	DrawBox(width1 * 3, height1 * 1, width1 * 10, height1 * 10, gray2, true);
+	//	DrawGraph(width1 * 4, height1 * 1 + (height1 / 2), member_img, true);
+	//	DrawGraph(width1 * 4, height1 * 2, x2y1_flame_B, true);
+
+	//	//選ばれたキャラ描写
+	//	//pickCheck(pick_chara1, pick_chara2, pick_chara3, pick);
+	//	DrawExtendGraph(width1 * 4, height1 * 2,width1*6,height1*3, pick_chara1, false);
+	//	DrawExtendGraph(width1 * 4, height1 * 3,width1*6,height1*4, pick_chara2, false);
+	//	DrawExtendGraph(width1 * 4, height1 * 4,width1*6,height1*5, pick_chara3, false);
+
+	//	DrawGraph(width1 * 4, height1 * 2, x2y1_flame_1, true);
+	//	DrawGraph(width1 * 4, height1 * 3, x2y1_flame_2, true);
+	//	DrawGraph(width1 * 4, height1 * 4, x2y1_flame_3, true);
 
 
-	DrawStringEx(850, 50, -1, "scene selectphase");
-	DrawStringEx(width1 * 0, height1 * 4, 100, "[space]:決定　[C]:戻る");
-	DrawStringEx(width1 * 0, height1 * 4 + 50, 100, "[↑↓]：ウエ/シタ");
+	//	DrawExtendGraph(width1 * 7, height1 * 2, width1 * 9, height1 * 3, chara01, false);
+	//	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 9, height1 * 4, chara02, false);
+	//	DrawExtendGraph(width1 * 7, height1 * 4, width1 * 9, height1 * 5, chara03, false);
+	//	DrawExtendGraph(width1 * 7, height1 * 5, width1 * 9, height1 * 6, chara04, false);
+	//	DrawGraph(width1 * 7, height1 * (2 + p_flame_move), x2y1_flame_R, true);
 
+	//	DrawBox(width1*3,height1*7,width1*10,height1*10,10,true);
+
+	//	DrawStringEx(width1 * 3, height1 * 7, -1, "[z]:全て取り消し　[x]:選択");
+	//	DrawStringEx(width1 * 3, height1 * 7 + 30, -1, "３人をパーティ編成してください");
+
+	//	//DrawExtendGraph();
+
+	//}
+
+
+	//DrawStringEx(850, 50, -1, "scene selectphase");
+	//DrawStringEx(width1 * 0, height1 * 4, 100, "[space]:決定　[C]:戻る");
+	//DrawStringEx(width1 * 0, height1 * 4 + 50, 100, "[↑↓]：ウエ/シタ");
+	
+	
+	DrawBox(0,0,width1*10,height1*10,white,true);
+
+	DrawDungeonWindow(dungeonWindow);
 
 	//アタリ線
 	for (int i = 0; i < 10; ++i) {
@@ -396,4 +402,25 @@ void SceneSelectPhase::PickCheck(int pick1,int pick2, int pick3, int pick_chara)
 		pick3 = pick_chara;
 	}
 
+}
+
+void SceneSelectPhase::DrawDungeonWindow(bool f) {
+
+	if (f) {
+
+		DrawBox(0,0,width1*2,height1*1,gray2,true);
+
+		DrawBox(10,height1*1 + 10,width1*2 -10,height1*2 + 10,gray2,true);
+		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 -10 , height1 * 3 + 10 + 10 , gray2, true);
+
+		DrawBox(width1 * 2 +10, height1 * 1 + 10,width1*10 - 10,height1*10 -10,gray2,true);
+
+
+
+
+
+
+
+
+	}
 }
