@@ -57,14 +57,6 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::getInstance();
 
-	//getter 
-	bool GetEditChara1Bool()  { return edit_chara1; }
-	bool GetEditChara2Bool()  { return edit_chara2; }
-	bool GetEditChara3Bool()  { return edit_chara3; }
-	bool GetEditChara4Bool()  { return edit_chara4; }
-
-	//setter
-	void SetEditChara1Bool(bool f) { edit_chara1 = f; }
 
 
 private:
@@ -132,8 +124,10 @@ private:
 	int s_guild_tile = 0;
 
 	//カラーコード
+	//int black = GetColor(30,30,30);
 	int gray = GetColor(211,211,211);
 	int gray2 = GetColor(128, 128, 128);
+
 	int dimGray = GetColor(105,105,105);
 	int darkGray = GetColor(169,169,169);
 
@@ -161,12 +155,6 @@ private:
 
 	bool tab1_cw = false;
 
-
-	bool edit_chara1;
-	bool edit_chara2;
-	bool edit_chara3;
-	bool edit_chara4;
-
-
+	bool d = false;
 
 };

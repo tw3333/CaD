@@ -7,7 +7,7 @@
 #include "gm_scene_deckedit.h"
 #include "../gm_person_manager.h"
 
-
+#include "DxLib.h"
 
 void SceneSelectPhase::initialzie() {
 
@@ -45,7 +45,7 @@ void SceneSelectPhase::initialzie() {
 
 void SceneSelectPhase::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
-	
+
 
 	//シーン遷移
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
@@ -61,7 +61,7 @@ void SceneSelectPhase::update(float delta_time) {
 	//}
 
 
-	
+
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
 	//	mgr->chengeScene(new SceneDeckEdit());
 	//}
@@ -69,7 +69,9 @@ void SceneSelectPhase::update(float delta_time) {
 	//マウスの座標を引数に取得
 	GetMousePoint(&MouseX, &MouseY);
 
-	
+	int count;
+	count = GetNowCount();
+
 
 
 	//Windowをマウスで選択
@@ -81,15 +83,26 @@ void SceneSelectPhase::update(float delta_time) {
 	OpCharaWindow(charaWindow, MouseX, MouseY);
 
 	//各タブをフラグで管理するオペレーター関数
-	
-	
+
+
 	//TODO 
 	//OpCharaWindowないでこのコードが動かないのでここで書いている
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
-	
+
 		if (charaWindow && 10 < MouseX && MouseX < width1 * 2 - 10 && height1 * 2 + 10 + 10 < MouseY && MouseY < height1 * 3 + 10 + 10) {
 			mgr->chengeScene(new SceneDeckEdit());
 		}
+
+	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+		if (d == false) {
+			d = true;
+		}
+		else if (d == true) {
+			d = false;
+		}
+
 
 	}
 
@@ -198,9 +211,9 @@ void SceneSelectPhase::render() {
 	//DrawStringEx(850, 50, -1, "scene selectphase");
 	//DrawStringEx(width1 * 0, height1 * 4, 100, "[space]:決定　[C]:戻る");
 	//DrawStringEx(width1 * 0, height1 * 4 + 50, 100, "[↑↓]：ウエ/シタ");
-	
-	
-	DrawBox(0,0,width1*10,height1*10,white,true);
+
+
+	DrawBox(0, 0, width1 * 10, height1 * 10, white, true);
 
 	DrawDungeonWindow(dungeonWindow);
 	DrawCharaWindow(charaWindow);
@@ -208,17 +221,21 @@ void SceneSelectPhase::render() {
 	DrawShopWindow(shopWindow);
 	DrawGuildWindow(guildWindow);
 
-	DrawStringEx(0,0,1,"dungeon");
-	DrawStringEx(width1*2, 0, 1, "chara");
-	DrawStringEx(width1*4, 0, 1, "guild(未実装)");
-	DrawStringEx(width1*6, 0, 1, "shop(未実装)");
-	DrawStringEx(width1*8, 0, 1, "souko(未実装)");
+	DrawStringEx(0, 0, 1, "dungeon");
+	DrawStringEx(width1 * 2, 0, 1, "chara");
+	DrawStringEx(width1 * 4, 0, 1, "guild(未実装)");
+	DrawStringEx(width1 * 6, 0, 1, "shop(未実装)");
+	DrawStringEx(width1 * 8, 0, 1, "souko(未実装)");
 
-	//アタリ線
-	for (int i = 0; i < 10; ++i) {
-		DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
-		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
+
+	if (d) {
+		//アタリ線
+		for (int i = 0; i < 10; ++i) {
+			DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
+			DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
+		}
 	}
+
 }
 
 
@@ -346,74 +363,26 @@ void SceneSelectPhase::DrawTab(int x, int y, int x2, int y2, int load) {
 //	
 //}
 
-//ロード関数
-void SceneSelectPhase::LoadSelectPhaseGraph() {
-	
-	background = LoadGraph("graphics/select_back.jpg");
-	s_guild_tile = LoadGraph("graphics/s_guild_tile.png");
 
-	select_tab = LoadGraph("graphics/selectphase_selectflame.png");
-	select_chara = LoadGraph("graphics/selectphase_selectflame_chara.png");
-	select_dungeon = LoadGraph("graphics/selectphase_selectflame_dungeon.png");
-	select_party = LoadGraph("graphics/selectphase_selectflame_party.png");
-	select_flame = LoadGraph("graphics/selectphase_selectflame_red.png");
-
-	dungeon_1 = LoadGraph("graphics/dungeon_1.png");
-	dungeon_2 = LoadGraph("graphics/dungeon_2.png");
-	dungeon_3 = LoadGraph("graphics/dungeon_3.png");
-	dungeon_4 = LoadGraph("graphics/dungeon_4.png");
-	dungeon_5 = LoadGraph("graphics/dungeon_5.png");
-	dungeon_6 = LoadGraph("graphics/dungeon_6.png");
-	dungeon_select_flame = LoadGraph("graphics/dungeon_select_flame.png");
-
-	member_img = LoadGraph("graphics/member.png");
-	x2y1_flame_B = LoadGraph("graphics/x2y1_flame_B.png");
-	x2y1_flame_1 = LoadGraph("graphics/x2_y1_flame_1.png");
-	x2y1_flame_2 = LoadGraph("graphics/x2_y1_flame_2.png");
-	x2y1_flame_3 = LoadGraph("graphics/x2_y1_flame_3.png");
-
-	x2y1_flame_R = LoadGraph("graphics/x2_y1_flame_R.png");
-	chara01 = LoadGraph("graphics/chara1_face.png");
-	chara02 = LoadGraph("graphics/chara2_face.png");
-	chara03 = LoadGraph("graphics/chara3_face.png");
-	chara04 = LoadGraph("graphics/chara4_face.png");
-
-}
-
-//キャラ選択描写用関数
-void SceneSelectPhase::PickCheck(int pick1,int pick2, int pick3, int pick_chara) {
-	
-	if (pick1 == 0) {
-		pick1 = pick_chara;
-		
-	}
-	else if(pick1 != 0 && pick2 == 0) {
-		pick2 = pick_chara;
-	}
-	else if (pick1 != 0 && pick2 != 0 && pick3 == 0) {
-		pick3 = pick_chara;
-	}
-
-}
 
 void SceneSelectPhase::DrawDungeonWindow(bool f) {
 
 	if (f) {
 
-		DrawBox(0,0,width1*2,height1*1,gray,true);
+		DrawBox(0, 0, width1 * 2, height1 * 1, gray, true);
 
-		DrawBox(10,height1*1 + 10,width1*2 -10,height1*2 + 10,gray2,true);
-		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 -10 , height1 * 3 + 10 + 10 , gray2, true);
+		DrawBox(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, gray2, true);
+		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2, height1 * 3 + 10 + 10, gray2, true);
 
 
-		DrawStringEx(10, height1 * 1 + 10,1,"dungeon");
+		DrawStringEx(10, height1 * 1 + 10, 1, "dungeon");
 		DrawStringEx(10, height1 * 2 + 10 + 10, 1, "party編成");
 
 
 		if (tab1_dw) {
 
 			DrawBox(width1 * 2 + 10, height1 * 1 + 10, width1 * 10 - 10, height1 * 10 - 10, gray2, true);
-			DrawStringEx(width1 * 2 + 10, height1 * 1 + 10,1,"tab1");
+			DrawStringEx(width1 * 2 + 10, height1 * 1 + 10, 1, "tab1");
 
 
 		}
@@ -421,7 +390,32 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 		if (tab2_dw) {
 
 			DrawBox(width1 * 2 + 10, height1 * 1 + 10, width1 * 10 - 10, height1 * 10 - 10, gray2, true);
+
+			DrawBox(width1 * 5, height1 * 1 + 20, width1 * 10 - 20, height1 * 10 - 20, black, true);
+
+			DrawBox(width1 * 5 + 50, height1 * 1 + 40, width1 * 7 + 50, height1 * 2 + 40, gray, true);
+			DrawBox(width1 * 7 + 50 + 50, height1 * 1 + 40, width1 * 9 + 50 + 50, height1 * 2 + 40, gray, true);
+			DrawBox(width1 * 5 + 50, height1 * 2 + 100, width1 * 7 + 50, height1 * 3 + 100, gray, true);
+			DrawBox(width1 * 7 + 50 + 50, height1 * 2 + 100, width1 * 9 + 50 + 50, height1 * 3 + 100, gray, true);
+
+
+
+
+			DrawBox(width1 * 2 + 80, height1 * 1 + 40, width1 * 4 + 80, height1 * 2 + 40, gray, true);
+			DrawBox(width1 * 2 + 80, height1 * 2 + 40 + 60, width1 * 4 + 80, height1 * 3 + 40 + 60, gray, true);
+			DrawBox(width1 * 2 + 80, height1 * 3 + 40 + 120, width1 * 4 + 80, height1 * 4 + 40 + 120, gray, true);
+
+
+
 			DrawStringEx(width1 * 2 + 10, height1 * 1 + 10, 1, "tab2");
+			DrawStringEx(width1 * 5 + 50, height1 * 1 + 40, 1, "chara1");
+			DrawStringEx(width1 * 7 + 100, height1 * 1 + 40, 1, "chara2");
+			DrawStringEx(width1 * 5 + 50, height1 * 2 + 100, 1, "chara3");
+			DrawStringEx(width1 * 7 + 100, height1 * 2 + 100, 1, "chara4");
+
+			DrawStringEx(width1 * 2 + 80, height1 * 6, 1, "クリックで上から決定");
+			DrawStringEx(width1 * 2 + 80, height1 * 6 + 20, 1, "[Z]:取り消し");
+			//DrawStringEx(width1*2 + 80, );
 
 
 		}
@@ -433,14 +427,14 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 void SceneSelectPhase::DrawCharaWindow(bool f) {
 
 	if (f) {
-		
-		DrawBox(width1*2, 0, width1 * 4, height1 * 1, gray, true);
 
-		DrawBox(10, height1 * 1 + 10, width1 * 2 - 10, height1 * 2 + 10, gray2, true);
-		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 - 10, height1 * 3 + 10 + 10, gray2, true); //deck
-		DrawBox(10, height1 * 3 + 10 + 20, width1 * 2 - 10, height1 * 4 + 10 + 20, gray2, true); //skill
-		DrawBox(10, height1 * 4 + 10 + 30, width1 * 2 - 10, height1 * 5 + 10 + 30, gray2, true); //soubi
-		DrawBox(10, height1 * 5 + 10 + 40, width1 * 2 - 10, height1 * 6 + 10 + 40, gray2, true); //item
+		DrawBox(width1 * 2, 0, width1 * 4, height1 * 1, gray, true);
+
+		DrawBox(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, gray2, true); //chara
+		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2, height1 * 3 + 10 + 10, gray2, true); //deck
+		DrawBox(10, height1 * 3 + 10 + 20, width1 * 2, height1 * 4 + 10 + 20, gray2, true); //skill
+		DrawBox(10, height1 * 4 + 10 + 30, width1 * 2, height1 * 5 + 10 + 30, gray2, true); //soubi
+		DrawBox(10, height1 * 5 + 10 + 40, width1 * 2, height1 * 6 + 10 + 40, gray2, true); //item
 
 
 		if (tab1_cw) {
@@ -453,7 +447,7 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 			DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
 			DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
 
-			DrawStringEx(width1 * 2 + 100, height1 * 1 + 40,1,"chara1");
+			DrawStringEx(width1 * 2 + 100, height1 * 1 + 40, 1, "chara1");
 			DrawStringEx(width1 * 4 + 100 + 50, height1 * 1 + 40, 1, "chara2(未実装)");
 			DrawStringEx(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, 1, "chara3");
 			DrawStringEx(width1 * 2 + 100, height1 * 2 + 100, 1, "chara4");
@@ -461,7 +455,8 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		}
 
 		if (pmgr->person1->EDIT == true) {
-			DrawStringEx(10, height1 * 1 + 10,1,"Chara1");
+			DrawStringEx(10, height1 * 1 + 10, 1, "Chara1");
+
 		}
 		if (pmgr->person2->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2(未実装)");
@@ -474,7 +469,7 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		}
 
 
-		DrawStringEx(10, height1 * 2 + 10 + 10,1,"deck");
+		DrawStringEx(10, height1 * 2 + 10 + 10, 1, "deck");
 		DrawStringEx(10, height1 * 3 + 10 + 20, 1, "skill(未実装)");
 		DrawStringEx(10, height1 * 4 + 10 + 30, 1, "soubi(未実装)");
 		DrawStringEx(10, height1 * 5 + 10 + 40, 1, "item(未実装)");
@@ -486,11 +481,11 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 void SceneSelectPhase::DrawGuildWindow(bool f) {
 
 	if (f) {
-		
+
 		DrawBox(width1 * 4, 0, width1 * 6, height1 * 1, gray, true);
 		//DrawBox(width1 * 4, 0,1,"");
 	}
-	
+
 
 
 }
@@ -512,14 +507,15 @@ void SceneSelectPhase::DrawStorageWindow(bool f) {
 
 
 }
+
 void SceneSelectPhase::SelectMouseWindow(int mx, int my) {
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
-		if (0 < mx && mx < width1* 2 && 0 < my && my < height1*1) {
-			
+		if (0 < mx && mx < width1 * 2 && 0 < my && my < height1 * 1) {
+
 			dungeonWindow = true;
-			
+
 			charaWindow = false;
 			storageWindow = false;
 			shopWindow = false;
@@ -527,7 +523,7 @@ void SceneSelectPhase::SelectMouseWindow(int mx, int my) {
 
 		}
 
-		if (width1*2 < mx && mx < width1 * 4 && 0 < my && my < height1*1) {
+		if (width1 * 2 < mx && mx < width1 * 4 && 0 < my && my < height1 * 1) {
 
 			charaWindow = true;
 
@@ -575,7 +571,7 @@ void SceneSelectPhase::SelectMouseWindow(int mx, int my) {
 	}
 }
 
-void SceneSelectPhase::OpDungeonWindow(bool f, int mx , int my) {
+void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 	if (f) {
 
@@ -594,6 +590,27 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx , int my) {
 
 			}
 
+			if (tab2_dw) {
+
+				if (width1 * 5 + 50 < mx && mx < width1 * 7 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+					pmgr->person1->PICK = true;
+				}
+
+				if (width1 * 7 + 100 < mx && mx < width1 * 9 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+					pmgr->person2->PICK = true;
+				}
+
+				if (width1 * 5 + 50 < mx && mx < width1 * 7 + 50 && height1 * 2 + 100 < my && my < height1 * 3 + 100) {
+					pmgr->person3->PICK = true;
+				}
+
+				if (width1 * 7 + 100 < mx && mx < width1 * 9 + 100 && height1 * 2 + 100 < my && my < height1 * 3 + 100) {
+					pmgr->person4->PICK = true;
+				}
+
+			}
+
+
 		}
 
 
@@ -611,7 +628,7 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 	if (f) {
 
-		if(tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+		if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
 			if (10 < mx && mx < width1 * 2 - 10 && height1 * 1 + 10 < my && my < height1 * 2 + 10) {
 
@@ -621,21 +638,22 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 			if (10 < mx && mx < width1 * 2 - 10 && height1 * 2 + 10 + 10 < my && my < height1 * 3 + 10 + 10) {
 
-		
+
 			}
 
-			
+
 			if (tab1_cw) {
 
 				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
-				
+
 					pmgr->person1->EDIT = true;
 
 					pmgr->person2->EDIT = false;
 					pmgr->person3->EDIT = false;
 					pmgr->person4->EDIT = false;
 
+					tab1_cw = false;
 				}
 
 				if (width1 * 4 + 100 + 50 < mx && mx < width1 * 6 + 100 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
@@ -647,7 +665,7 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 					pmgr->person3->EDIT = false;
 					pmgr->person4->EDIT = false;
 
-
+					tab1_cw = false;
 				}
 
 				if (width1 * 6 + 200 < mx && mx < width1 * 8 + 200 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
@@ -658,26 +676,27 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 					pmgr->person2->EDIT = false;
 					pmgr->person4->EDIT = false;
 
-
+					tab1_cw = false;
 				}
 
 				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 2 + 40 + 60 < my && my < height1 * 3 + 40 + 60) {
-					
+
 					pmgr->person4->EDIT = true;
 
 					pmgr->person1->EDIT = false;
 					pmgr->person2->EDIT = false;
 					pmgr->person3->EDIT = false;
 
+					tab1_cw = false;
 				}
 
-	
+
 			}
-		
+
 		}
 
-		
-		
+
+
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Q)) {
 
 			tab1_cw = false;
@@ -686,5 +705,42 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 	}
 
+
+}
+
+
+
+
+
+void SceneSelectPhase::LoadSelectPhaseGraph() {
+
+	background = LoadGraph("graphics/select_back.jpg");
+	s_guild_tile = LoadGraph("graphics/s_guild_tile.png");
+
+	select_tab = LoadGraph("graphics/selectphase_selectflame.png");
+	select_chara = LoadGraph("graphics/selectphase_selectflame_chara.png");
+	select_dungeon = LoadGraph("graphics/selectphase_selectflame_dungeon.png");
+	select_party = LoadGraph("graphics/selectphase_selectflame_party.png");
+	select_flame = LoadGraph("graphics/selectphase_selectflame_red.png");
+
+	dungeon_1 = LoadGraph("graphics/dungeon_1.png");
+	dungeon_2 = LoadGraph("graphics/dungeon_2.png");
+	dungeon_3 = LoadGraph("graphics/dungeon_3.png");
+	dungeon_4 = LoadGraph("graphics/dungeon_4.png");
+	dungeon_5 = LoadGraph("graphics/dungeon_5.png");
+	dungeon_6 = LoadGraph("graphics/dungeon_6.png");
+	dungeon_select_flame = LoadGraph("graphics/dungeon_select_flame.png");
+
+	member_img = LoadGraph("graphics/member.png");
+	x2y1_flame_B = LoadGraph("graphics/x2y1_flame_B.png");
+	x2y1_flame_1 = LoadGraph("graphics/x2_y1_flame_1.png");
+	x2y1_flame_2 = LoadGraph("graphics/x2_y1_flame_2.png");
+	x2y1_flame_3 = LoadGraph("graphics/x2_y1_flame_3.png");
+
+	x2y1_flame_R = LoadGraph("graphics/x2_y1_flame_R.png");
+	chara01 = LoadGraph("graphics/chara1_face.png");
+	chara02 = LoadGraph("graphics/chara2_face.png");
+	chara03 = LoadGraph("graphics/chara3_face.png");
+	chara04 = LoadGraph("graphics/chara4_face.png");
 
 }
