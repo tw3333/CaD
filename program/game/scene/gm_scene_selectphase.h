@@ -31,12 +31,12 @@ public:
 	//各画面の描写用関数
 	void DrawDungeonWindow(bool f);
 	void DrawCharaWindow(bool f);
-	void DrawLibraryWindow(bool f);
+	void DrawStorageWindow(bool f);
 	void DrawShopWindow(bool f);
 	void DrawGuildWindow(bool f);
 
 	//各画面の操作（クリックなど）の関数
-	void OpDungeonWindow(bool f);
+	void OpDungeonWindow(bool f, int mx, int my);
 	void OpCharaWindow(bool f,int mx, int my);
 	void OpLibraryWindow(bool f);
 	void OpShopWindow(bool f);
@@ -135,13 +135,17 @@ private:
 	//どのWindowが選択されているかのフラグ
 	bool dungeonWindow = false;
 	bool charaWindow = false;
-	bool libraryWindow = false;
+	bool storageWindow = false;
 	bool shopWindow = false;
 	bool guildWindow = false;
 
 
 	int MouseX = 0;
 	int MouseY = 0;
+
+
+	bool tab1_dw = false;
+	bool tab2_dw = false;
 
 	bool tab1_cw = false;
 
