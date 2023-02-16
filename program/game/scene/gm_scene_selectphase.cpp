@@ -25,8 +25,8 @@ void SceneSelectPhase::initialzie() {
 	cmgr->LoadCardGraph();
 	cmgr->SortJobCard();
 
-	dungeonWindow = true; //最初はダンジョンWindow表示
-
+	//dungeonWindow = true; //最初はダンジョンWindow表示
+	charaWindow = true;
 }
 
 
@@ -49,6 +49,17 @@ void SceneSelectPhase::update(float delta_time) {
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && flame_move == 1) {
 		mgr->chengeScene(new SceneDeckEdit());
 	}
+
+	//マウスの座標を引数に取得
+	GetMousePoint(&MouseX, &MouseY);
+
+	//Windowをマウスで選択
+	SelectMouseWindow(MouseX, MouseY);
+
+
+
+
+	OpCharaWindow(charaWindow, MouseX, MouseY);
 
 	//各タブをフラグで管理するオペレーター関数
 	opTab(tab);
@@ -164,6 +175,12 @@ void SceneSelectPhase::render() {
 	DrawBox(0,0,width1*10,height1*10,white,true);
 
 	DrawDungeonWindow(dungeonWindow);
+	DrawCharaWindow(charaWindow);
+	DrawLibraryWindow(libraryWindow);
+	DrawShopWindow(shopWindow);
+	DrawGuildWindow(guildWindow);
+
+	
 
 	//アタリ線
 	for (int i = 0; i < 10; ++i) {
@@ -413,6 +430,8 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 		DrawBox(10,height1*1 + 10,width1*2 -10,height1*2 + 10,gray2,true);
 		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 -10 , height1 * 3 + 10 + 10 , gray2, true);
 
+
+
 		DrawBox(width1 * 2 +10, height1 * 1 + 10,width1*10 - 10,height1*10 -10,gray2,true);
 
 
@@ -423,4 +442,132 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 
 
 	}
+}
+
+void SceneSelectPhase::DrawCharaWindow(bool f) {
+
+	if (f) {
+		
+		DrawBox(width1*2, 0, width1 * 4, height1 * 1, gray, true);
+
+		DrawBox(10, height1 * 1 + 10, width1 * 2 - 10, height1 * 2 + 10, gray2, true);
+		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 - 10, height1 * 3 + 10 + 10, gray2, true);
+
+		if (tab1_cw) {
+
+			
+	
+
+			DrawBox(width1 * 2 + 10, height1 * 1 + 10, width1 * 10 - 10, height1 * 10 - 10, gray2, true);
+
+			DrawBox(width1 * 2 + 40, height1 * 1 + 40, width1 * 4 + 40, height1 * 2 + 40, gray, true);
+
+		}
+
+	}
+
+}
+
+void SceneSelectPhase::DrawGuildWindow(bool f) {
+
+
+}
+
+void SceneSelectPhase::DrawShopWindow(bool f) {
+
+
+}
+
+void SceneSelectPhase::DrawLibraryWindow(bool f) {
+
+
+}
+void SceneSelectPhase::SelectMouseWindow(int mx, int my) {
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+
+		if (0 < mx && mx < width1* 2 && 0 < my && my < height1*1) {
+			
+			dungeonWindow = true;
+			
+			charaWindow = false;
+			libraryWindow = false;
+			shopWindow = false;
+			guildWindow = false;
+
+		}
+
+		if (width1*2 < mx && mx < width1 * 4 && 0 < my && my < height1*1) {
+
+			charaWindow = true;
+
+			dungeonWindow = false;
+			libraryWindow = false;
+			shopWindow = false;
+			guildWindow = false;
+
+		}
+
+		if (width1 * 4 < mx && mx < width1 * 6 && 0 < my && my < height1 * 1) {
+
+			guildWindow = true;
+
+			dungeonWindow = false;
+			charaWindow = false;
+			libraryWindow = false;
+			shopWindow = false;
+
+		}
+
+		if (width1 * 6 < mx && mx < width1 * 8 && 0 < my && my < height1 * 1) {
+
+			shopWindow = true;
+
+			guildWindow = false;
+			dungeonWindow = false;
+			charaWindow = false;
+			libraryWindow = false;
+
+		}
+
+
+		if (width1 * 8 < mx && mx < width1 * 10 && 0 < my && my < height1 * 1) {
+
+			libraryWindow = true;
+
+			guildWindow = false;
+			dungeonWindow = false;
+			charaWindow = false;
+			shopWindow = false;
+
+		}
+
+	}
+}
+
+void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
+
+	if (f) {
+
+		if(tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+
+			if (10 < mx && mx < width1 * 2 - 10 && height1 * 1 + 10 < my && my < height1 * 2 + 10) {
+
+				tab1_cw = true;
+
+			}
+			
+		}
+
+		
+		
+		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Q)) {
+
+			tab1_cw = false;
+		}
+
+
+	}
+
+
 }

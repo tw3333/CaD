@@ -28,8 +28,21 @@ public:
 	void PickCheck(int pick1, int pick2, int pick3, int pick_chara);
 
 	//remake
+	//各画面の描写用関数
 	void DrawDungeonWindow(bool f);
-	
+	void DrawCharaWindow(bool f);
+	void DrawLibraryWindow(bool f);
+	void DrawShopWindow(bool f);
+	void DrawGuildWindow(bool f);
+
+	//各画面の操作（クリックなど）の関数
+	void OpDungeonWindow(bool f);
+	void OpCharaWindow(bool f,int mx, int my);
+	void OpLibraryWindow(bool f);
+	void OpShopWindow(bool f);
+	void OpGuildWindow(bool f);
+
+	void SelectMouseWindow(int mx, int my);
 
 	std::vector<std::vector<std::string>> dungeon;
 
@@ -109,8 +122,14 @@ private:
 	//カラーコード
 	int gray = GetColor(211,211,211);
 	int gray2 = GetColor(128, 128, 128);
+	int dimGray = GetColor(105,105,105);
+	int darkGray = GetColor(169,169,169);
+
+
 	int black = GetColor(50,50,50);
 	int white = GetColor(255,255,255);
+	int darkGreen = GetColor(0, 100, 0);
+	
 
 	//remake
 	//どのWindowが選択されているかのフラグ
@@ -121,7 +140,10 @@ private:
 	bool guildWindow = false;
 
 
+	int MouseX = 0;
+	int MouseY = 0;
 
+	bool tab1_cw = false;
 
 
 };
