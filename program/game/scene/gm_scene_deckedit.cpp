@@ -20,17 +20,25 @@ void SceneDeckEdit::initialzie() {
 	chara4_tab = false;
 	PushCheck = false;
 
+	SceneSelectPhase Sp;
+
+	d_select_chara1 = Sp.GetEditChara1Bool();
+	d_select_chara2 = Sp.GetEditChara2Bool();
+	d_select_chara3 = Sp.GetEditChara3Bool();
+	d_select_chara4 = Sp.GetEditChara4Bool();
+
+
 }
 
 void SceneDeckEdit::update(float delta_time) {
-	GameManager* mgr = GameManager::GetInstance();
+	//GameManager* mgr = GameManager::GetInstance();
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
-		mgr->chengeScene(new SceneSelectPhase());
+		gmgr->chengeScene(new SceneSelectPhase());
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_1)) {
-		mgr->chengeScene(new SceneBattle());
+		gmgr->chengeScene(new SceneBattle());
 	}
 
 
@@ -204,11 +212,22 @@ void SceneDeckEdit::DrawDeckZone() {
 
 void SceneDeckEdit::DrawListZone() {
 
-	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
-	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
-	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
-	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
-	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
+	
+
+	if (pmgr->person1->EDIT == true) {
+		DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
+		DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
+		DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
+		DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
+		DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
+
+	}
+	
+	//DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
+	//DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
+	//DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
+	//DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
+	//DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
 
 }
 

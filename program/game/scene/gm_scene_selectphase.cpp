@@ -34,11 +34,17 @@ void SceneSelectPhase::initialzie() {
 	shopWindow = false;
 	guildWindow = false;
 
+	edit_chara1 = true; //Å‰‚Íchara1•\Ž¦
+	edit_chara2 = false;
+	edit_chara3 = false;
+	edit_chara4 = false;
+
 }
 
 
 void SceneSelectPhase::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
+	
 
 	//ƒV[ƒ“‘JˆÚ
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
@@ -451,16 +457,16 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 
 		}
 
-		if (edit_chara1) {
+		if (pmgr->person1->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10,1,"Chara1");
 		}
-		if (edit_chara2) {
+		if (pmgr->person2->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2");
 		}
-		if (edit_chara3) {
+		if (pmgr->person3->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara3");
 		}
-		if (edit_chara4) {
+		if (pmgr->person4->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara4");
 		}
 
@@ -620,44 +626,45 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
-					edit_chara1 = true;
+				
+					pmgr->person1->EDIT = true;
 
-					edit_chara2 = false;
-					edit_chara3 = false;
-					edit_chara4 = false;
-
+					pmgr->person2->EDIT = false;
+					pmgr->person3->EDIT = false;
+					pmgr->person4->EDIT = false;
 
 				}
 
 				if (width1 * 4 + 100 + 50 < mx && mx < width1 * 6 + 100 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
-					edit_chara2 = true;
 
-					edit_chara1 = false;
-					edit_chara3 = false;
-					edit_chara4 = false;
-	
+					pmgr->person2->EDIT = true;
+
+					pmgr->person1->EDIT = false;
+					pmgr->person3->EDIT = false;
+					pmgr->person4->EDIT = false;
+
 
 				}
 
 				if (width1 * 6 + 200 < mx && mx < width1 * 8 + 200 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
-					edit_chara3 = true;
+					pmgr->person3->EDIT = true;
 
-					edit_chara1 = false;
-					edit_chara2 = false;
-					edit_chara4 = false;
+					pmgr->person1->EDIT = false;
+					pmgr->person2->EDIT = false;
+					pmgr->person4->EDIT = false;
 
 
 				}
 
 				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 2 + 40 + 60 < my && my < height1 * 3 + 40 + 60) {
 					
-					edit_chara4 = true;
-					
-					edit_chara1 = false;
-					edit_chara2 = false;
-					edit_chara3 = false;
+					pmgr->person4->EDIT = true;
+
+					pmgr->person1->EDIT = false;
+					pmgr->person2->EDIT = false;
+					pmgr->person3->EDIT = false;
 
 				}
 

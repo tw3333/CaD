@@ -8,7 +8,12 @@
 class SceneSelectPhase : public SceneBase {
 public:
 	
-	SceneSelectPhase() {}
+	SceneSelectPhase() {
+		edit_chara1 = false;
+		edit_chara2 = false;
+		edit_chara3 = false;
+		edit_chara4 = false;
+	}
 	~SceneSelectPhase(){}
 
 	void initialzie() override;
@@ -57,12 +62,13 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::getInstance();
 
-	//getter setter
-	bool GetEditChara1Bool() const { return edit_chara1; }
-	bool GetEditChara2Bool() const { return edit_chara2; }
-	bool GetEditChara3Bool() const { return edit_chara3; }
-	bool GetEditChara4Bool() const { return edit_chara4; }
+	//getter 
+	bool GetEditChara1Bool()  { return edit_chara1; }
+	bool GetEditChara2Bool()  { return edit_chara2; }
+	bool GetEditChara3Bool()  { return edit_chara3; }
+	bool GetEditChara4Bool()  { return edit_chara4; }
 
+	//setter
 	void SetEditChara1Bool(bool f) { edit_chara1 = f; }
 
 
@@ -161,10 +167,10 @@ private:
 	bool tab1_cw = false;
 
 
-	bool edit_chara1 = false;
-	bool edit_chara2 = false;
-	bool edit_chara3 = false;
-	bool edit_chara4 = false;
+	bool edit_chara1;
+	bool edit_chara2;
+	bool edit_chara3;
+	bool edit_chara4;
 
 
 

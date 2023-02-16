@@ -6,6 +6,7 @@
 
 #include <array>
 
+#include "../gm_person_manager.h"
 
 class SceneDeckEdit : public SceneBase {
 public:
@@ -44,6 +45,12 @@ public:
 
 
 	void CheckHandle(std::vector<Card*> &deck, Card* card );
+
+	//GameManager
+	GameManager* gmgr = GameManager::GetInstance();
+
+	//PersonManager
+	PersonManager* pmgr = PersonManager::GetInstance();
 
 	//CardManager—p
 	CardManager* cmgr = CardManager::getInstance();
@@ -94,6 +101,10 @@ private:
 	int dimgray = GetColor(100,100,100);
 	int dsgray = GetColor(47, 79, 79); //darkslategray
 
+	bool d_select_chara1 = false;
+	bool d_select_chara2 = false;
+	bool d_select_chara3 = false;
+	bool d_select_chara4 = false;
 
-
+	
 };

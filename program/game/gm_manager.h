@@ -63,13 +63,13 @@ public :
 	int width = DXE_WINDOW_WIDTH / 10;
 	int height = DXE_WINDOW_HEIGHT / 10;
 	
-	//PersonManager
-	//PersonManager pmgr;
-
-	//PersonManager* pgmr = PersonManager::getInstance();
 	
 
-	
+	bool selectChara1 = false;
+	bool selectChara2 = false;
+	bool selectChara3 = false;
+	bool selectChara4 = false;
+
 	
 };
 
