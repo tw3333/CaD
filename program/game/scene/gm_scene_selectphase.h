@@ -7,6 +7,7 @@
 
 class SceneSelectPhase : public SceneBase {
 public:
+	
 	SceneSelectPhase() {}
 	~SceneSelectPhase(){}
 
@@ -38,6 +39,7 @@ public:
 	//各画面の操作（クリックなど）の関数
 	void OpDungeonWindow(bool f, int mx, int my);
 	void OpCharaWindow(bool f,int mx, int my);
+	
 	void OpLibraryWindow(bool f);
 	void OpShopWindow(bool f);
 	void OpGuildWindow(bool f);
@@ -46,11 +48,22 @@ public:
 
 	std::vector<std::vector<std::string>> dungeon;
 
+	//GameManager
+	//GameManager* gmgr = GameManager::GetInstance();
+
 	//PersonManager
 	PersonManager* pmgr = PersonManager::GetInstance();
 
 	//CardManager
 	CardManager* cmgr = CardManager::getInstance();
+
+	//getter setter
+	bool GetEditChara1Bool() const { return edit_chara1; }
+	bool GetEditChara2Bool() const { return edit_chara2; }
+	bool GetEditChara3Bool() const { return edit_chara3; }
+	bool GetEditChara4Bool() const { return edit_chara4; }
+
+	void SetEditChara1Bool(bool f) { edit_chara1 = f; }
 
 
 private:
@@ -99,8 +112,6 @@ private:
 	int pick_chara3 = 0;
 
 
-
-	
 	bool select_dungeon_tab;
 	bool select_dungeon_tab2;
 
@@ -148,6 +159,13 @@ private:
 	bool tab2_dw = false;
 
 	bool tab1_cw = false;
+
+
+	bool edit_chara1 = false;
+	bool edit_chara2 = false;
+	bool edit_chara3 = false;
+	bool edit_chara4 = false;
+
 
 
 };

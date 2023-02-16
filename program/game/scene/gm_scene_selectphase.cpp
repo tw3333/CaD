@@ -1,5 +1,7 @@
 #include "gm_scene_selectphase.h"
 
+#include "../gm_manager.h"	
+
 #include "gm_scene_title.h"
 #include "gm_scene_play.h"
 #include "gm_scene_deckedit.h"
@@ -39,24 +41,29 @@ void SceneSelectPhase::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
 
 	//シーン遷移
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
-		mgr->chengeScene(new SceneTitle());
-	}
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
+	//	mgr->chengeScene(new SceneTitle());
+	//}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
-		mgr->chengeScene(new ScenePlay());
-	}
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
+	//	mgr->chengeScene(new ScenePlay());
+	//}
 
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && dun_flame_move == 0) {
 	//	mgr->chengeScene(new ScenePlay());
 	//}
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && flame_move == 1) {
-		mgr->chengeScene(new SceneDeckEdit());
-	}
+
+	
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE)) {
+	//	mgr->chengeScene(new SceneDeckEdit());
+	//}
 
 	//マウスの座標を引数に取得
 	GetMousePoint(&MouseX, &MouseY);
+
+	
+
 
 	//Windowをマウスで選択
 	SelectMouseWindow(MouseX, MouseY);
@@ -67,9 +74,18 @@ void SceneSelectPhase::update(float delta_time) {
 	OpCharaWindow(charaWindow, MouseX, MouseY);
 
 	//各タブをフラグで管理するオペレーター関数
-	opTab(tab);
-	opTabDungeon(tab_dungeon);
-	opTabParty(tab_party);
+	
+	
+	//TODO 
+	//OpCharaWindowないでこのコードが動かないのでここで書いている
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+	
+		if (charaWindow && 10 < MouseX && MouseX < width1 * 2 - 10 && height1 * 2 + 10 + 10 < MouseY && MouseY < height1 * 3 + 10 + 10) {
+			mgr->chengeScene(new SceneDeckEdit());
+		}
+
+	}
+
 
 }
 
@@ -187,9 +203,9 @@ void SceneSelectPhase::render() {
 
 	DrawStringEx(0,0,1,"dungeon");
 	DrawStringEx(width1*2, 0, 1, "chara");
-	DrawStringEx(width1*4, 0, 1, "guild");
-	DrawStringEx(width1*6, 0, 1, "shop");
-	DrawStringEx(width1*8, 0, 1, "souko");
+	DrawStringEx(width1*4, 0, 1, "guild(未実装)");
+	DrawStringEx(width1*6, 0, 1, "shop(未実装)");
+	DrawStringEx(width1*8, 0, 1, "souko(未実装)");
 
 	//アタリ線
 	for (int i = 0; i < 10; ++i) {
@@ -210,176 +226,117 @@ void SceneSelectPhase::DrawTab(int x, int y, int x2, int y2, int load) {
 //}
 
 
-//tab操作用関数
-void SceneSelectPhase::opTab(bool flag) {
-
-	if (flag) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			flame_move -= 1;
-		}
-		else if (flame_move < 0) {
-			flame_move = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			flame_move += 1;
-		}
-		else if (flame_move > 2) {
-			flame_move = 2;
-		}
 
 
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && flame_move == 0) {
-			tab = false;
-			select_dungeon_tab = true;
-			tab_dungeon = true;
-		}
 
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && flame_move == 2) {
-			tab = false;
-			select_party_tab = true;
-			tab_party = true;
-		}
-
-	}
-
-}
-void SceneSelectPhase::opTabDungeon(bool flag) {
-	
-	if (tab_dungeon) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			dun_flame_move -= 1;
-		}
-		else if (dun_flame_move <= 0) {
-			dun_flame_move = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			dun_flame_move += 1;
-		}
-		else if (dun_flame_move > 4) {
-			dun_flame_move = 4;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-			select_dungeon_tab = false;
-			tab = true;
-			tab_dungeon = false;
-
-		}
-	}
-}
-
-void SceneSelectPhase::opTabParty(bool flag) {
-	
-	if (tab_party) {
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-			p_flame_move -= 1;
-		}
-		else if (p_flame_move < 0) {
-			p_flame_move = 0;
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-			p_flame_move += 1;
-		}
-		else if (p_flame_move > 3) {
-			p_flame_move = 3;
-		}
-
-		//chara1pick
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 0) {
-			
-			if (pick_chara1 == 0) {
-				pick_chara1 = chara01;
-			} 
-			else if (pick_chara1 != 0  && pick_chara2 == 0) {
-				pick_chara2 = chara01;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-				pick_chara3 = chara01;
-			}
-			
-			pmgr->person1->PICK = true;
-			
-		}
-
-		//chara2pick
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 1) {
-			
-			if (pick_chara1 == 0) {
-				pick_chara1 = chara02;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 == 0) {
-				pick_chara2 = chara02;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-				pick_chara3 = chara02;
-			}
-
-			pmgr->person2->PICK = true;
-		}
-
-		//chara3pick
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 2) {
-			
-			if (pick_chara1 == 0) {
-				pick_chara1 = chara03;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 == 0) {
-				pick_chara2 = chara03;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-				pick_chara3 = chara03;
-			}
-
-			pmgr->person3->PICK = true;
-		}
-
-		//chara4pick
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 3) {
-			
-			if (pick_chara1 == 0) {
-				pick_chara1 = chara04;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 == 0) {
-				pick_chara2 = chara04;
-			}
-			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-				pick_chara3 = chara04;
-			}
-
-			pmgr->person4->PICK = true;
-
-		}
-		
-		//全て取り消し
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-			pick_chara1 = 0;
-			pick_chara2 = 0;
-			pick_chara3 = 0;
-
-			pmgr->person1->PICK = false;
-			pmgr->person2->PICK = false;
-			pmgr->person3->PICK = false;
-			pmgr->person4->PICK = false;
-
-
-		}
-
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-			select_party_tab = false;
-			tab_party = false;
-			tab = true;
-			
-		}
-
-	}
-	
-}
+//void SceneSelectPhase::opTabParty(bool flag) {
+//	
+//	if (tab_party) {
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
+//			p_flame_move -= 1;
+//		}
+//		else if (p_flame_move < 0) {
+//			p_flame_move = 0;
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
+//			p_flame_move += 1;
+//		}
+//		else if (p_flame_move > 3) {
+//			p_flame_move = 3;
+//		}
+//
+//		//chara1pick
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 0) {
+//			
+//			if (pick_chara1 == 0) {
+//				pick_chara1 = chara01;
+//			} 
+//			else if (pick_chara1 != 0  && pick_chara2 == 0) {
+//				pick_chara2 = chara01;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
+//				pick_chara3 = chara01;
+//			}
+//			
+//			pmgr->person1->PICK = true;
+//			
+//		}
+//
+//		//chara2pick
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 1) {
+//			
+//			if (pick_chara1 == 0) {
+//				pick_chara1 = chara02;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 == 0) {
+//				pick_chara2 = chara02;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
+//				pick_chara3 = chara02;
+//			}
+//
+//			pmgr->person2->PICK = true;
+//		}
+//
+//		//chara3pick
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 2) {
+//			
+//			if (pick_chara1 == 0) {
+//				pick_chara1 = chara03;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 == 0) {
+//				pick_chara2 = chara03;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
+//				pick_chara3 = chara03;
+//			}
+//
+//			pmgr->person3->PICK = true;
+//		}
+//
+//		//chara4pick
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 3) {
+//			
+//			if (pick_chara1 == 0) {
+//				pick_chara1 = chara04;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 == 0) {
+//				pick_chara2 = chara04;
+//			}
+//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
+//				pick_chara3 = chara04;
+//			}
+//
+//			pmgr->person4->PICK = true;
+//
+//		}
+//		
+//		//全て取り消し
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+//			pick_chara1 = 0;
+//			pick_chara2 = 0;
+//			pick_chara3 = 0;
+//
+//			pmgr->person1->PICK = false;
+//			pmgr->person2->PICK = false;
+//			pmgr->person3->PICK = false;
+//			pmgr->person4->PICK = false;
+//
+//
+//		}
+//
+//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
+//			select_party_tab = false;
+//			tab_party = false;
+//			tab = true;
+//			
+//		}
+//
+//	}
+//	
+//}
 
 //ロード関数
 void SceneSelectPhase::LoadSelectPhaseGraph() {
@@ -440,13 +397,6 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 -10 , height1 * 3 + 10 + 10 , gray2, true);
 
 
-
-	
-
-
-
-
-
 		DrawStringEx(10, height1 * 1 + 10,1,"dungeon");
 		DrawStringEx(10, height1 * 2 + 10 + 10, 1, "party編成");
 
@@ -478,7 +428,11 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		DrawBox(width1*2, 0, width1 * 4, height1 * 1, gray, true);
 
 		DrawBox(10, height1 * 1 + 10, width1 * 2 - 10, height1 * 2 + 10, gray2, true);
-		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 - 10, height1 * 3 + 10 + 10, gray2, true);
+		DrawBox(10, height1 * 2 + 10 + 10, width1 * 2 - 10, height1 * 3 + 10 + 10, gray2, true); //deck
+		DrawBox(10, height1 * 3 + 10 + 20, width1 * 2 - 10, height1 * 4 + 10 + 20, gray2, true); //skill
+		DrawBox(10, height1 * 4 + 10 + 30, width1 * 2 - 10, height1 * 5 + 10 + 30, gray2, true); //soubi
+		DrawBox(10, height1 * 5 + 10 + 40, width1 * 2 - 10, height1 * 6 + 10 + 40, gray2, true); //item
+
 
 		if (tab1_cw) {
 
@@ -497,7 +451,25 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 
 		}
 
+		if (edit_chara1) {
+			DrawStringEx(10, height1 * 1 + 10,1,"Chara1");
+		}
+		if (edit_chara2) {
+			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2");
+		}
+		if (edit_chara3) {
+			DrawStringEx(10, height1 * 1 + 10, 1, "Chara3");
+		}
+		if (edit_chara4) {
+			DrawStringEx(10, height1 * 1 + 10, 1, "Chara4");
+		}
+
+
 		DrawStringEx(10, height1 * 2 + 10 + 10,1,"deck");
+		DrawStringEx(10, height1 * 3 + 10 + 20, 1, "skill(未実装)");
+		DrawStringEx(10, height1 * 4 + 10 + 30, 1, "soubi(未実装)");
+		DrawStringEx(10, height1 * 5 + 10 + 40, 1, "item(未実装)");
+
 	}
 
 }
@@ -507,6 +479,7 @@ void SceneSelectPhase::DrawGuildWindow(bool f) {
 	if (f) {
 		
 		DrawBox(width1 * 4, 0, width1 * 6, height1 * 1, gray, true);
+		//DrawBox(width1 * 4, 0,1,"");
 	}
 	
 
@@ -637,8 +610,60 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 			}
 
+			if (10 < mx && mx < width1 * 2 - 10 && height1 * 2 + 10 + 10 < my && my < height1 * 3 + 10 + 10) {
+
+		
+			}
 
 			
+			if (tab1_cw) {
+
+				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+
+					edit_chara1 = true;
+
+					edit_chara2 = false;
+					edit_chara3 = false;
+					edit_chara4 = false;
+
+
+				}
+
+				if (width1 * 4 + 100 + 50 < mx && mx < width1 * 6 + 100 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+
+					edit_chara2 = true;
+
+					edit_chara1 = false;
+					edit_chara3 = false;
+					edit_chara4 = false;
+	
+
+				}
+
+				if (width1 * 6 + 200 < mx && mx < width1 * 8 + 200 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+
+					edit_chara3 = true;
+
+					edit_chara1 = false;
+					edit_chara2 = false;
+					edit_chara4 = false;
+
+
+				}
+
+				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 2 + 40 + 60 < my && my < height1 * 3 + 40 + 60) {
+					
+					edit_chara4 = true;
+					
+					edit_chara1 = false;
+					edit_chara2 = false;
+					edit_chara3 = false;
+
+				}
+
+	
+			}
+		
 		}
 
 		
