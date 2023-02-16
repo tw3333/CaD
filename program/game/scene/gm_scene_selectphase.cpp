@@ -417,7 +417,15 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 			DrawStringEx(width1 * 2 + 80, height1 * 6 + 20, 1, "[Z]:éÊÇËè¡Çµ");
 			//DrawStringEx(width1*2 + 80, );
 
-
+			if (pmgr->person1->PICK == true) {
+				DrawStringEx(width1*2 + 80,height1 * 1 + 40, 1,"chara1");
+			}
+			if(pmgr->person1->PICK == true && pick1th == false && pick2th == true && pick3th == false) {
+				DrawStringEx(width1 * 2 + 80, height1 * 2 + 100, 1, "chara1");
+			}
+			if (pmgr->person1->PICK == true && pick1th == false && pick2th == false && pick3th == true) {
+				DrawStringEx(width1 * 2 + 80, height1 * 2 + 160, 1, "chara1");
+			}
 		}
 
 
@@ -590,22 +598,63 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 			}
 
+			//tab2ì‡ëÄçÏ
 			if (tab2_dw) {
 
 				if (width1 * 5 + 50 < mx && mx < width1 * 7 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+					
+					if (pick3th == true) {return;}
 					pmgr->person1->PICK = true;
+
+					pick1th = true;
+					if (pick1th == true) {
+						pick2th = true;
+					} else if(pick2th == true) {
+						pick3th = true;
+					}
+
 				}
 
 				if (width1 * 7 + 100 < mx && mx < width1 * 9 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
+					
+					if (pick3th == true) { return; }
 					pmgr->person2->PICK = true;
+					
+					pick1th = true;
+					if (pick1th == true) {
+						pick2th = true;
+					}
+					else if (pick2th == true) {
+						pick3th = true;
+					}
 				}
 
 				if (width1 * 5 + 50 < mx && mx < width1 * 7 + 50 && height1 * 2 + 100 < my && my < height1 * 3 + 100) {
+					
+					if (pick3th == true) { return; }
 					pmgr->person3->PICK = true;
+					
+					pick1th = true;
+					if (pick1th == true) {
+						pick2th = true;
+					}
+					else if (pick2th == true) {
+						pick3th = true;
+					}
 				}
 
 				if (width1 * 7 + 100 < mx && mx < width1 * 9 + 100 && height1 * 2 + 100 < my && my < height1 * 3 + 100) {
+
+					if (pick3th == true) { return; }
 					pmgr->person4->PICK = true;
+
+					pick1th = true;
+					if (pick1th == true) {
+						pick2th = true;
+					}
+					else if (pick2th == true) {
+						pick3th = true;
+					}
 				}
 
 			}
@@ -613,7 +662,7 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 		}
 
-
+		//tabï\é¶éÊÇËè¡Çµ
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Q)) {
 
 			tab1_dw = false;

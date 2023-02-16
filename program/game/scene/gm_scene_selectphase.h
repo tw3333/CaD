@@ -149,10 +149,16 @@ private:
 	int MouseX = 0;
 	int MouseY = 0;
 
-
+	//dungeonWindow tab—p•Ï”
 	bool tab1_dw = false;
 	bool tab2_dw = false;
+	int pickCount = 0;
+	bool pick1th = false;
+	bool pick2th = false;
+	bool pick3th = false;
 
+	
+	//charaWindow tab—p•Ï”
 	bool tab1_cw = false;
 
 	bool d = false;
