@@ -8,12 +8,7 @@
 class SceneSelectPhase : public SceneBase {
 public:
 	
-	SceneSelectPhase() {
-		edit_chara1 = false;
-		edit_chara2 = false;
-		edit_chara3 = false;
-		edit_chara4 = false;
-	}
+	SceneSelectPhase() {}
 	~SceneSelectPhase(){}
 
 	void initialzie() override;

@@ -31,9 +31,6 @@ public:
 	PersonManager* pmgr = PersonManager::GetInstance();
 	CardManager* cmgr = CardManager::getInstance();
 	
-
-	
-	
 	
 private:
 	int width1 = DXE_WINDOW_WIDTH / 10;

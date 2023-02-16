@@ -34,10 +34,11 @@ void SceneSelectPhase::initialzie() {
 	shopWindow = false;
 	guildWindow = false;
 
-	edit_chara1 = true; //最初はchara1表示
-	edit_chara2 = false;
-	edit_chara3 = false;
-	edit_chara4 = false;
+	pmgr->person1->EDIT = true;
+	pmgr->person2->EDIT = false;
+	pmgr->person3->EDIT = false;
+	pmgr->person4->EDIT = false;
+
 
 }
 
@@ -226,6 +227,7 @@ void SceneSelectPhase::render() {
 //文字アリtab描写用関数
 void SceneSelectPhase::DrawTab(int x, int y, int x2, int y2, int load) {
 	DrawExtendGraph(width1 * x, height1 * y, width1 * x2, height1 * y2, load, true);
+
 }
 
 //void SceneSelectPhase::DrawPartyTab() {
@@ -346,6 +348,7 @@ void SceneSelectPhase::DrawTab(int x, int y, int x2, int y2, int load) {
 
 //ロード関数
 void SceneSelectPhase::LoadSelectPhaseGraph() {
+	
 	background = LoadGraph("graphics/select_back.jpg");
 	s_guild_tile = LoadGraph("graphics/s_guild_tile.png");
 
@@ -451,7 +454,7 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 			DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
 
 			DrawStringEx(width1 * 2 + 100, height1 * 1 + 40,1,"chara1");
-			DrawStringEx(width1 * 4 + 100 + 50, height1 * 1 + 40, 1, "chara2");
+			DrawStringEx(width1 * 4 + 100 + 50, height1 * 1 + 40, 1, "chara2(未実装)");
 			DrawStringEx(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, 1, "chara3");
 			DrawStringEx(width1 * 2 + 100, height1 * 2 + 100, 1, "chara4");
 
@@ -461,7 +464,7 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 			DrawStringEx(10, height1 * 1 + 10,1,"Chara1");
 		}
 		if (pmgr->person2->EDIT == true) {
-			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2");
+			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2(未実装)");
 		}
 		if (pmgr->person3->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara3");
