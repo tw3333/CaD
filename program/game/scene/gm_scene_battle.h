@@ -44,6 +44,9 @@ public:
 	void DrawOrder();
 
 	void Debug();
+
+	//remake
+	void SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara4);
 	
 	//イージング関数
 	double easeInExpo(double t);
@@ -151,7 +154,13 @@ private:
 	int cost_now = 0;
 	int Bar_Width = 300;
 	int Bar = 0;
-//	int test = 0;
+	//	int test = 0;
+
+	//各キャラがピックされているか
+	bool pick_chara1 = false;
+	bool pick_chara2 = false;
+	bool pick_chara3 = false;
+	bool pick_chara4 = false;
 
 	//ターン関連
 	bool startTurn = false;

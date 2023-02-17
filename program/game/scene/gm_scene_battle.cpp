@@ -32,9 +32,9 @@ void SceneBattle::initialzie() {
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
 	Enemy ememy1("敵１", 100, 100, 5, 15, 0, 0);
 
-	if (pmgr->person1->PICK == true) {
+	//Partyの構成を確定
+	SetPartyPick(pmgr->person1->PICK,pmgr->person2->PICK,pmgr->person3->PICK,pmgr->person4->PICK);
 
-	}
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -57,7 +57,9 @@ void SceneBattle::update(float dalta_time) {
 	timer += 0.1 * 1;
 	move += 2 * sin(timer);
 
-	GetMousePoint(&MouseX, &MouseY);
+	//マウス座標の取得
+	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
+
 	drawCardUp(MouseX, MouseY);
 
 	//シーン切り替え
@@ -946,5 +948,17 @@ void SceneBattle::DrawOrder() {
 	DrawExtendGraph(0, height1 * 1, width1 * 2 - 50, height1 * 2, order2thImage, false);
 	DrawExtendGraph(0, height1 * 2, width1 * 2 - 50, height1 * 3, order3thImage, false);
 	DrawExtendGraph(0, height1 * 4, width1 * 2 - 50, height1 * 5, order4thImage, false);
+
+}
+
+void SceneBattle::SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara4) {
+
+	if (chara1 == true) { pick_chara1 = true; }
+
+	if (chara2 == true) { pick_chara1 = true; }
+
+	if (chara3 == true) { pick_chara3 = true; }
+
+	if (chara4 == true) { pick_chara4 = true; }
 
 }
