@@ -46,6 +46,8 @@ public:
 
 	void SelectMouseWindow(int mx, int my);
 
+	void DrawPartyPick();
+
 	std::vector<std::vector<std::string>> dungeon;
 
 	//GameManager
@@ -153,9 +155,14 @@ private:
 	bool tab1_dw = false;
 	bool tab2_dw = false;
 	int pickCount = 0;
-	bool pick1th = false;
-	bool pick2th = false;
-	bool pick3th = false;
+	int pick1th = 0; 
+	int pick2th = 0;
+	int pick3th = 0;
+	int chara1 = 1;
+	int chara2 = 2;
+	int chara3 = 3;
+	int chara4 = 4;
+
 
 	
 	//charaWindow tab—p•Ï”

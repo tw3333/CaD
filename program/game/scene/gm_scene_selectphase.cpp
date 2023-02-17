@@ -413,19 +413,15 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 			DrawStringEx(width1 * 5 + 50, height1 * 2 + 100, 1, "chara3");
 			DrawStringEx(width1 * 7 + 100, height1 * 2 + 100, 1, "chara4");
 
+			//Party選択部分の描写
+			DrawPartyPick();
+
 			DrawStringEx(width1 * 2 + 80, height1 * 6, 1, "クリックで上から決定");
 			DrawStringEx(width1 * 2 + 80, height1 * 6 + 20, 1, "[Z]:取り消し");
 			//DrawStringEx(width1*2 + 80, );
 
-			if (pmgr->person1->PICK == true) {
-				DrawStringEx(width1*2 + 80,height1 * 1 + 40, 1,"chara1");
-			}
-			if(pmgr->person1->PICK == true && pick1th == false && pick2th == true && pick3th == false) {
-				DrawStringEx(width1 * 2 + 80, height1 * 2 + 100, 1, "chara1");
-			}
-			if (pmgr->person1->PICK == true && pick1th == false && pick2th == false && pick3th == true) {
-				DrawStringEx(width1 * 2 + 80, height1 * 2 + 160, 1, "chara1");
-			}
+
+
 		}
 
 
@@ -601,64 +597,99 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 			//tab2内操作
 			if (tab2_dw) {
 
+				//chara1
 				if (width1 * 5 + 50 < mx && mx < width1 * 7 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
-					
-					if (pick3th == true) {return;}
-					pmgr->person1->PICK = true;
 
-					pick1th = true;
-					if (pick1th == true) {
-						pick2th = true;
-					} else if(pick2th == true) {
-						pick3th = true;
+					if (pick1th == 0) {
+						pick1th = chara1;
+						pmgr->person1->PICK = true;
+					}
+					else if (pick1th != 0 && pick2th == 0) {
+						pick2th = chara1;
+						pmgr->person1->PICK = true;
+
+					}
+					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
+						pick3th = chara1;
+						pmgr->person1->PICK = true;
+
 					}
 
 				}
 
+				//chara2
 				if (width1 * 7 + 100 < mx && mx < width1 * 9 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
-					
-					if (pick3th == true) { return; }
-					pmgr->person2->PICK = true;
-					
-					pick1th = true;
-					if (pick1th == true) {
-						pick2th = true;
+
+					if (pick1th == 0) {
+						pick1th = chara2;
+						pmgr->person2->PICK = true;
+
 					}
-					else if (pick2th == true) {
-						pick3th = true;
+					else if (pick1th != 0 && pick2th == 0) {
+						pick2th = chara2;
+						pmgr->person2->PICK = true;
+
 					}
+					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
+						pick3th = chara2;
+						pmgr->person2->PICK = true;
+
+					}
+
 				}
 
+				//chara3
 				if (width1 * 5 + 50 < mx && mx < width1 * 7 + 50 && height1 * 2 + 100 < my && my < height1 * 3 + 100) {
-					
-					if (pick3th == true) { return; }
-					pmgr->person3->PICK = true;
-					
-					pick1th = true;
-					if (pick1th == true) {
-						pick2th = true;
+
+					if (pick1th == 0) {
+						pick1th = chara3;
+						pmgr->person3->PICK = true;
+
 					}
-					else if (pick2th == true) {
-						pick3th = true;
+					else if (pick1th != 0 && pick2th == 0) {
+						pick2th = chara3;
+						pmgr->person3->PICK = true;
+
 					}
+					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
+						pick3th = chara3;
+						pmgr->person3->PICK = true;
+
+					}
+
 				}
 
+
+				//chara4
 				if (width1 * 7 + 100 < mx && mx < width1 * 9 + 100 && height1 * 2 + 100 < my && my < height1 * 3 + 100) {
 
-					if (pick3th == true) { return; }
-					pmgr->person4->PICK = true;
+					if (pick1th == 0) {
+						pick1th = chara4;
+						pmgr->person4->PICK = true;
 
-					pick1th = true;
-					if (pick1th == true) {
-						pick2th = true;
 					}
-					else if (pick2th == true) {
-						pick3th = true;
+					else if (pick1th != 0 && pick2th == 0) {
+						pick2th = chara4;
+						pmgr->person4->PICK = true;
+
 					}
+					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
+						pick3th = chara4;
+						pmgr->person4->PICK = true;
+
+					}
+				}
+
+				//pick取り消し
+				if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+					pmgr->person1->PICK = false;
+					pmgr->person2->PICK = false;
+					pmgr->person3->PICK = false;
+					pmgr->person4->PICK = false;
+
 				}
 
 			}
-
 
 		}
 
@@ -667,6 +698,21 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 			tab1_dw = false;
 			tab2_dw = false;
+		}
+
+		//pick取り消し
+		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+			pmgr->person1->PICK = false;
+			pmgr->person2->PICK = false;
+			pmgr->person3->PICK = false;
+			pmgr->person4->PICK = false;
+
+			pick1th = 0;
+			pick2th = 0;
+			pick3th = 0;
+
+
+
 		}
 
 	}
@@ -791,5 +837,61 @@ void SceneSelectPhase::LoadSelectPhaseGraph() {
 	chara02 = LoadGraph("graphics/chara2_face.png");
 	chara03 = LoadGraph("graphics/chara3_face.png");
 	chara04 = LoadGraph("graphics/chara4_face.png");
+
+}
+
+void SceneSelectPhase::DrawPartyPick() {
+	
+	switch (pick1th) {
+
+	case 1:
+		DrawStringEx(width1 * 2 + 80, height1 * 1 + 40, 1, "chara1");
+		break;
+	case 2:
+		DrawStringEx(width1 * 2 + 80, height1 * 1 + 40, 1, "chara2");
+		break;
+	case 3:
+		DrawStringEx(width1 * 2 + 80, height1 * 1 + 40, 1, "chara3");
+		break;
+	case 4:
+		DrawStringEx(width1 * 2 + 80, height1 * 1 + 40, 1, "chara4");
+		break;
+
+	}
+
+	switch (pick2th) {
+
+	case 1:
+		DrawStringEx(width1 * 2 + 80, height1 * 2 + 100, 1, "chara1");
+		break;
+	case 2:
+		DrawStringEx(width1 * 2 + 80, height1 * 2 + 100, 1, "chara2");
+		break;
+	case 3:
+		DrawStringEx(width1 * 2 + 80, height1 * 2 + 100, 1, "chara3");
+		break;
+	case 4:
+		DrawStringEx(width1 * 2 + 80, height1 * 2 + 100, 1, "chara4");
+		break;
+
+	}
+
+	switch (pick3th) {
+
+	case 1:
+		DrawStringEx(width1 * 2 + 80, height1 * 3 + 160, 1, "chara1");
+		break;
+	case 2:
+		DrawStringEx(width1 * 2 + 80, height1 * 3 + 160, 1, "chara2");
+		break;
+	case 3:
+		DrawStringEx(width1 * 2 + 80, height1 * 3 + 160, 1, "chara3");
+		break;
+	case 4:
+		DrawStringEx(width1 * 2 + 80, height1 * 3 + 160, 1, "chara4");
+		break;
+
+	}
+
 
 }
