@@ -38,6 +38,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	HDC hdc = GetDC(hWnd);
 	tnl::Input::Initialize(hInstance,hWnd, hdc, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
+
 	// メッセージループ
 	while( 1 )
 	{

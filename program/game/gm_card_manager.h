@@ -9,7 +9,7 @@ class Card;
 class CardManager {
 public:
 
-	static CardManager* getInstance() {
+	static CardManager* GetInstance() {
 		if (!instance_) {
 			instance_ = new CardManager();
 		}

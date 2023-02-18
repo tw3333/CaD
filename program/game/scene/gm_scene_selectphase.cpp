@@ -23,9 +23,9 @@ void SceneSelectPhase::initialzie() {
 	tab_party = false;
 
 	tab2 = false;
-	cmgr->LoadCardDate();
-	cmgr->LoadCardGraph();
-	cmgr->SortJobCard();
+	//cmgr->LoadCardDate();
+	//cmgr->LoadCardGraph();
+	//cmgr->SortJobCard();
 
 	dungeonWindow = true; //Å‰‚Íƒ_ƒ“ƒWƒ‡ƒ“Window•\Ž¦
 	charaWindow = false;
@@ -52,9 +52,9 @@ void SceneSelectPhase::update(float delta_time) {
 	//	mgr->chengeScene(new SceneTitle());
 	//}
 
-	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
-	//	mgr->chengeScene(new ScenePlay());
-	//}
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
+		mgr->chengeScene(new SceneBattle());
+	}
 
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && dun_flame_move == 0) {
 	//	mgr->chengeScene(new ScenePlay());

@@ -11,7 +11,7 @@ public:
 	void update(float delta_time) override;
 	void render() override;
 
-	CardManager* cmgr = CardManager::getInstance();
+	CardManager* cmgr = CardManager::GetInstance();
 
 private:
 

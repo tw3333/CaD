@@ -53,7 +53,7 @@ public:
 
 	void SetEmemyPick();
 
-	std::vector<std::pair<int, bool>> getActionOrder(const std::vector<Person>& party, const std::vector<Enemy>& enemies);
+	std::vector<void*> GetTurnOrder(const std::vector<Person*>& party, const std::vector<Enemy*>& enemies);
 
 
 	//イージング関数
@@ -66,7 +66,7 @@ public:
 	int& hp_now = pmgr->person1->HP;
 
 	//CardManager
-	CardManager* cmgr = CardManager::getInstance();
+	CardManager* cmgr = CardManager::GetInstance();
 
 
 	int test = 30;
@@ -84,7 +84,7 @@ private:
 	std::vector<Enemy*> enemies;
 
 	//速さの判定のため、同じ配列にpartyとenemiesを入れる
-	std::vector<std::pair<int, bool>> characters; //<Speed,isEnemy>
+	std::vector<std::pair<int, bool>> turnOrder; //<Speed,isEnemy>
 
 
 	bool dealHand = false;

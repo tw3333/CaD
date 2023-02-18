@@ -3,8 +3,13 @@
 #include "gm_card.h"
 #include <vector>
 #include <string>
+#include "gm_entity.h"
 
-class Person {
+class Entity;
+
+//ƒNƒ‰ƒX‚Ì–¼‘O‚ğchara‚©‚çPerson‚Ö(chara‚¾‚ÆcharŒ^‚ÌéŒ¾‚ÆŠÔˆá‚¦‚â‚·‚¢‚½‚ß)
+
+class Person : public Entity {
 public:
 	
 	Person(int hp, int hpmax, int cost, int costmax, int speed, bool pick, bool edit)

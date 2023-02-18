@@ -53,7 +53,7 @@ public:
 	PersonManager* pmgr = PersonManager::GetInstance();
 
 	//CardManager—p
-	CardManager* cmgr = CardManager::getInstance();
+	CardManager* cmgr = CardManager::GetInstance();
 	
 private:
 

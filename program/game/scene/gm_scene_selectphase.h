@@ -57,7 +57,7 @@ public:
 	PersonManager* pmgr = PersonManager::GetInstance();
 
 	//CardManager
-	CardManager* cmgr = CardManager::getInstance();
+	CardManager* cmgr = CardManager::GetInstance();
 
 
 

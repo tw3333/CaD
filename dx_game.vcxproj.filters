@@ -360,5 +360,8 @@
     <ClInclude Include="program\game\scene\gm_test.h">
       <Filter>program\game\scene</Filter>
     </ClInclude>
+    <ClInclude Include="program\game\gm_entity.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,6 +40,8 @@ void SceneBattle::initialzie() {
 	//本来なら条件で入れる敵を変える関数を作る
 	enemies.push_back(enemy1);
 	
+	pmgr->person[0]->SPEED;
+
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -49,7 +51,7 @@ void SceneBattle::update(float dalta_time) {
 	Debug();
 
 	//素早さから行動順を決める
-
+	
 
 	if (dealHand) {
 
@@ -989,3 +991,9 @@ void SceneBattle::SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara
 
 }
 
+
+
+
+
+//memo
+//小規模な要素の追加はemplace_backを使用するとよい？（要検索）
