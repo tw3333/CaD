@@ -30,11 +30,16 @@ void SceneBattle::initialzie() {
 	img_turn_move = 25;
 
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-	Enemy ememy1("敵１", 100, 100, 5, 15, 0, 0);
+	Enemy *enemy1 = new Enemy("敵１", 100, 100, 5, 15, 0, 0);
 
 	//Partyの構成を確定
+	//TODO:キャラが多くなった時のことを想定して配列から検索して入れるようにする
 	SetPartyPick(pmgr->person1->PICK,pmgr->person2->PICK,pmgr->person3->PICK,pmgr->person4->PICK);
 
+	//試しに敵と戦うために単純に入れる
+	//本来なら条件で入れる敵を変える関数を作る
+	enemies.push_back(enemy1);
+	
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -42,6 +47,8 @@ void SceneBattle::update(float dalta_time) {
 
 	BattleStart();
 	Debug();
+
+	//素早さから行動順を決める
 
 
 	if (dealHand) {
@@ -377,7 +384,7 @@ void SceneBattle::DrawHand() {
 
 void SceneBattle::drawCardUp(int x, int y) {
 
-
+	//TODO:マジックナンバーを画面比率から変数でとる
 	if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 		CardUp_1 = 45;
 	}
@@ -953,12 +960,32 @@ void SceneBattle::DrawOrder() {
 
 void SceneBattle::SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara4) {
 
-	if (chara1 == true) { pick_chara1 = true; }
+	if (chara1 == true) { 
+		
+		pick_chara1 = true;
+		party.push_back(pmgr->person1);
+	}
 
-	if (chara2 == true) { pick_chara1 = true; }
+	if (chara2 == true) { 
+		
+		pick_chara1 = true; 
+		party.push_back(pmgr->person2);
 
-	if (chara3 == true) { pick_chara3 = true; }
+	}
 
-	if (chara4 == true) { pick_chara4 = true; }
+	if (chara3 == true) { 
+
+		pick_chara3 = true; 
+		party.push_back(pmgr->person3);
+
+	}
+
+	if (chara4 == true) { 
+		
+		pick_chara4 = true; 
+		party.push_back(pmgr->person4);
+
+	}
 
 }
+

@@ -320,6 +320,8 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 
 			if (width1 * 7 < mx && mx < width1 * 8 && height1 * 1 < my && my < height1 * 3) {
 				CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[0]);
+				CheckHandle(pmgr->person1->deck, cmgr->cardDataChara1[0]);
+
 			}
 
 			if (width1 * 8 < mx && mx < width1 * 9 && height1 * 1 < my && my < height1 * 3) {

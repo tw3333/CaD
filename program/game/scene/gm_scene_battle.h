@@ -6,6 +6,8 @@
 
 #include "../gm_card_manager.h"
 
+#include "../gm_enemy.h"
+
 
 
 
@@ -47,7 +49,13 @@ public:
 
 	//remake
 	void SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara4);
-	
+	void UseCard();
+
+	void SetEmemyPick();
+
+	std::vector<std::pair<int, bool>> getActionOrder(const std::vector<Person>& party, const std::vector<Enemy>& enemies);
+
+
 	//イージング関数
 	double easeInExpo(double t);
 	double easeOutExpo(double t);
@@ -70,6 +78,14 @@ private:
 	std::vector<Card*> chara2Hand; //未実装
 	std::vector<Card*> chara3Hand;
 	std::vector<Card*> chara4Hand;
+
+	//SceneBattleで戦う各キャラと敵を一時的に配列に格納して使う
+	std::vector<Person*> party;
+	std::vector<Enemy*> enemies;
+
+	//速さの判定のため、同じ配列にpartyとenemiesを入れる
+	std::vector<std::pair<int, bool>> characters; //<Speed,isEnemy>
+
 
 	bool dealHand = false;
 
