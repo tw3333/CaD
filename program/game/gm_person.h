@@ -9,11 +9,11 @@ class Entity;
 
 //クラスの名前をcharaからPersonへ(charaだとchar型の宣言と間違えやすいため)
 
-class Person : public Entity {
+class Person : public Entity{
 public:
 	
-	Person(int hp, int hpmax, int cost, int costmax, int speed, bool pick, bool edit)
-	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed),PICK(pick),EDIT(edit) {}
+	Person(int hp, int hpmax, int cost, int costmax, int speed, bool pick, bool edit, int graph)
+	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed),PICK(pick),EDIT(edit), GRAPH(graph) {}
 
 	//テストステータス
 	int HP; //HP
@@ -23,6 +23,8 @@ public:
 	int SPEED; //ターン順位に使用する素早さ
 	bool PICK = false;
 	bool EDIT = false;
+
+	int GRAPH = 0;
 
 	
 	std::vector<Card*> deck; //山札

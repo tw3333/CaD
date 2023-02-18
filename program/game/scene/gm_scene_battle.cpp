@@ -34,14 +34,13 @@ void SceneBattle::initialzie() {
 
 	//Partyの構成を確定
 	//TODO:キャラが多くなった時のことを想定して配列から検索して入れるようにする
-	SetPartyPick(pmgr->person1->PICK,pmgr->person2->PICK,pmgr->person3->PICK,pmgr->person4->PICK);
+	SetPartyPick();
+
 
 	//試しに敵と戦うために単純に入れる
 	//本来なら条件で入れる敵を変える関数を作る
 	enemies.push_back(enemy1);
 	
-	pmgr->person[0]->SPEED;
-
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -960,33 +959,16 @@ void SceneBattle::DrawOrder() {
 
 }
 
-void SceneBattle::SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara4) {
+void SceneBattle::SetPartyPick() {
 
-	if (chara1 == true) { 
-		
-		pick_chara1 = true;
-		party.push_back(pmgr->person1);
-	}
 
-	if (chara2 == true) { 
-		
-		pick_chara1 = true; 
-		party.push_back(pmgr->person2);
+	for (int i = 0; i < pmgr->person.size(); ++i) {
 
-	}
+		if (pmgr->person[i]->PICK == true) {
 
-	if (chara3 == true) { 
+			party.push_back(pmgr->person[i]);
 
-		pick_chara3 = true; 
-		party.push_back(pmgr->person3);
-
-	}
-
-	if (chara4 == true) { 
-		
-		pick_chara4 = true; 
-		party.push_back(pmgr->person4);
-
+		}
 	}
 
 }

@@ -11,7 +11,7 @@
 
 void SceneSelectPhase::initialzie() {
 
-	LoadSelectPhaseGraph();
+	//LoadSelectPhaseGraph();
 
 	select_dungeon_tab = false;
 	select_dungeon_tab2 = false;
@@ -23,9 +23,14 @@ void SceneSelectPhase::initialzie() {
 	tab_party = false;
 
 	tab2 = false;
-	//cmgr->LoadCardDate();
-	//cmgr->LoadCardGraph();
-	//cmgr->SortJobCard();
+
+	pmgr->AddPersonPointerToVector();
+	pmgr->LoadPersonGraph();
+
+	cmgr->LoadCardDate();
+	cmgr->LoadCardGraph();
+	cmgr->SortJobCard();
+
 
 	dungeonWindow = true; //Å‰‚Íƒ_ƒ“ƒWƒ‡ƒ“Window•\Ž¦
 	charaWindow = false;
@@ -446,10 +451,17 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 			DrawBox(width1 * 2 + 10, height1 * 1 + 10, width1 * 10 - 10, height1 * 10 - 10, gray2, true);
 
 
-			DrawBox(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, gray, true);
-			DrawBox(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, gray, true);
-			DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
-			DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
+			//DrawBox(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, gray, true);
+			//DrawBox(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, gray, true);
+			//DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
+			//DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
+
+			DrawExtendGraph(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, pmgr->person[0]->GRAPH, false);
+			//DrawBox(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, gray, true);
+			//DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
+			//DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
+
+
 
 			DrawStringEx(width1 * 2 + 100, height1 * 1 + 40, 1, "chara1");
 			DrawStringEx(width1 * 4 + 100 + 50, height1 * 1 + 40, 1, "chara2(–¢ŽÀ‘•)");
@@ -459,7 +471,7 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		}
 
 		if (pmgr->person1->EDIT == true) {
-			DrawStringEx(10, height1 * 1 + 10, 1, "Chara1");
+			DrawStringEx(10, height1 * 1 + 10, 1, "%d",pmgr->person[0]->GRAPH);
 
 		}
 		if (pmgr->person2->EDIT == true) {
@@ -833,10 +845,10 @@ void SceneSelectPhase::LoadSelectPhaseGraph() {
 	x2y1_flame_3 = LoadGraph("graphics/x2_y1_flame_3.png");
 
 	x2y1_flame_R = LoadGraph("graphics/x2_y1_flame_R.png");
-	chara01 = LoadGraph("graphics/chara1_face.png");
-	chara02 = LoadGraph("graphics/chara2_face.png");
-	chara03 = LoadGraph("graphics/chara3_face.png");
-	chara04 = LoadGraph("graphics/chara4_face.png");
+	//chara01 = LoadGraph("graphics/chara1_face.png");
+	//chara02 = LoadGraph("graphics/chara2_face.png");
+	//chara03 = LoadGraph("graphics/chara3_face.png");
+	//chara04 = LoadGraph("graphics/chara4_face.png");
 
 }
 

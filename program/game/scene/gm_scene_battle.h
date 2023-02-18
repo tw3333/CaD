@@ -48,7 +48,7 @@ public:
 	void Debug();
 
 	//remake
-	void SetPartyPick(bool chara1, bool chara2, bool chara3, bool chara4);
+	void SetPartyPick();
 	void UseCard();
 
 	void SetEmemyPick();

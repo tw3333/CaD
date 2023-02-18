@@ -29,7 +29,7 @@ public:
 	void DrawCharaStatus();
 	
 	PersonManager* pmgr = PersonManager::GetInstance();
-	CardManager* cmgr = CardManager::getInstance();
+	CardManager* cmgr = CardManager::GetInstance();
 	
 	
 private:
