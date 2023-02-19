@@ -3,13 +3,13 @@
 #include "gm_card.h"
 #include <vector>
 #include <string>
-#include "gm_entity.h"
+#include "gm_unit.h"
 
-class Entity;
+
 
 //クラスの名前をcharaからPersonへ(charaだとchar型の宣言と間違えやすいため)
 
-class Person : public Entity{
+class Person : public Unit{
 public:
 	
 	Person(int hp, int hpmax, int cost, int costmax, int speed, bool pick, bool edit, int graph)
@@ -24,7 +24,11 @@ public:
 	bool PICK = false;
 	bool EDIT = false;
 
+
+
 	int GRAPH = 0;
+
+	bool isEnemy = false; //判別用
 
 	
 	std::vector<Card*> deck; //山札

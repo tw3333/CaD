@@ -34,7 +34,7 @@ void SceneBattle::initialzie() {
 	img_turn_move = 25;
 
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-	Enemy *enemy1 = new Enemy("敵１", 100, 100, 5, 15, 0, 0);
+	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 15, 0, 0);
 
 	//Partyの構成を確定
 	//TODO:キャラが多くなった時のことを想定して配列から検索して入れるようにする
@@ -44,17 +44,62 @@ void SceneBattle::initialzie() {
 	//試しに敵と戦うために単純に入れる
 	//本来なら条件で入れる敵を変える関数を作る
 	enemies.push_back(enemy1);
+
+	//auto compareSpeed = [](const auto& a, const auto& b) {
+	//	return a->SPEED > b->SPEED;
+	//};
+
+	//allChara.insert(allChara.end(), party.begin(), party.end());
+	//allChara.insert(allChara.end(), enemies.begin(), enemies.end());
+
+	//std::sort(allChara.begin(), allChara.end(), compareSpeed);
+	
+	//SPEED順に降順ソート
+	std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
+	std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
 	
 }
 
 void SceneBattle::update(float dalta_time) {
 	GameManager* mgr = GameManager::GetInstance();
 
+	//順番を判定
+
+	int i = 0;
+	int k = 0;
+
+	
+	while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べてターンを決める
+
+		if (party[i]->SPEED > enemies[k]->SPEED) {
+			
+			//Person側の処理
+
+
+		}
+		else {
+
+			//Enemy側の処理
+
+		}
+
+
+	}
+
+
+
+
+
+
+
+
+
+
 	BattleStart();
 	Debug();
 
 	//素早さから行動順を決める
-	
+
 
 	if (dealHand) {
 
@@ -960,6 +1005,11 @@ void SceneBattle::DrawOrder() {
 	DrawExtendGraph(0, height1 * 1, width1 * 2 - 50, height1 * 2, order2thImage, false);
 	DrawExtendGraph(0, height1 * 2, width1 * 2 - 50, height1 * 3, order3thImage, false);
 	DrawExtendGraph(0, height1 * 4, width1 * 2 - 50, height1 * 5, order4thImage, false);
+
+
+	//for (int i = 0; i < allCharacters.size(); ++i) {
+	//	DrawStringEx(0, height1 * i, 1, "%d", allCharacters[i]->SPEED);
+	//}
 
 }
 

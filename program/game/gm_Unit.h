@@ -5,9 +5,9 @@
 //TODO:Œp³‚µ‚½•û‚ª‚¢‚¢‚©‚Ç‚¤‚©—vŒŸ“¢
 
 
-class Entity {
+class Unit {
 public:
-	
-	virtual ~Entity(){};
+	int SPEED;
+	virtual ~Unit(){};
 
 };

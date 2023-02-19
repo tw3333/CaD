@@ -86,6 +86,12 @@ private:
 	//‘¬‚³‚Ì”»’è‚Ì‚½‚ßA“¯‚¶”z—ñ‚Éparty‚Æenemies‚ğ“ü‚ê‚é
 	std::vector<std::pair<int, bool>> turnOrder; //<Speed,isEnemy>
 
+	//std::vector<void*> allChara;
+
+	std::vector<std::unique_ptr<Unit>> allChara;
+
+
+
 
 	bool dealHand = false;
 

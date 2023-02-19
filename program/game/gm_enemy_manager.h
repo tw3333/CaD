@@ -1,5 +1,5 @@
 #pragma once
-#include "gm_enemy.h"
+#include "gm_unit.h"
 
 class Enemy;
 

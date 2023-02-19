@@ -1,8 +1,10 @@
 #pragma once
 #include <string>
-#include "gm_entity.h"
+#include "gm_unit.h"
 
-class Enemy : public Entity {
+
+
+class Enemy : public Unit {
 public:
 	Enemy(std::string name, int hp, int hpmax, int attack, int speed,int graph, int egraph) 
 		:NAME(name), HP(hp), HPMAX(hpmax), ATTACK(attack), SPEED(speed) ,GRAPH(graph),EGRAPH(egraph) {}
@@ -19,7 +21,7 @@ public:
 	int SPEED; //ターン順位に使用する素早さ
 	int GRAPH; //敵の画像
 	int EGRAPH; //敵の攻撃エフェクト
-
+	bool isEnemy = true; //判別用
 
 
 	//実装予定ステータス
