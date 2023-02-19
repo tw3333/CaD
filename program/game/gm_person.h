@@ -32,7 +32,7 @@ public:
 
 	//SceneBattleで使用
 	std::vector<Card*> deck; //山札
-	std::vector<Card*> hands; //手札
+	std::vector<Card*> hand; //手札
 
 
 	//SceneDeckEditで使用

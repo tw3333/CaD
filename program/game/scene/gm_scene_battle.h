@@ -52,6 +52,7 @@ public:
 	void UseCard();
 
 	void SetEmemyPick();
+	void ReflectOrderImage();
 
 	std::vector<void*> GetTurnOrder(const std::vector<Person*>& party, const std::vector<Enemy*>& enemies);
 
@@ -209,6 +210,12 @@ private:
 	int cardH = 270;
 	int center = 960; // カード置き場の中心
 
+	//戦闘の際使うフラグ
+	bool isTakeCard = false;
+	bool isDealCard = false;
+	int dealCardNum = 5; //5枚がデフォルト
+
+	bool isBattle = false;
 
 	//色設定
 	unsigned int gray = GetColor(138, 140, 142);

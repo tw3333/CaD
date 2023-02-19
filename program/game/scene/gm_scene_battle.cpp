@@ -8,7 +8,7 @@
 #include "../gm_person_manager.h"
 #include "../gm_card_manager.h"
 #include "../gm_enemy.h"
-
+#include "DxLib.h"
 
 SceneBattle::~SceneBattle() {
 
@@ -34,7 +34,7 @@ void SceneBattle::initialzie() {
 	img_turn_move = 25;
 
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 15, 0, 0);
+	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
 
 	//Partyの構成を確定
 	//TODO:キャラが多くなった時のことを想定して配列から検索して入れるようにする
@@ -57,7 +57,11 @@ void SceneBattle::initialzie() {
 	//SPEED順に降順ソート
 	std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
 	std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
-	
+
+	ReflectOrderImage();
+//	DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
+
+	isBattle = true;
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -67,25 +71,55 @@ void SceneBattle::update(float dalta_time) {
 
 	int i = 0;
 	int k = 0;
-
+	//ReflectOrderImage();
 	
-	while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べてターンを決める
+	//DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
 
-		if (party[i]->SPEED > enemies[k]->SPEED) {
-			
-			//Person側の処理
-			
+	if (isBattle) {
+
+		while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べてターンを決める
+
+			if (party[i]->SPEED > enemies[k]->SPEED) {
+
+				//Person側の処理
+				//手札をドロー 
+				DealFromDeckToHand(party[i]->deck, party[i]->hand, dealCardNum);
+
+
+					
+
+
+				i++;
+
+			}
+
+			else {
+
+				//Enemy側の処理
+				
+				k++;
+
+			}
+
+			while (i < party.size()) {
+
+
+				i++;
+			}
+
+			while (k  < enemies.size()) {
+
+
+				k++;
+			}
 
 		}
 
-		else {
 
-			//Enemy側の処理
-
-		}
-
+		isBattle = false;
 
 	}
+
 
 
 
@@ -289,6 +323,9 @@ void SceneBattle::render() {
 	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false);
 	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false);
 
+	DrawStringEx(width1*4,0,-1,"HP:%d/%d",enemies[0]->HP,enemies[0]->HPMAX);
+
+
 }
 
 void SceneBattle::DrawCard(int x, int y, int x2, int y2, int chara, bool flag)
@@ -314,24 +351,24 @@ void SceneBattle::DrawHand() {
 	//DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, chara1Hand[4]->c_graph, false); //5
 
 	//
-	for (int i = 0; i < chara1Hand.size(); i++) {
+	for (int i = 0; i < party[0]->hand.size(); i++) {
 
 		switch (i)
 		{
 		case 0:
-			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, chara1Hand[i]->c_graph, false); //1
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, party[0]->hand[i]->c_graph, false); //1
 			break;
 		case 1:
-			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, chara1Hand[i]->c_graph, false); //2
+			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, party[0]->hand[i]->c_graph, false); //2
 			break;
 		case 2:
-			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, chara1Hand[i]->c_graph, false); //3
+			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, party[0]->hand[i]->c_graph, false); //3
 			break;
 		case 3:
-			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, chara1Hand[i]->c_graph, false); //4
+			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, party[0]->hand[i]->c_graph, false); //4
 			break;
 		case 4:
-			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, chara1Hand[i]->c_graph, false); //5
+			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, party[0]->hand[i]->c_graph, false); //5
 			break;
 		default:
 			break;
@@ -1028,7 +1065,182 @@ void SceneBattle::SetPartyPick() {
 
 }
 
+void SceneBattle::ReflectOrderImage() {
 
+	int i, k;
+	for (i = 0, k = 0; i < party.size() && k < enemies.size(); ) {
+		if (party[i]->SPEED > enemies[k]->SPEED) {
+			if (party[i]->GRAPH != 0) {
+				if (order1thImage == 0) {
+					order1thImage = party[i]->GRAPH;
+				}
+				else if (order2thImage == 0) {
+					order2thImage = party[i]->GRAPH;
+				}
+				else if (order3thImage == 0) {
+					order3thImage = party[i]->GRAPH;
+				}
+				else if (order4thImage == 0) {
+					order4thImage = party[i]->GRAPH;
+				}
+				else if (order5thImage == 0) {
+					order5thImage = party[i]->GRAPH;
+				}
+			}
+			i++;
+		}
+		else {
+			if (enemies[k]->GRAPH != 0) {
+				if (order1thImage == 0) {
+					order1thImage = enemies[k]->GRAPH;
+				}
+				else if (order2thImage == 0) {
+					order2thImage = enemies[k]->GRAPH;
+				}
+				else if (order3thImage == 0) {
+					order3thImage = enemies[k]->GRAPH;
+				}
+				else if (order4thImage == 0) {
+					order4thImage = enemies[k]->GRAPH;
+				}
+				else if (order5thImage == 0) {
+					order5thImage = enemies[k]->GRAPH;
+				}
+			}
+			k++;
+		}
+	}
+
+	for (; i < party.size(); i++) {
+		if (party[i]->GRAPH != 0) {
+			if (order1thImage == 0) {
+				order1thImage = party[i]->GRAPH;
+			}
+			else if (order2thImage == 0) {
+				order2thImage = party[i]->GRAPH;
+			}
+			else if (order3thImage == 0) {
+				order3thImage = party[i]->GRAPH;
+			}
+			else if (order4thImage == 0) {
+				order4thImage = party[i]->GRAPH;
+			}
+			else if (order5thImage == 0) {
+				order5thImage = party[i]->GRAPH;
+			}
+		}
+	}
+
+	for (; k < enemies.size(); k++) {
+		if (enemies[k]->GRAPH != 0) {
+			if (order1thImage == 0) {
+				order1thImage = enemies[k]->GRAPH;
+			}
+			else if (order2thImage == 0) {
+				order2thImage = enemies[k]->GRAPH;
+			}
+			else if (order3thImage == 0) {
+				order3thImage = enemies[k]->GRAPH;
+			}
+			else if (order4thImage == 0) {
+				order4thImage = enemies[i]->GRAPH;
+			}
+			else if (order5thImage == 0) {
+				order5thImage = enemies[i]->GRAPH;
+			}
+		}
+
+		//while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べる
+
+		//	int i = 0;
+		//	int k = 0;
+
+		//	// i < party.size() || k < enemies.size() でもよい
+		//	while (i < party.size() && k < enemies.size()) {
+		//		if (party[i]->SPEED > enemies[k]->SPEED) {
+		//			if (order1thImage == 0) {
+		//				order1thImage = party[i]->GRAPH;
+		//			}
+		//			else if (order2thImage == 0) {
+		//				order2thImage = party[i]->GRAPH;
+		//			}
+		//			else if (order3thImage == 0) {
+		//				order3thImage = party[i]->GRAPH;
+		//			}
+		//			else if (order4thImage == 0) {
+		//				order4thImage = party[i]->GRAPH;
+		//			}
+		//			else if (order5thImage == 0) {
+		//				order5thImage = party[i]->GRAPH;
+		//			}
+		//			i++;
+		//		}
+		//		else {
+		//			if (order1thImage == 0) {
+		//				order1thImage = enemies[k]->GRAPH;
+		//			}
+		//			else if (order2thImage == 0) {
+		//				order2thImage = enemies[k]->GRAPH;
+		//			}
+		//			else if (order3thImage == 0) {
+		//				order3thImage = enemies[k]->GRAPH;
+		//			}
+		//			else if (order4thImage == 0) {
+		//				order4thImage = enemies[k]->GRAPH;
+		//			}
+		//			else if (order5thImage == 0) {
+		//				order5thImage = enemies[k]->GRAPH;
+		//			}
+		//			k++;
+		//		}
+		//	}
+
+		//	// 余った人数の処理
+		//	while (i < party.size()) {
+		//		if (order1thImage == 0) {
+		//			order1thImage = party[i]->GRAPH;
+		//		}
+		//		else if (order2thImage == 0) {
+		//			order2thImage = party[i]->GRAPH;
+		//		}
+		//		else if (order3thImage == 0) {
+		//			order3thImage = party[i]->GRAPH;
+		//		}
+		//		else if (order4thImage == 0) {
+		//			order4thImage = party[i]->GRAPH;
+		//		}
+		//		else if (order5thImage == 0) {
+		//			order5thImage = party[i]->GRAPH;
+		//		}
+		//		i++;
+		//	}
+
+		//	// 余った敵の処理
+		//	while (k < enemies.size()) {
+
+		//		if (order1thImage == 0) {
+		//			order1thImage = enemies[k]->GRAPH;
+		//		}
+		//		else if (order2thImage == 0) {
+		//			order2thImage = enemies[k]->GRAPH;
+		//		}
+		//		else if (order3thImage == 0) {
+		//			order3thImage = enemies[k]->GRAPH;
+		//		}
+		//		else if (order4thImage == 0) {
+		//			order4thImage = enemies[k]->GRAPH;
+		//		}
+		//		else if (order5thImage == 0) {
+		//			order5thImage = enemies[k]->GRAPH;
+		//		}
+		//		k++;
+
+		//	}
+		//	
+		//}
+
+	}
+}
 
 
 

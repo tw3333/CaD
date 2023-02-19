@@ -23,20 +23,28 @@ void PersonManager::AddPersonPointerToVector() {
 
 }
 
+
+//TODO:‚È‚º‚©for•¶‚Å‰æ‘œ‚ª“Ç‚İ‚Ü‚ê‚Ä‚­‚ê‚È‚¢
 void PersonManager::LoadPersonGraph() {
 
-	for (int i = 0; i < person.size(); i++) {
+	person[0]->GRAPH = LoadGraph("graphics/chara1_face.png"); 
+	person[1]->GRAPH = LoadGraph("graphics/chara2_face.png"); 
+	person[2]->GRAPH = LoadGraph("graphics/chara3_face.png"); 
+	person[3]->GRAPH = LoadGraph("graphics/chara4_face.png"); 
 
-		switch (i)	{
-			
-			case0:person[0]->GRAPH = LoadGraph("graphics/chara1_face.png"); break;
-			case1:person[1]->GRAPH = LoadGraph("graphics/chara2_face.png"); break;
-			case2:person[2]->GRAPH = LoadGraph("graphics/chara3_face.png"); break;
-			case3:person[3]->GRAPH = LoadGraph("graphics/chara4_face.png"); break;
 
-		}
+	//for (int i = 0; i < person.size(); i++) {
 
-	}
+	//	switch (i)	{
+	//		
+	//		case0:person[0]->GRAPH = LoadGraph("graphics/chara1_face.png"); break;
+	//		case1:person[1]->GRAPH = LoadGraph("graphics/chara2_face.png"); break;
+	//		case2:person[2]->GRAPH = LoadGraph("graphics/chara3_face.png"); break;
+	//		case3:person[3]->GRAPH = LoadGraph("graphics/chara4_face.png"); break;
+
+	//	}
+
+	//}
 
 }
 	
