@@ -2,8 +2,10 @@
 #include "gm_card.h"
 #include <vector>
 #include <list>
+#include "gm_person_manager.h"
 
 class Card;
+class PersonManager;
 
 //シングルトン設計
 class CardManager {
@@ -39,6 +41,8 @@ public:
 	std::vector<Card*> chara3Deck;
 	std::vector<Card*> chara4Deck;
 
+	//PersonManager
+	PersonManager* pmgr = PersonManager::GetInstance();
 	
 	
 private:

@@ -79,6 +79,11 @@ private:
 	std::vector<Card*> chara3Hand;
 	std::vector<Card*> chara4Hand;
 
+	//単に一時的な手札
+	std::vector<Card*> hand;
+
+
+
 	//SceneBattleで戦う各キャラと敵を一時的に配列に格納して使う
 	std::vector<Person*> party;
 	std::vector<Enemy*> enemies;

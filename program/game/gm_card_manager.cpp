@@ -80,24 +80,32 @@ void CardManager::LoadCardGraph() {
 	}
 }
 
+
 void CardManager::SortJobCard() {
 
 	for (int i = 0; i < 15; i++) {
 		
 		if (cardData[i]->c_job == "Ô") {
-			cardDataChara1.push_back(cardData[i]);
+	//		cardDataChara1.push_back(cardData[i]);
+			pmgr->person[0]->cardList.push_back(cardData[i]);
 		}
 
 		else if (cardData[i]->c_job == "Ô") {
-			cardDataChara1.push_back(cardData[i]);
+//			cardDataChara1.push_back(cardData[i]);
+			pmgr->person[1]->cardList.push_back(cardData[i]);
+
 		}
 
 		else if (cardData[i]->c_job == "Â") {
-			cardDataChara3.push_back(cardData[i]);
+//			cardDataChara3.push_back(cardData[i]);
+			pmgr->person[2]->cardList.push_back(cardData[i]);
+
 		}
 
 		else if (cardData[i]->c_job == "—Î") {
-			cardDataChara4.push_back(cardData[i]);
+//			cardDataChara4.push_back(cardData[i]);
+			pmgr->person[3]->cardList.push_back(cardData[i]);
+
 		}
 
 	}

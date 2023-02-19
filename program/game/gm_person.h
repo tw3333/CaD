@@ -30,10 +30,13 @@ public:
 
 	bool isEnemy = false; //判別用
 
-	
+	//SceneBattleで使用
 	std::vector<Card*> deck; //山札
 	std::vector<Card*> hands; //手札
-	std::vector<Card*> possCardList; //そのキャラが所持しているカード一覧
+
+
+	//SceneDeckEditで使用
+	std::vector<Card*> cardList; //そのキャラが所持しているカード一覧
 
 
 

@@ -74,9 +74,10 @@ void SceneBattle::update(float dalta_time) {
 		if (party[i]->SPEED > enemies[k]->SPEED) {
 			
 			//Person側の処理
-
+			
 
 		}
+
 		else {
 
 			//Enemy側の処理
@@ -101,12 +102,12 @@ void SceneBattle::update(float dalta_time) {
 	//素早さから行動順を決める
 
 
-	if (dealHand) {
+	//if (dealHand) {
 
-		//カードを山札（デッキ）から手札に配る
-		DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-		dealHand = false;
-	}
+	//	//カードを山札（デッキ）から手札に配る
+	//	DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
+	//	dealHand = false;
+	//}
 
 
 
