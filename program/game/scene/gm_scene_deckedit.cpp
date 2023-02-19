@@ -369,34 +369,40 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 
 				if (width1 * 7 < mx && mx < width1 * 8 && height1 * 1 < my && my < height1 * 3) {
 					//CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[0]);
-					CheckHandle(pmgr->person[i]->deck, pmgr->person[0]->cardList[0]);
+					CheckHandle(pmgr->person[i]->deck, pmgr->person[i]->cardList[0]);
 
 				}
 
 				if (width1 * 8 < mx && mx < width1 * 9 && height1 * 1 < my && my < height1 * 3) {
 					//CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[1]);
-					CheckHandle(pmgr->person[i]->deck, cmgr->cardDataChara1[1]);
+					CheckHandle(pmgr->person[i]->deck, pmgr->person[i]->cardList[1]);
 
 				}
 
 				if (width1 * 9 < mx && mx < width1 * 10 && height1 * 1 < my && my < height1 * 3) {
 					//CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[2]);
-					CheckHandle(pmgr->person[i]->deck, cmgr->cardDataChara1[2]);
+					CheckHandle(pmgr->person[i]->deck, pmgr->person[i]->cardList[2]);
 
 				}
 
 				if (width1 * 7 < mx && mx < width1 * 8 && height1 * 3 < my && my < height1 * 5) {
 					//CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[3]);
-					CheckHandle(pmgr->person[i]->deck, cmgr->cardDataChara1[3]);
+					CheckHandle(pmgr->person[i]->deck, pmgr->person[i]->cardList[3]);
 
 				}
 
 				if (width1 * 8 < mx && mx < width1 * 9 && height1 * 3 < my && my < height1 * 5) {
 					//CheckHandle(cmgr->chara1Deck, cmgr->cardDataChara1[4]);
-					CheckHandle(pmgr->person[i]->deck, cmgr->cardDataChara1[4]);
+					CheckHandle(pmgr->person[i]->deck, pmgr->person[i]->cardList[4]);
 
 				}
 			}
+
+			if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
+
+				pmgr->person[i]->deck.erase(pmgr->person[i]->deck.begin(), pmgr->person[i]->deck.end());
+			}
+
 		}
 
 	}
