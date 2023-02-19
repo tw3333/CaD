@@ -62,8 +62,8 @@ public:
 
 	//PersonManager
 	PersonManager* pmgr = PersonManager::GetInstance();
-	int& hp_max = pmgr->person1->HPMAX;
-	int& hp_now = pmgr->person1->HP;
+	//int& hp_max = pmgr->person[0]->HPMAX;
+	//int& hp_now = pmgr->person[0]->HP;
 
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();

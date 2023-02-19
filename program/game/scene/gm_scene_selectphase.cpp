@@ -39,10 +39,10 @@ void SceneSelectPhase::initialzie() {
 	shopWindow = false;
 	guildWindow = false;
 
-	pmgr->person1->EDIT = true;
-	pmgr->person2->EDIT = false;
-	pmgr->person3->EDIT = false;
-	pmgr->person4->EDIT = false;
+	pmgr->person[0]->EDIT = true;
+	pmgr->person[1]->EDIT = false;
+	pmgr->person[2]->EDIT = false;
+	pmgr->person[3]->EDIT = false;
 
 
 }
@@ -470,17 +470,17 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 
 		}
 
-		if (pmgr->person1->EDIT == true) {
+		if (pmgr->person[0]->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "%d",pmgr->person[0]->GRAPH);
 
 		}
-		if (pmgr->person2->EDIT == true) {
+		if (pmgr->person[1]->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2(–¢ŽÀ‘•)");
 		}
-		if (pmgr->person3->EDIT == true) {
+		if (pmgr->person[2]->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara3");
 		}
-		if (pmgr->person4->EDIT == true) {
+		if (pmgr->person[3]->EDIT == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara4");
 		}
 
@@ -614,16 +614,16 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 					if (pick1th == 0) {
 						pick1th = chara1;
-						pmgr->person1->PICK = true;
+						pmgr->person[0]->PICK = true;
 					}
 					else if (pick1th != 0 && pick2th == 0) {
 						pick2th = chara1;
-						pmgr->person1->PICK = true;
+						pmgr->person[0]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
 						pick3th = chara1;
-						pmgr->person1->PICK = true;
+						pmgr->person[0]->PICK = true;
 
 					}
 
@@ -634,17 +634,17 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 					if (pick1th == 0) {
 						pick1th = chara2;
-						pmgr->person2->PICK = true;
+						pmgr->person[1]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th == 0) {
 						pick2th = chara2;
-						pmgr->person2->PICK = true;
+						pmgr->person[1]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
 						pick3th = chara2;
-						pmgr->person2->PICK = true;
+						pmgr->person[1]->PICK = true;
 
 					}
 
@@ -655,17 +655,17 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 					if (pick1th == 0) {
 						pick1th = chara3;
-						pmgr->person3->PICK = true;
+						pmgr->person[2]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th == 0) {
 						pick2th = chara3;
-						pmgr->person3->PICK = true;
+						pmgr->person[2]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
 						pick3th = chara3;
-						pmgr->person3->PICK = true;
+						pmgr->person[2]->PICK = true;
 
 					}
 
@@ -677,29 +677,27 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 					if (pick1th == 0) {
 						pick1th = chara4;
-						pmgr->person4->PICK = true;
+						pmgr->person[3]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th == 0) {
 						pick2th = chara4;
-						pmgr->person4->PICK = true;
+						pmgr->person[3]->PICK = true;
 
 					}
 					else if (pick1th != 0 && pick2th != 0 && pick3th == 0) {
 						pick3th = chara4;
-						pmgr->person4->PICK = true;
+						pmgr->person[3]->PICK = true;
 
 					}
 				}
 
 				//pickŽæ‚èÁ‚µ
 				if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-					pmgr->person1->PICK = false;
-					pmgr->person2->PICK = false;
-					pmgr->person3->PICK = false;
-					pmgr->person4->PICK = false;
-
-				}
+					pmgr->person[0]->PICK = false;
+					pmgr->person[1]->PICK = false;
+					pmgr->person[2]->PICK = false;
+					pmgr->person[3]->PICK = false;				}
 
 			}
 
@@ -714,11 +712,11 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 		//pickŽæ‚èÁ‚µ
 		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-			pmgr->person1->PICK = false;
-			pmgr->person2->PICK = false;
-			pmgr->person3->PICK = false;
-			pmgr->person4->PICK = false;
-
+			pmgr->person[0]->PICK = false;
+			pmgr->person[1]->PICK = false;
+			pmgr->person[2]->PICK = false;
+			pmgr->person[3]->PICK = false;
+		
 			pick1th = 0;
 			pick2th = 0;
 			pick3th = 0;
@@ -753,12 +751,23 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
+					for (int i = 0; i < pmgr->person.size(); ++i) {
 
-					pmgr->person1->EDIT = true;
+						if (pmgr->person[i] == pmgr->person[0]) {
 
-					pmgr->person2->EDIT = false;
-					pmgr->person3->EDIT = false;
-					pmgr->person4->EDIT = false;
+							pmgr->person[0]->EDIT = true;
+						}
+						else {
+							pmgr->person[i]->EDIT = false;
+						}
+
+					}
+
+					//pmgr->person[0]->EDIT = true;
+
+					//pmgr->person[1]->EDIT = false;
+					//pmgr->person[2]->EDIT = false;
+					//pmgr->person[3]->EDIT = false;
 
 					tab1_cw = false;
 				}
@@ -766,33 +775,51 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 				if (width1 * 4 + 100 + 50 < mx && mx < width1 * 6 + 100 + 50 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
 
-					pmgr->person2->EDIT = true;
+					for (int i = 0; i < pmgr->person.size(); ++i) {
 
-					pmgr->person1->EDIT = false;
-					pmgr->person3->EDIT = false;
-					pmgr->person4->EDIT = false;
+						if (pmgr->person[i] == pmgr->person[1]) {
+
+							pmgr->person[1]->EDIT = true;
+						}
+						else {
+							pmgr->person[i]->EDIT = false;
+						}
+
+					}
 
 					tab1_cw = false;
 				}
 
 				if (width1 * 6 + 200 < mx && mx < width1 * 8 + 200 && height1 * 1 + 40 < my && my < height1 * 2 + 40) {
 
-					pmgr->person3->EDIT = true;
+					for (int i = 0; i < pmgr->person.size(); ++i) {
 
-					pmgr->person1->EDIT = false;
-					pmgr->person2->EDIT = false;
-					pmgr->person4->EDIT = false;
+						if (pmgr->person[i] == pmgr->person[2]) {
+
+							pmgr->person[2]->EDIT = true;
+						}
+						else {
+							pmgr->person[i]->EDIT = false;
+						}
+
+					}
 
 					tab1_cw = false;
 				}
 
 				if (width1 * 2 + 100 < mx && mx < width1 * 4 + 100 && height1 * 2 + 40 + 60 < my && my < height1 * 3 + 40 + 60) {
 
-					pmgr->person4->EDIT = true;
+					for (int i = 0; i < pmgr->person.size(); ++i) {
 
-					pmgr->person1->EDIT = false;
-					pmgr->person2->EDIT = false;
-					pmgr->person3->EDIT = false;
+						if (pmgr->person[i] == pmgr->person[3]) {
+
+							pmgr->person[3]->EDIT = true;
+						}
+						else {
+							pmgr->person[i]->EDIT = false;
+						}
+
+					}
 
 					tab1_cw = false;
 				}

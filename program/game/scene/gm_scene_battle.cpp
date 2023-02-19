@@ -18,9 +18,13 @@ SceneBattle::~SceneBattle() {
 void SceneBattle::initialzie() {
 
 	LoadBattleGraph();
-	cmgr->LoadCardDate();
-	cmgr->LoadCardGraph();
-	cmgr->SortJobCard();
+	//pmgr->AddPersonPointerToVector();
+	//pmgr->LoadPersonGraph();
+
+
+	//cmgr->LoadCardDate();
+	//cmgr->LoadCardGraph();
+	//cmgr->SortJobCard();
 
 	finish = false;
 	dealcard = false;
@@ -112,10 +116,10 @@ void SceneBattle::update(float dalta_time) {
 	}
 
 
-	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H)) {
-		hp_now -= 1;
-		your_turn = true;
-	}
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_H)) {
+	//	hp_now -= 1;
+	//	your_turn = true;
+	//}
 
 	//test
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_J)) {
@@ -229,10 +233,10 @@ void SceneBattle::render() {
 	DrawStringEx(1300, 20, -1, "scene battle");
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(10, height1 * 7, 1, "HP:%d", pmgr->person1->HP);
-	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person2->COST, pmgr->person2->COSTMAX);
+	DrawStringEx(10, height1 * 7, 1, "HP:%d", pmgr->person[0]->HP);
+	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person[0]->COST, pmgr->person[0]->COSTMAX);
 
-	DrawHpBar(hp_now, hp_max);
+	//DrawHpBar(hp_now, hp_max);
 
 	DrawBox(10, height1 * 7 + 60, width1 * 2 - 10, height1 * 8 + 25, black, false);
 	DrawBox(10, height1 * 8 + 30, width1 * 2 - 10, height1 * 9, black, false);;

@@ -7,15 +7,6 @@
 
 
 void gameMain(float delta_time) {
-	//PersonManager* pmgr = PersonManager::GetInstance();
-	//pmgr->AddPersonPointerToVector(); //Personのインスタンスをvector型の配列に格納
-	//pmgr->LoadPersonGraph(); //Personの画像をロード
-
-	//CardManager* cmgr = CardManager::GetInstance();
-	//cmgr->LoadCardDate(); //全てのカードデータをロード
-	//cmgr->LoadCardGraph(); //全てのカードデータに画像をロード
-	//cmgr->SortJobCard(); //職業ごとにカードを振り分け
-
 
 	GameManager* mgr = GameManager::GetInstance();
 	mgr->update(delta_time);
