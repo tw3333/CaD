@@ -18,8 +18,8 @@ SceneBattle::~SceneBattle() {
 void SceneBattle::initialzie() {
 
 	LoadBattleGraph();
-	//pmgr->AddPersonPointerToVector();
-	//pmgr->LoadPersonGraph();
+	pmgr->AddPersonPointerToVector();
+	pmgr->LoadPersonGraph();
 
 
 	//cmgr->LoadCardDate();
@@ -48,7 +48,7 @@ void SceneBattle::initialzie() {
 	//partyとenemiesを同じ配列に格納
 	allUnit.insert(allUnit.end(), party.begin(), party.end());
 	allUnit.insert(allUnit.end(), enemies.begin(), enemies.end());
-	
+	//
 	//SPEEDにで降順ソート
 	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b){
 		return a->SPEED > b->SPEED;
@@ -59,9 +59,13 @@ void SceneBattle::initialzie() {
 	//std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
 
 	ReflectOrderImage();
-//	DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
+	//DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
 
 	isBattle = true;
+
+	doPerson = nullptr;
+	doEnemy = nullptr;
+	isPhaseStart = true;
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -70,6 +74,11 @@ void SceneBattle::update(float dalta_time) {
 	//マウス座標の取得
 	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
 
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+
+	//	enemy1->HP = party[0]->deck[0]->c_damage;
+
+	//}
 
 	//順番を判定
 	//ReflectOrderImage();
@@ -78,56 +87,143 @@ void SceneBattle::update(float dalta_time) {
 	
 	//DealFromDeckToHand(doParson->deck, doParson->hand, dealCardNum);
 
+	// 各キャラクターの行動を実行する
+	
+
 	switch (phaseCount)
 	{
-	case 0: //行動順を決める
-
-		// 各キャラクターの行動を実行する
-		for (auto& unit : allUnit) {
-
-			if (unit->isDead == false) {
-
-				if (unit->isActed == false) {
-
-					if (unit->isEnemy == false && doPerson == nullptr) { //味方の場合
-
+		case 0:
+			// 行動順を決める処理
+			for (auto& unit : allUnit) {
+				if (unit->isDead == false && unit->isActed == false) {
+					
+					if (unit->isEnemy == false) { // 味方の場合
+					
 						doPerson = static_cast<Person*>(unit);
-
+					
+						break;
 					}
-					else if(unit->isEnemy == true && doEnemy == nullptr) { //敵の場合
-
+					else if (unit->isEnemy == true) { // 敵の場合
 						doEnemy = static_cast<Enemy*>(unit);
-
+						break;
 					}
+				}
+			}
+			phaseCount++;
+			break;
 
-					break;
+		case 1:
+			if (doPerson != nullptr) {
+				
+				if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+					DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
 				}
 
+				UseCardFromHand(doPerson,doPerson->hand,MouseX,MouseY);
+
+			}
+			else if (doEnemy != nullptr) {
+				// 敵の攻撃処理
+
 			}
 
-		}
+			if (tnl::Input::IsKeyDownTrigger(eKeys::KB_I)) {
+				phaseCount++;
+				break;
 
-		phaseCount++;
-	case 1: 
-
-		if (doPerson != nullptr) {
-
-			if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
-				DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
 			}
-
-
-
-		}
-		else if (doEnemy != nullptr) {
-
-			//敵の攻撃
-
-		}
-
-
-
+	
+		case 2:
+			if (doPerson != nullptr) {
+				doPerson->isActed = true;
+				doPerson = nullptr;
+			}
+			else if (doEnemy != nullptr) {
+				doEnemy->isActed = true;
+				doEnemy = nullptr;
+			}
+			phaseCount = 0;
+			break;
 	}
+	
+
+	//if (isPhaseStart) {
+
+	//	for (auto& unit : allUnit) {
+
+	//		if (unit->isDead == false) {
+
+	//			if (unit->isActed == false) {
+
+	//				if (unit->isEnemy == false && doPerson == nullptr) { //味方の場合
+
+	//					doPerson = static_cast<Person*>(unit);
+	//					break;
+	//				}
+	//				else if (unit->isEnemy == true && doEnemy == nullptr) { //敵の場合
+
+	//					doEnemy = static_cast<Enemy*>(unit);
+	//					break;
+	//				}
+
+	//			}
+
+	//		}
+
+	//	}
+
+	//	isPhaseStart = false;
+	//}
+
+	//UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+
+	//if (doPerson != nullptr) {
+
+	//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+
+	//		DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+	//	}
+
+	//	UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+	//
+	//}
+	//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_E)) {
+	//		isPhaseEnd = true;
+	//	}
+
+	//}
+	//else if (doEnemy != nullptr) {
+
+	//		//敵の攻撃
+
+	//}
+
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_I)) {	
+
+
+	//}
+
+
+	//if (isPhaseEnd) {
+
+	//	if (doPerson != nullptr) {
+
+	//		doPerson->isActed = true;
+	//		doPerson = nullptr;
+
+	//	}
+	//	else if (doEnemy != nullptr) {
+
+	//		doEnemy->isActed = true;
+	//		doEnemy = nullptr;
+
+	//	}
+
+	//	isPhaseEnd = false;
+	//	isPhaseStart = true;
+	//}
+
+
 
 	
 
@@ -324,7 +420,7 @@ void SceneBattle::render() {
 	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false);
 	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false);
 
-	DrawStringEx(width1*4,0,-1,"HP:%d/%d",enemies[0]->HP,enemies[0]->HPMAX);
+	DrawStringEx(width1*4,0,-1,"HP:%d/%d",enemy1->HP,enemy1->HPMAX);
 
 
 }
@@ -1245,13 +1341,13 @@ void SceneBattle::ReflectOrderImage() {
 }
 
 
-void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*> hand, int x, int y) {
+void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int x, int y) {
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 		
 		if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
 			
-			if (person->COST = hand[0]->c_cost) { //コスト計算
+			if (person->COST >= hand[0]->c_cost) { //コスト計算
 
 				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる
 
@@ -1266,7 +1362,7 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*> hand, int x
 
 		if (576 < x && x < 832 && height1 * 7 <= y && y <= height1 * 10) {
 			
-			if (person->COST = hand[1]->c_cost) { //コスト計算
+			if (person->COST >= hand[1]->c_cost) { //コスト計算
 
 				if (hand[1]->c_damage != 0) { //試しにダメージを与えてみる
 
@@ -1282,7 +1378,7 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*> hand, int x
 
 		if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
 			
-			if (person->COST = hand[2]->c_cost) { //コスト計算
+			if (person->COST > hand[2]->c_cost) { //コスト計算
 
 				if (hand[2]->c_damage != 0) { //試しにダメージを与えてみる
 
@@ -1298,7 +1394,7 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*> hand, int x
 
 		if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			
-			if (person->COST = hand[3]->c_cost) { //コスト計算
+			if (person->COST >= hand[3]->c_cost) { //コスト計算
 
 				if (hand[3]->c_damage != 0) { //試しにダメージを与えてみる
 
@@ -1314,7 +1410,7 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*> hand, int x
 
 		if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			
-			if (person->COST = hand[4]->c_cost) { //コスト計算
+			if (person->COST >= hand[4]->c_cost) { //コスト計算
 
 				if (hand[4]->c_damage != 0) { //試しにダメージを与えてみる
 

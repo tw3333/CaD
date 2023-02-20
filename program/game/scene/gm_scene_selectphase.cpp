@@ -697,7 +697,8 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 					pmgr->person[0]->PICK = false;
 					pmgr->person[1]->PICK = false;
 					pmgr->person[2]->PICK = false;
-					pmgr->person[3]->PICK = false;				}
+					pmgr->person[3]->PICK = false;				
+				}
 
 			}
 

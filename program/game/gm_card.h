@@ -32,6 +32,8 @@ public:
 	
 	int c_egraph = 0; //カード使用時のエフェクト用ハンドル
 
+	
+
 
 
 	//bool cure = false; //状態異常を直す

@@ -51,7 +51,7 @@ public:
 	void SetPartyPick();
 	
 	
-	void UseCardFromHand(Person* party,std::vector<Card*> hand,int x, int y);
+	void UseCardFromHand(Person* &party,std::vector<Card*>& hand,int x, int y);
 
 	void SetEmemyPick();
 	void ReflectOrderImage();
@@ -71,7 +71,8 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
 
-
+	Person* doPerson = nullptr;
+	Enemy* doEnemy = nullptr;
 
 
 	int test = 30;
@@ -104,8 +105,7 @@ private:
 
 	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
 
-	Person* doPerson = nullptr;
-	Enemy* doEnemy = nullptr;
+
 
 
 	bool dealHand = false;
@@ -228,6 +228,9 @@ private:
 	bool isturnEnd = false;
 
 	bool isTurnStart = false;
+
+	bool isPhaseStart = false;
+	bool isPhaseEnd = false;
 
 	int phaseCount = 0; //1ターンのフェイズの経過用
 
