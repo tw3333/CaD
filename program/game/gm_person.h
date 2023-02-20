@@ -8,6 +8,7 @@
 
 
 //クラスの名前をcharaからPersonへ(charaだとchar型の宣言と間違えやすいため)
+//TODO:カプセル化
 
 class Person : public Unit{
 public:

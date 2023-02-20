@@ -2,7 +2,7 @@
 #include <string>
 #include "gm_unit.h"
 
-
+//TODO:ƒJƒvƒZƒ‹‰»
 
 class Enemy : public Unit {
 public:
