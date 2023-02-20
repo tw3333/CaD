@@ -43,20 +43,20 @@ void SceneBattle::initialzie() {
 
 	//試しに敵と戦うために単純に入れる
 	//本来なら条件で入れる敵を変える関数を作る
-	enemies.push_back(enemy1);
-
-	//auto compareSpeed = [](const auto& a, const auto& b) {
-	//	return a->SPEED > b->SPEED;
-	//};
-
-	//allChara.insert(allChara.end(), party.begin(), party.end());
-	//allChara.insert(allChara.end(), enemies.begin(), enemies.end());
-
-	//std::sort(allChara.begin(), allChara.end(), compareSpeed);
+	enemies.emplace_back(enemy1); 
 	
+	//partyとenemiesを同じ配列に格納
+	allUnit.insert(allUnit.end(), party.begin(), party.end());
+	allUnit.insert(allUnit.end(), enemies.begin(), enemies.end());
+	
+	//SPEEDにで降順ソート
+	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b){
+		return a->SPEED > b->SPEED;
+	});
+
 	//SPEED順に降順ソート
-	std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
-	std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
+	//std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
+	//std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
 
 	ReflectOrderImage();
 //	DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
@@ -67,68 +67,69 @@ void SceneBattle::initialzie() {
 void SceneBattle::update(float dalta_time) {
 	GameManager* mgr = GameManager::GetInstance();
 
-	//順番を判定
+	//マウス座標の取得
+	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
 
-	int i = 0;
-	int k = 0;
+
+	//順番を判定
 	//ReflectOrderImage();
 	
 	//DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
+	
+	//DealFromDeckToHand(doParson->deck, doParson->hand, dealCardNum);
 
-	if (isBattle) {
+	switch (phaseCount)
+	{
+	case 0: //行動順を決める
 
-		while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べてターンを決める
+		// 各キャラクターの行動を実行する
+		for (auto& unit : allUnit) {
 
-			if (party[i]->SPEED > enemies[k]->SPEED) {
+			if (unit->isDead == false) {
 
-				//Person側の処理
-				//手札をドロー 
-				DealFromDeckToHand(party[i]->deck, party[i]->hand, dealCardNum);
+				if (unit->isActed == false) {
 
+					if (unit->isEnemy == false && doPerson == nullptr) { //味方の場合
 
-					
+						doPerson = static_cast<Person*>(unit);
 
+					}
+					else if(unit->isEnemy == true && doEnemy == nullptr) { //敵の場合
 
-				i++;
+						doEnemy = static_cast<Enemy*>(unit);
 
-			}
+					}
 
-			else {
+					break;
+				}
 
-				//Enemy側の処理
-				
-				k++;
-
-			}
-
-			while (i < party.size()) {
-
-
-				i++;
-			}
-
-			while (k  < enemies.size()) {
-
-
-				k++;
 			}
 
 		}
 
+		phaseCount++;
+	case 1: 
 
-		isBattle = false;
+		if (doPerson != nullptr) {
+
+			if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+				DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+			}
+
+
+
+		}
+		else if (doEnemy != nullptr) {
+
+			//敵の攻撃
+
+		}
+
+
 
 	}
 
-
-
-
-
-
-
-
-
-
+	
 
 	BattleStart();
 	Debug();
@@ -150,7 +151,7 @@ void SceneBattle::update(float dalta_time) {
 	move += 2 * sin(timer);
 
 	//マウス座標の取得
-	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
+//	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
 
 	drawCardUp(MouseX, MouseY);
 
@@ -997,6 +998,7 @@ void SceneBattle::LoadBattleGraph() {
 }
 
 void SceneBattle::DrawHpBar(int hp_now, int hp_max) {
+	
 	int color = GetColor(255, 255, 255);
 	int color2 = GetColor(255, 0, 0);
 
@@ -1058,7 +1060,7 @@ void SceneBattle::SetPartyPick() {
 
 		if (pmgr->person[i]->PICK == true) {
 
-			party.push_back(pmgr->person[i]);
+			party.emplace_back(pmgr->person[i]);
 
 		}
 	}
@@ -1242,6 +1244,94 @@ void SceneBattle::ReflectOrderImage() {
 	}
 }
 
+
+void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*> hand, int x, int y) {
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+		
+		if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
+			
+			if (person->COST = hand[0]->c_cost) { //コスト計算
+
+				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる
+
+					enemy1->HP -= hand[0]->c_damage;
+
+				}
+
+			}
+
+		}		
+
+
+		if (576 < x && x < 832 && height1 * 7 <= y && y <= height1 * 10) {
+			
+			if (person->COST = hand[1]->c_cost) { //コスト計算
+
+				if (hand[1]->c_damage != 0) { //試しにダメージを与えてみる
+
+					enemy1->HP -= hand[1]->c_damage;
+
+				}
+
+
+
+			}
+		}
+	
+
+		if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
+			
+			if (person->COST = hand[2]->c_cost) { //コスト計算
+
+				if (hand[2]->c_damage != 0) { //試しにダメージを与えてみる
+
+					enemy1->HP -= hand[2]->c_damage;
+
+				}
+
+
+
+			}
+		}
+	
+
+		if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			
+			if (person->COST = hand[3]->c_cost) { //コスト計算
+
+				if (hand[3]->c_damage != 0) { //試しにダメージを与えてみる
+
+					enemy1->HP -= hand[3]->c_damage;
+
+				}
+
+
+
+			}
+		}
+	
+
+		if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+			
+			if (person->COST = hand[4]->c_cost) { //コスト計算
+
+				if (hand[4]->c_damage != 0) { //試しにダメージを与えてみる
+
+					enemy1->HP -= hand[4]->c_damage;
+
+				}
+
+			}
+		}
+	
+	
+	
+	
+	}
+
+
+}
 
 
 //memo

@@ -6,10 +6,9 @@
 
 class Enemy : public Unit {
 public:
+	
 	Enemy(std::string name, int hp, int hpmax, int attack, int speed,int graph, int egraph) 
 		:NAME(name), HP(hp), HPMAX(hpmax), ATTACK(attack), SPEED(speed) ,GRAPH(graph),EGRAPH(egraph) {}
-
-	
 
 	//ステータス
 	//テスト(公開状態)
@@ -22,7 +21,8 @@ public:
 	int GRAPH; //敵の画像
 	int EGRAPH; //敵の攻撃エフェクト
 	bool isEnemy = true; //判別用
-
+	bool isActed = false; //行動済みかどうか
+	bool isDead = false; //死んでるかどうか
 
 	//実装予定ステータス
 	bool burn = false; //燃えているかどうか

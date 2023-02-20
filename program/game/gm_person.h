@@ -23,12 +23,14 @@ public:
 	int SPEED; //ターン順位に使用する素早さ
 	bool PICK = false;
 	bool EDIT = false;
-
-
+	
+	bool isActed = false; //行動済みかどうか
+	bool isDead = false; //死んでるかどうか
 
 	int GRAPH = 0;
 
-	bool isEnemy = false; //判別用
+	bool isEnemy = false; //敵かどうか
+
 
 	//SceneBattleで使用
 	std::vector<Card*> deck; //山札

@@ -49,7 +49,9 @@ public:
 
 	//remake
 	void SetPartyPick();
-	void UseCard();
+	
+	
+	void UseCardFromHand(Person* party,std::vector<Card*> hand,int x, int y);
 
 	void SetEmemyPick();
 	void ReflectOrderImage();
@@ -68,6 +70,8 @@ public:
 
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
+
+
 
 
 	int test = 30;
@@ -94,9 +98,14 @@ private:
 
 	//std::vector<void*> allChara;
 
-	std::vector<std::unique_ptr<Unit>> allChara;
+	//std::vector<std::unique_ptr<Unit>> allUnit;
+	 
+	std::vector<Unit*> allUnit;
 
+	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
 
+	Person* doPerson = nullptr;
+	Enemy* doEnemy = nullptr;
 
 
 	bool dealHand = false;
@@ -216,6 +225,12 @@ private:
 	int dealCardNum = 5; //5枚がデフォルト
 
 	bool isBattle = false;
+	bool isturnEnd = false;
+
+	bool isTurnStart = false;
+
+	int phaseCount = 0; //1ターンのフェイズの経過用
+
 
 	//色設定
 	unsigned int gray = GetColor(138, 140, 142);

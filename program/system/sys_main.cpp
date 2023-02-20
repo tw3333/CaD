@@ -39,6 +39,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	tnl::Input::Initialize(hInstance,hWnd, hdc, DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT);
 
 
+
 	// メッセージループ
 	while( 1 )
 	{
