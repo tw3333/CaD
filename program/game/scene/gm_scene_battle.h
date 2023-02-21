@@ -48,7 +48,8 @@ public:
 	void Debug();
 
 	//remake
-	void SetPartyPick();
+	void SetParty(std::vector<Person*>& person, std::vector<Person*>& party);
+
 	
 	
 	void UseCardFromHand(Person* &party,std::vector<Card*>& hand,int x, int y);
@@ -71,8 +72,6 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
 
-	Person* doPerson = nullptr;
-	Enemy* doEnemy = nullptr;
 
 
 	int test = 30;
@@ -86,9 +85,10 @@ private:
 	std::vector<Card*> chara4Hand;
 
 	//単に一時的な手札
-	std::vector<Card*> hand;
+	//std::vector<Card*> hand;
 
-
+	Person* doPerson = nullptr;
+	Enemy* doEnemy = nullptr;
 
 	//SceneBattleで戦う各キャラと敵を一時的に配列に格納して使う
 	std::vector<Person*> party;
@@ -233,6 +233,23 @@ private:
 	bool isPhaseEnd = false;
 
 	int phaseCount = 0; //1ターンのフェイズの経過用
+
+	//bool decideOrderPhase = false;
+	//bool dealCardPhase = false;
+
+	//ターンのファイズ管理用enum
+	enum TurnPhase {
+
+		decideOrderPhase,
+		dealCardPhase,
+		battlePhase,
+		endPhase,
+
+
+
+	};
+
+	TurnPhase phase;
 
 
 	//色設定

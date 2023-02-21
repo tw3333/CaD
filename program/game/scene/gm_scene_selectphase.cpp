@@ -471,7 +471,7 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		}
 
 		if (pmgr->person[0]->EDIT == true) {
-			DrawStringEx(10, height1 * 1 + 10, 1, "%d",pmgr->person[0]->GRAPH);
+			DrawStringEx(10, height1 * 1 + 10, 1, "%d", pmgr->person[0]->GRAPH);
 
 		}
 		if (pmgr->person[1]->EDIT == true) {
@@ -490,6 +490,15 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		DrawStringEx(10, height1 * 4 + 10 + 30, 1, "soubi(–¢ŽÀ‘•)");
 		DrawStringEx(10, height1 * 5 + 10 + 40, 1, "item(–¢ŽÀ‘•)");
 
+		DrawStringEx(width1 * 7, height1 * 2, 1, "p1speed:%d", pmgr->person[0]->SPEED);
+		DrawStringEx(width1 * 7, height1 * 2 + 20, 1, "p2speed:%d", pmgr->person[1]->SPEED);
+		DrawStringEx(width1 * 7, height1 * 2 + 40, 1, "p3speed:%d", pmgr->person[2]->SPEED);
+		DrawStringEx(width1 * 7, height1 * 2 + 60, 1, "p4speed:%d", pmgr->person[3]->SPEED);
+		
+		DrawStringEx(width1 * 8, height1 * 2, 1, "p1speed:%d", pmgr->person[0]->PICK);
+		DrawStringEx(width1 * 8, height1 * 2 + 20, 1, "p2speed:%d", pmgr->person[1]->PICK);
+		DrawStringEx(width1 * 8, height1 * 2 + 40, 1, "p3speed:%d", pmgr->person[2]->PICK);
+		DrawStringEx(width1 * 8, height1 * 2 + 60, 1, "p4speed:%d", pmgr->person[3]->PICK);
 	}
 
 }
@@ -697,7 +706,7 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 					pmgr->person[0]->PICK = false;
 					pmgr->person[1]->PICK = false;
 					pmgr->person[2]->PICK = false;
-					pmgr->person[3]->PICK = false;				
+					pmgr->person[3]->PICK = false;
 				}
 
 			}
@@ -717,7 +726,7 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 			pmgr->person[1]->PICK = false;
 			pmgr->person[2]->PICK = false;
 			pmgr->person[3]->PICK = false;
-		
+
 			pick1th = 0;
 			pick2th = 0;
 			pick3th = 0;
@@ -881,7 +890,7 @@ void SceneSelectPhase::LoadSelectPhaseGraph() {
 }
 
 void SceneSelectPhase::DrawPartyPick() {
-	
+
 	switch (pick1th) {
 
 	case 1:

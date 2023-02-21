@@ -50,6 +50,18 @@ public:
 	bool isPoison = false; //ì≈èÛë‘Ç©Ç«Ç§Ç©
 	int hate = 0; //ÉwÉCÉg
 
+	//getter setter
+	int getSPEED() const override { return SPEED; }
+	void setSPEED(int speed) override { SPEED = speed; }
+
+	bool getIsEnemy() const override { return isEnemy; }
+	void setIsEnemy(bool f) override { isEnemy = f; }
+
+	bool getIsActed() const override { return isActed; }
+	void setIsActed(bool f) override { isActed = f; }
+
+	bool getIsDead() const override { return isDead; }
+	void setIsDead(bool f) override { isDead = f; }
 
 private:
 

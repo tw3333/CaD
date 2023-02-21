@@ -18,9 +18,6 @@ SceneBattle::~SceneBattle() {
 void SceneBattle::initialzie() {
 
 	LoadBattleGraph();
-	pmgr->AddPersonPointerToVector();
-	pmgr->LoadPersonGraph();
-
 
 	//cmgr->LoadCardDate();
 	//cmgr->LoadCardGraph();
@@ -34,38 +31,49 @@ void SceneBattle::initialzie() {
 	img_turn_move = 25;
 
 	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
+	//Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
 
 	//Partyの構成を確定
 	//TODO:キャラが多くなった時のことを想定して配列から検索して入れるようにする
-	SetPartyPick();
-
+	SetParty(pmgr->person, party);
+	ReflectOrderImage();
 
 	//試しに敵と戦うために単純に入れる
 	//本来なら条件で入れる敵を変える関数を作る
-	enemies.emplace_back(enemy1); 
-	
+	enemies.emplace_back(enemy1);
+
 	//partyとenemiesを同じ配列に格納
-	allUnit.insert(allUnit.end(), party.begin(), party.end());
-	allUnit.insert(allUnit.end(), enemies.begin(), enemies.end());
-	//
+	//allUnit.insert(allUnit.end(), party.begin(), party.end());
+	//allUnit.insert(allUnit.end(), enemies.begin(), enemies.end());
+
+	for (const auto& p : party) {
+		allUnit.push_back(p);
+	}
+	for (const auto& e : enemies) {
+		allUnit.push_back(e);
+	}
+
 	//SPEEDにで降順ソート
-	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b){
-		return a->SPEED > b->SPEED;
+	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
+		return a->getSPEED() > b->getSPEED();
 	});
 
 	//SPEED順に降順ソート
 	//std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
 	//std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
 
-	ReflectOrderImage();
+//	ReflectOrderImage();
 	//DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
 
 	isBattle = true;
 
-	doPerson = nullptr;
-	doEnemy = nullptr;
+
 	isPhaseStart = true;
+
+	doPerson = static_cast<Person*>(allUnit[0]); 
+
+	phase = decideOrderPhase;
+
 }
 
 void SceneBattle::update(float dalta_time) {
@@ -76,101 +84,139 @@ void SceneBattle::update(float dalta_time) {
 
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
 
-	//	enemy1->HP = party[0]->deck[0]->c_damage;
+	//switch (phase)
+	//{
+	//case decideOrderPhase :
 
-	//}
+	//	if (doPerson == nullptr && doEnemy == nullptr) {
 
-	//順番を判定
-	//ReflectOrderImage();
-	
-	//DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
-	
-	//DealFromDeckToHand(doParson->deck, doParson->hand, dealCardNum);
+	//		for (int i = 0; i < allUnit.size(); i++) {
 
-	// 各キャラクターの行動を実行する
-	
+	//			if (allUnit[i]->getIsDead() == false && allUnit[i]->getIsActed() == false) {
 
-	switch (phaseCount)
-	{
-		case 0:
-			// 行動順を決める処理
-			for (auto& unit : allUnit) {
-				if (unit->isDead == false && unit->isActed == false) {
-					
-					if (unit->isEnemy == false) { // 味方の場合
-					
-						doPerson = static_cast<Person*>(unit);
-					
-						break;
-					}
-					else if (unit->isEnemy == true) { // 敵の場合
-						doEnemy = static_cast<Enemy*>(unit);
-						break;
-					}
-				}
-			}
-			phaseCount++;
-			break;
+	//				if (allUnit[i]->getIsEnemy() == false) {
 
-		case 1:
-			if (doPerson != nullptr) {
-				
-				if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
-					DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
-				}
-
-				UseCardFromHand(doPerson,doPerson->hand,MouseX,MouseY);
-
-			}
-			else if (doEnemy != nullptr) {
-				// 敵の攻撃処理
-
-			}
-
-			if (tnl::Input::IsKeyDownTrigger(eKeys::KB_I)) {
-				phaseCount++;
-				break;
-
-			}
-	
-		case 2:
-			if (doPerson != nullptr) {
-				doPerson->isActed = true;
-				doPerson = nullptr;
-			}
-			else if (doEnemy != nullptr) {
-				doEnemy->isActed = true;
-				doEnemy = nullptr;
-			}
-			phaseCount = 0;
-			break;
-	}
-	
-
-	//if (isPhaseStart) {
-
-	//	for (auto& unit : allUnit) {
-
-	//		if (unit->isDead == false) {
-
-	//			if (unit->isActed == false) {
-
-	//				if (unit->isEnemy == false && doPerson == nullptr) { //味方の場合
-
-	//					doPerson = static_cast<Person*>(unit);
+	//					doPerson = static_cast<Person*>(allUnit[i]);
 	//					break;
 	//				}
-	//				else if (unit->isEnemy == true && doEnemy == nullptr) { //敵の場合
+	//				else if (allUnit[i]->getIsEnemy() == true) {
 
-	//					doEnemy = static_cast<Enemy*>(unit);
+	//					doEnemy = static_cast<Enemy*>(allUnit[i]);
 	//					break;
 	//				}
 
 	//			}
 
+
 	//		}
 
 	//	}
+
+	//	phase = dealCardPhase;
+	//	break;
+
+	//case dealCardPhase : 
+
+	//	isBattle = true;
+	//	break;
+
+	//}
+
+
+	//switch (phaseCount)
+	//{
+	//case 0:
+	//	 行動順を決める処理
+	//	for (auto& unit : allUnit) {
+	//		if (unit->getIsDead() == false && unit->getIsActed() == false) {
+
+	//			if (unit->getIsEnemy() == false) { // 味方の場合
+
+	//				doPerson = static_cast<Person*>(unit);
+	//				break;
+
+	//			}
+	//			else if (unit->getIsEnemy() == true) { // 敵の場合
+	//				
+	//				doEnemy = static_cast<Enemy*>(unit);
+	//				break;
+
+	//			}
+	//		}
+	//	}
+	//	phaseCount++;
+	//	break;
+
+	//case 1:
+	//	
+	//	if (doPerson != nullptr) {
+
+	//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+	//			DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+	//		}
+
+	//		UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+
+	//	}
+	//	else if (doEnemy != nullptr) {
+	//		 敵の攻撃処理
+
+	//	}
+
+	//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_I)) {
+	//		phaseCount++;
+	//		break;
+
+	//	}
+
+	//case 2:
+	//	if (doPerson != nullptr) {
+	//		doPerson->isActed = true;
+	//		doPerson = nullptr;
+	//	}
+	//	else if (doEnemy != nullptr) {
+	//		doEnemy->isActed = true;
+	//		doEnemy = nullptr;
+	//	}
+	//	phaseCount = 0;
+	//	break;
+	//}
+
+
+	//if (decideOrderPhase && doPerson == nullptr && doEnemy == nullptr) {
+
+	//	for (auto& unit : allUnit) {
+
+	//		if (unit->getIsDead() == false && unit->getIsActed() == false) {
+
+	//			if (unit->getIsEnemy() == false) { // 味方の場合
+
+	//				doPerson = static_cast<Person*>(unit);
+	//				break;
+
+	//			}
+	//			else if (unit->getIsEnemy() == true) { // 敵の場合
+
+	//				doEnemy = static_cast<Enemy*>(unit);
+	//				break;
+
+	//			}
+	//		}
+	//	}
+
+	//	decideOrderPhase = false;
+	//	dealCardPhase = true;
+	//}
+
+	//if (dealCardPhase) {
+
+	//	DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+	//	dealCardPhase = false;
+
+	//}
+
+
+	UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
 
 	//	isPhaseStart = false;
 	//}
@@ -225,7 +271,7 @@ void SceneBattle::update(float dalta_time) {
 
 
 
-	
+
 
 	BattleStart();
 	Debug();
@@ -420,7 +466,21 @@ void SceneBattle::render() {
 	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false);
 	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false);
 
-	DrawStringEx(width1*4,0,-1,"HP:%d/%d",enemy1->HP,enemy1->HPMAX);
+	DrawStringEx(width1 * 4, 0, -1, "HP:%d/%d", enemy1->HP, enemy1->HPMAX);
+	DrawStringEx(width1 * 4, 15, -1, "HP:%d/%d", enemy1->HPMAX);
+
+	DrawStringEx(width1 * 8, height1 * 2, -1, "%d", party[0]->SPEED);
+	DrawStringEx(width1 * 8, height1 * 2 + 15, -1, "%d", party[1]->SPEED);
+	DrawStringEx(width1 * 8, height1 * 2 + 30, -1, "%d", party[2]->SPEED);
+
+	DrawStringEx(width1 * 9, height1 * 2, -1, "%d", allUnit[0]->getIsEnemy());
+	DrawStringEx(width1 * 9, height1 * 2 + 15, -1, "%d", allUnit[1]->getIsEnemy());
+	DrawStringEx(width1 * 9, height1 * 2 + 30, -1, "%d", allUnit[2]->getIsEnemy());
+	DrawStringEx(width1 * 9, height1 * 2 + 45, -1, "%d", allUnit[3]->getIsEnemy());
+
+	DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "%d", doPerson->getSPEED());
+
+
 
 
 }
@@ -1094,7 +1154,7 @@ void SceneBattle::LoadBattleGraph() {
 }
 
 void SceneBattle::DrawHpBar(int hp_now, int hp_max) {
-	
+
 	int color = GetColor(255, 255, 255);
 	int color2 = GetColor(255, 0, 0);
 
@@ -1149,15 +1209,11 @@ void SceneBattle::DrawOrder() {
 
 }
 
-void SceneBattle::SetPartyPick() {
+void SceneBattle::SetParty(std::vector<Person*>& person, std::vector<Person*>& party) {
 
-
-	for (int i = 0; i < pmgr->person.size(); ++i) {
-
-		if (pmgr->person[i]->PICK == true) {
-
-			party.emplace_back(pmgr->person[i]);
-
+	for (int i = 0; i < person.size(); i++) {
+		if (person[i]->PICK == true) {
+			party.push_back(person[i]);
 		}
 	}
 
@@ -1241,10 +1297,10 @@ void SceneBattle::ReflectOrderImage() {
 				order3thImage = enemies[k]->GRAPH;
 			}
 			else if (order4thImage == 0) {
-				order4thImage = enemies[i]->GRAPH;
+				order4thImage = enemies[k]->GRAPH;
 			}
 			else if (order5thImage == 0) {
-				order5thImage = enemies[i]->GRAPH;
+				order5thImage = enemies[k]->GRAPH;
 			}
 		}
 
@@ -1341,12 +1397,12 @@ void SceneBattle::ReflectOrderImage() {
 }
 
 
-void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int x, int y) {
+void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int x, int y) {
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
-		
+
 		if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
-			
+
 			if (person->COST >= hand[0]->c_cost) { //コスト計算
 
 				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる
@@ -1357,11 +1413,11 @@ void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int
 
 			}
 
-		}		
+		}
 
 
 		if (576 < x && x < 832 && height1 * 7 <= y && y <= height1 * 10) {
-			
+
 			if (person->COST >= hand[1]->c_cost) { //コスト計算
 
 				if (hand[1]->c_damage != 0) { //試しにダメージを与えてみる
@@ -1374,10 +1430,10 @@ void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int
 
 			}
 		}
-	
+
 
 		if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
-			
+
 			if (person->COST > hand[2]->c_cost) { //コスト計算
 
 				if (hand[2]->c_damage != 0) { //試しにダメージを与えてみる
@@ -1390,10 +1446,10 @@ void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int
 
 			}
 		}
-	
+
 
 		if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			
+
 			if (person->COST >= hand[3]->c_cost) { //コスト計算
 
 				if (hand[3]->c_damage != 0) { //試しにダメージを与えてみる
@@ -1406,10 +1462,10 @@ void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int
 
 			}
 		}
-	
+
 
 		if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-			
+
 			if (person->COST >= hand[4]->c_cost) { //コスト計算
 
 				if (hand[4]->c_damage != 0) { //試しにダメージを与えてみる
@@ -1420,10 +1476,10 @@ void SceneBattle::UseCardFromHand(Person* &person, std::vector<Card*>& hand, int
 
 			}
 		}
-	
-	
-	
-	
+
+
+
+
 	}
 
 
