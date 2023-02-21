@@ -24,12 +24,12 @@ void SceneSelectPhase::initialzie() {
 
 	tab2 = false;
 
-	pmgr->AddPersonPointerToVector();
-	pmgr->LoadPersonGraph();
+	//pmgr->AddPersonPointerToVector();
+	//pmgr->LoadPersonGraph();
 
-	cmgr->LoadCardDate();
-	cmgr->LoadCardGraph();
-	cmgr->SortJobCard();
+	//cmgr->LoadCardDate();
+	//cmgr->LoadCardGraph();
+	//cmgr->SortJobCard();
 
 
 	dungeonWindow = true; //Å‰‚Íƒ_ƒ“ƒWƒ‡ƒ“Window•\¦

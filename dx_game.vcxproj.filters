@@ -175,12 +175,6 @@
     <ClCompile Include="program\game\gm_person.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
-    <ClCompile Include="program\game\gm_editclass.cpp">
-      <Filter>program\game</Filter>
-    </ClCompile>
-    <ClCompile Include="program\game\gm_deck.cpp">
-      <Filter>program\game</Filter>
-    </ClCompile>
     <ClCompile Include="program\game\scene\gm_scene_deckedit.cpp">
       <Filter>program\game\scene</Filter>
     </ClCompile>
@@ -203,6 +197,9 @@
       <Filter>program\game</Filter>
     </ClCompile>
     <ClCompile Include="program\game\scene\gm_test.cpp">
+      <Filter>program\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\scene\gm_scene_load.cpp">
       <Filter>program\game\scene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -330,12 +327,6 @@
     <ClInclude Include="program\game\gm_person.h">
       <Filter>program\game</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\gm_editclass.h">
-      <Filter>program\game</Filter>
-    </ClInclude>
-    <ClInclude Include="program\game\gm_deck.h">
-      <Filter>program\game</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\scene\gm_scene_deckedit.h">
       <Filter>program\game\scene</Filter>
     </ClInclude>
@@ -362,6 +353,9 @@
     </ClInclude>
     <ClInclude Include="program\game\gm_unit.h">
       <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\gm_scene_load.h">
+      <Filter>program\game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

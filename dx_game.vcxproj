@@ -40,8 +40,6 @@
     <ClCompile Include="program\game\gm_enemy.cpp" />
     <ClCompile Include="program\game\gm_enemy_manager.cpp" />
     <ClCompile Include="program\game\gm_person.cpp" />
-    <ClCompile Include="program\game\gm_deck.cpp" />
-    <ClCompile Include="program\game\gm_editclass.cpp" />
     <ClCompile Include="program\game\gm_item.cpp" />
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\gm_manager.cpp" />
@@ -53,6 +51,7 @@
     <ClCompile Include="program\game\scene\gm_scene_battle.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_charaedit.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_deckedit.cpp" />
+    <ClCompile Include="program\game\scene\gm_scene_load.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_play.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_result.cpp" />
     <ClCompile Include="program\game\scene\gm_scene_selectphase.cpp" />
@@ -84,8 +83,6 @@
     <ClInclude Include="program\game\gm_enemy_manager.h" />
     <ClInclude Include="program\game\gm_unit.h" />
     <ClInclude Include="program\game\gm_person.h" />
-    <ClInclude Include="program\game\gm_deck.h" />
-    <ClInclude Include="program\game\gm_editclass.h" />
     <ClInclude Include="program\game\gm_item.h" />
     <ClInclude Include="program\game\gm_main.h" />
     <ClInclude Include="program\game\gm_manager.h" />
@@ -98,6 +95,7 @@
     <ClInclude Include="program\game\scene\gm_scene_base.h" />
     <ClInclude Include="program\game\scene\gm_scene_charaedit.h" />
     <ClInclude Include="program\game\scene\gm_scene_deckedit.h" />
+    <ClInclude Include="program\game\scene\gm_scene_load.h" />
     <ClInclude Include="program\game\scene\gm_scene_play.h" />
     <ClInclude Include="program\game\scene\gm_scene_result.h" />
     <ClInclude Include="program\game\scene\gm_scene_selectphase.h" />
