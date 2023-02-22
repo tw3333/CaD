@@ -39,7 +39,7 @@ void SceneSelectPhase::initialzie() {
 	shopWindow = false;
 	guildWindow = false;
 
-	pmgr->person[0]->EDIT = true;
+	pmgr->person[0]->EDIT = false;
 	pmgr->person[1]->EDIT = false;
 	pmgr->person[2]->EDIT = false;
 	pmgr->person[3]->EDIT = false;

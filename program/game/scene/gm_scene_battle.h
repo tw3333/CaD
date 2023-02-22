@@ -36,7 +36,7 @@ public:
 	//ŠÖ”ŒQ
 	void DrawTurn();
 	void drawCardUp(int x, int y);
-	void DrawHand();
+	void DrawHand(std::vector<Card*> &hand);
 	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
 	void EaseImageCard1(double t, int x_s, int x_e, int delay);
 	void DrawHpBar(int hp_now, int hp_max); //HPƒo[‚Ì•`Ê

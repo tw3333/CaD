@@ -23,6 +23,7 @@ void SceneDeckEdit::initialzie() {
 }
 
 void SceneDeckEdit::update(float delta_time) {
+	
 	GetMousePoint(&MouseX, &MouseY);
 
 	GameManager* mgr = GameManager::GetInstance();

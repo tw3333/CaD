@@ -15,10 +15,10 @@ void PersonManager::AddPersonPointerToVector() {
 	//Person* person3 = new Person(40, 40, 3, 3, 8, false, false, 0); //chara3
 	//Person* person4 = new Person(20, 20, 3, 3, 5, false, false, 0); //chara4
 
-	person.emplace_back(new Person(30, 30, 3, 3, 10, false, false, 0)); //chara1
+	person.emplace_back(new Person(30, 30, 3, 3, 10000, false, false, 0)); //chara1
 	person.emplace_back(new Person(10, 10, 3, 3, 9, false, false, 0)); //chara2
 	person.emplace_back(new Person(40, 40, 3, 3, 8, false, false, 0)); //chara3
-	person.emplace_back(new Person(20, 20, 3, 3, 100, false, false, 0)); //chara4
+	person.emplace_back(new Person(20, 20, 3, 3, 100000, false, false, 0)); //chara4
 
 
 }

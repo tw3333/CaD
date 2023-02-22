@@ -82,44 +82,46 @@ void SceneBattle::update(float dalta_time) {
 	//マウス座標の取得
 	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
 
+	DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
 
 	//switch (phase)
 	//{
 	//case decideOrderPhase :
 
-	//	if (doPerson == nullptr && doEnemy == nullptr) {
+	//	//if (doPerson == nullptr && doEnemy == nullptr) {
 
-	//		for (int i = 0; i < allUnit.size(); i++) {
+	//	//	for (int i = 0; i < allUnit.size(); i++) {
 
-	//			if (allUnit[i]->getIsDead() == false && allUnit[i]->getIsActed() == false) {
+	//	//		if (allUnit[i]->getIsDead() == false && allUnit[i]->getIsActed() == false) {
 
-	//				if (allUnit[i]->getIsEnemy() == false) {
+	//	//			if (allUnit[i]->getIsEnemy() == false) {
 
-	//					doPerson = static_cast<Person*>(allUnit[i]);
-	//					break;
-	//				}
-	//				else if (allUnit[i]->getIsEnemy() == true) {
+	//	//				doPerson = static_cast<Person*>(allUnit[i]);
+	//	//				break;
+	//	//			}
+	//	//			else if (allUnit[i]->getIsEnemy() == true) {
 
-	//					doEnemy = static_cast<Enemy*>(allUnit[i]);
-	//					break;
-	//				}
+	//	//				doEnemy = static_cast<Enemy*>(allUnit[i]);
+	//	//				break;
+	//	//			}
 
-	//			}
+	//	//		}
 
 
-	//		}
+	//	//	}
 
-	//	}
-
+	//	//}
+	//	doPerson = static_cast<Person*>(allUnit[0]);
 	//	phase = dealCardPhase;
-	//	break;
+	//	
 
 	//case dealCardPhase : 
 
 	//	isBattle = true;
+	//	
 	//	break;
-
 	//}
 
 
@@ -427,7 +429,7 @@ void SceneBattle::render() {
 	//DrawLine(0,height1*2, width1*4, height1* 2,red);
 
 	//手札描写
-	DrawHand();
+	DrawHand(doPerson->hand);
 
 	DrawBox(0, height1 * 7, width1 * 2, height1 * 10, Silver, true);
 
@@ -478,7 +480,11 @@ void SceneBattle::render() {
 	DrawStringEx(width1 * 9, height1 * 2 + 30, -1, "%d", allUnit[2]->getIsEnemy());
 	DrawStringEx(width1 * 9, height1 * 2 + 45, -1, "%d", allUnit[3]->getIsEnemy());
 
-	DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "%d", doPerson->getSPEED());
+	DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "Speed:%d", doPerson->getSPEED());
+	DrawStringEx(width1 * 9, height1 * 4 + 60, -1, "IsActed:%d", doPerson->getIsActed());
+	DrawStringEx(width1 * 9, height1 * 4 + 75, -1, "IsDead%d", doPerson->getIsDead());
+	DrawStringEx(width1 * 9, height1 * 4 + 90, -1, "IsEnemy%d", doPerson->getIsEnemy());
+
 
 
 
@@ -498,7 +504,7 @@ void SceneBattle::BattleStart()
 
 
 
-void SceneBattle::DrawHand() {
+void SceneBattle::DrawHand(std::vector<Card*>& hand) {
 
 	//とりあえず５枚表示
 	//DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, chara1Hand[0]->c_graph, false); //1
@@ -508,24 +514,24 @@ void SceneBattle::DrawHand() {
 	//DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, chara1Hand[4]->c_graph, false); //5
 
 	//
-	for (int i = 0; i < party[0]->hand.size(); i++) {
+	for (int i = 0; i < hand.size(); i++) {
 
 		switch (i)
 		{
 		case 0:
-			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, party[0]->hand[i]->c_graph, false); //1
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[i]->c_graph, false); //1
 			break;
 		case 1:
-			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, party[0]->hand[i]->c_graph, false); //2
+			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, hand[i]->c_graph, false); //2
 			break;
 		case 2:
-			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, party[0]->hand[i]->c_graph, false); //3
+			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, hand[i]->c_graph, false); //3
 			break;
 		case 3:
-			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, party[0]->hand[i]->c_graph, false); //4
+			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, hand[i]->c_graph, false); //4
 			break;
 		case 4:
-			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, party[0]->hand[i]->c_graph, false); //5
+			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, hand[i]->c_graph, false); //5
 			break;
 		default:
 			break;
