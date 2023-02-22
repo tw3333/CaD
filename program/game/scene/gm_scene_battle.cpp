@@ -10,6 +10,8 @@
 #include "../gm_enemy.h"
 #include "DxLib.h"
 
+#include "../gm_manager.h"
+
 SceneBattle::~SceneBattle() {
 
 }
@@ -56,7 +58,7 @@ void SceneBattle::initialzie() {
 	//SPEEDにで降順ソート
 	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
 		return a->getSPEED() > b->getSPEED();
-	});
+		});
 
 	//SPEED順に降順ソート
 	//std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
@@ -70,19 +72,31 @@ void SceneBattle::initialzie() {
 
 	isPhaseStart = true;
 
-	doPerson = static_cast<Person*>(allUnit[0]); 
+
 
 	phase = decideOrderPhase;
 
+	decideOrder = true;
+
+	//doPerson = static_cast<Person*>(allUnit[0]);
 }
 
 void SceneBattle::update(float dalta_time) {
-	GameManager* mgr = GameManager::GetInstance();
 
+	GameManager* mgr = GameManager::GetInstance();
+	PersonManager* pmgr = PersonManager::GetInstance();
 	//マウス座標の取得
 	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
 
-	DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+	//	DealFromDeckToHand(doPerson->deck, doPerson->hand, 5);
+	//}
+
+	//doPerson = static_cast<Person*>(allUnit[0]);
+
+	//DealFromDeckToHand(pmgr->doPerson->deck, pmgr->doPerson->hand, 5);
+
+	//DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
 
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
 
@@ -154,6 +168,7 @@ void SceneBattle::update(float dalta_time) {
 	//	if (doPerson != nullptr) {
 
 	//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+	// 
 	//			DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
 	//		}
 
@@ -218,7 +233,7 @@ void SceneBattle::update(float dalta_time) {
 	//}
 
 
-	UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+//	UseCardFromHand(doPerson, doPerson->getHand(), MouseX, MouseY);
 
 	//	isPhaseStart = false;
 	//}
@@ -275,8 +290,8 @@ void SceneBattle::update(float dalta_time) {
 
 
 
-	BattleStart();
-	Debug();
+//	BattleStart();
+//	Debug();
 
 	//素早さから行動順を決める
 
@@ -386,6 +401,48 @@ void SceneBattle::update(float dalta_time) {
 
 void SceneBattle::render() {
 
+	//１ターンの処理
+	switch (phase)
+	{
+	case SceneBattle::decideOrderPhase:
+
+		DecideOrderUnit(allUnit, decideOrder);
+		phase = dealCardPhase;
+
+	case SceneBattle::dealCardPhase:
+
+		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+			DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+
+			phase = battlePhase;
+		}
+		//		DealFromDeckToHand(doPerson->deck, doPerson->hand, 5);
+
+	case SceneBattle::battlePhase:
+
+		UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+	
+	case SceneBattle::endPhase:
+
+		break;
+
+	}
+
+
+
+
+
+
+
+
+
+//	DecideOrderUnit(allUnit,decideOrder);
+	//b_deck = doPerson->deck;
+	//b_hand = doPerson->hand;
+	
+//	DealFromDeckToHand(doPerson->deck, doPerson->hand, 5);
+
+	
 
 	//PersonManager* pmgr = PersonManager::getInstance();
 
@@ -480,8 +537,8 @@ void SceneBattle::render() {
 	DrawStringEx(width1 * 9, height1 * 2 + 30, -1, "%d", allUnit[2]->getIsEnemy());
 	DrawStringEx(width1 * 9, height1 * 2 + 45, -1, "%d", allUnit[3]->getIsEnemy());
 
-	DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "Speed:%d", doPerson->getSPEED());
-	DrawStringEx(width1 * 9, height1 * 4 + 60, -1, "IsActed:%d", doPerson->getIsActed());
+	DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "Speed:%d", doPerson->SPEED);
+	DrawStringEx(width1 * 9, height1 * 4 + 60, -1, "IsActed:%d", doPerson->HP);
 	DrawStringEx(width1 * 9, height1 * 4 + 75, -1, "IsDead%d", doPerson->getIsDead());
 	DrawStringEx(width1 * 9, height1 * 4 + 90, -1, "IsEnemy%d", doPerson->getIsEnemy());
 
@@ -1486,6 +1543,34 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 
 
 
+	}
+
+
+}
+
+void SceneBattle::DecideOrderUnit(std::vector<Unit*>& allUnit, bool f) {
+
+	if (f) {
+
+		for (auto& unit : allUnit) {
+			if (unit->getIsDead() == false && unit->getIsActed() == false) {
+
+				if (unit->getIsEnemy() == false) { // 味方の場合
+
+					doPerson = static_cast<Person*>(unit);
+					break;
+
+				}
+				else if (unit->getIsEnemy() == true) { // 敵の場合
+
+					doEnemy = static_cast<Enemy*>(unit);
+					break;
+
+				}
+			}
+		}
+
+		f = false;
 	}
 
 

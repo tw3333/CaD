@@ -1,5 +1,6 @@
 #pragma once
 #include "gm_person.h"
+#include "gm_enemy.h"
 #include <vector>
 
 
@@ -28,6 +29,8 @@ public:
 		}
 		return instance_;
 	}
+
+
 
 private:
 

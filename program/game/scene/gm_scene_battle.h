@@ -59,6 +59,8 @@ public:
 
 	std::vector<void*> GetTurnOrder(const std::vector<Person*>& party, const std::vector<Enemy*>& enemies);
 
+	void DecideOrderUnit(std::vector<Unit*>& unit, bool f);
+
 
 	//イージング関数
 	double easeInExpo(double t);
@@ -86,13 +88,20 @@ private:
 
 	//単に一時的な手札
 	//std::vector<Card*> hand;
-
 	Person* doPerson = nullptr;
 	Enemy* doEnemy = nullptr;
+	
+
+//	std::unique_ptr<Person> doPerson;
 
 	//SceneBattleで戦う各キャラと敵を一時的に配列に格納して使う
 	std::vector<Person*> party;
 	std::vector<Enemy*> enemies;
+
+	//SceneBattleでキャストしたPersonの持つ、deck,handを配列に戻す用
+	std::vector<Card*> b_deck;
+	std::vector<Card*> b_hand;
+
 
 	//速さの判定のため、同じ配列にpartyとenemiesを入れる
 	std::vector<std::pair<int, bool>> turnOrder; //<Speed,isEnemy>
@@ -234,6 +243,8 @@ private:
 
 	int phaseCount = 0; //1ターンのフェイズの経過用
 
+	bool decideOrder = false;
+
 	//bool decideOrderPhase = false;
 	//bool dealCardPhase = false;
 
@@ -244,8 +255,6 @@ private:
 		dealCardPhase,
 		battlePhase,
 		endPhase,
-
-
 
 	};
 

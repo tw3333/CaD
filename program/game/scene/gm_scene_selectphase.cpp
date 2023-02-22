@@ -6,6 +6,8 @@
 #include "gm_scene_play.h"
 #include "gm_scene_deckedit.h"
 #include "../gm_person_manager.h"
+#include "../gm_card_manager.h"
+#include"../gm_manager.h"
 
 #include "DxLib.h"
 

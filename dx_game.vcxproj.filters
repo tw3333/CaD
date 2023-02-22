@@ -202,6 +202,9 @@
     <ClCompile Include="program\game\scene\gm_scene_load.cpp">
       <Filter>program\game\scene</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\gm_turn_manager.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="program\library\picojson.h">
@@ -356,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="program\game\scene\gm_scene_load.h">
       <Filter>program\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_turn_manager.h">
+      <Filter>program\game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

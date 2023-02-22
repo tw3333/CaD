@@ -13,8 +13,11 @@
 class Person : public Unit{
 public:
 	
+	//コンストラクタ
 	Person(int hp, int hpmax, int cost, int costmax, int speed, bool pick, bool edit, int graph)
 	 : HP(hp), HPMAX(hpmax), COST(cost),COSTMAX(costmax), SPEED(speed),PICK(pick),EDIT(edit), GRAPH(graph) {}
+
+
 
 	//テストステータス
 	int HP; //HP
@@ -62,6 +65,10 @@ public:
 
 	bool getIsDead() const override { return isDead; }
 	void setIsDead(bool f) override { isDead = f; }
+
+	std::vector<Card*>& getDeck() { return deck; }
+	std::vector<Card*>& getHand() { return hand; }
+
 
 private:
 
