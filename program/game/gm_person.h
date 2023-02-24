@@ -35,6 +35,7 @@ public:
 
 	bool isEnemy = false; //“G‚©‚Ç‚¤‚©
 
+	int dealHandNum = 5;
 
 	//SceneBattle‚ÅŽg—p
 	std::vector<Card*> deck; //ŽRŽD

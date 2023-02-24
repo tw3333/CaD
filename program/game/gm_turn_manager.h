@@ -10,7 +10,8 @@ public:
 	TurnManager(std::vector<Unit*> allUnit){};
 	~TurnManager(){}
 
-	void DecideOrderUnit();
+	void DecideOrderUnit(
+	);
 
 
 

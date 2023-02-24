@@ -21,33 +21,17 @@ void SceneBattle::initialzie() {
 
 	LoadBattleGraph();
 
-	//cmgr->LoadCardDate();
-	//cmgr->LoadCardGraph();
-	//cmgr->SortJobCard();
-
-	finish = false;
-	dealcard = false;
-
 	enemy_anime = true;
 	chara_num = 1;
 	img_turn_move = 25;
 
-	//DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-	//Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
+	//===初期化時点で１番目の行動unitを決める===//
 
-	//Partyの構成を確定
-	//TODO:キャラが多くなった時のことを想定して配列から検索して入れるようにする
-	SetParty(pmgr->person, party);
-	ReflectOrderImage();
+	SetParty(pmgr->person, party); //pickからpersonを選出
 
-	//試しに敵と戦うために単純に入れる
-	//本来なら条件で入れる敵を変える関数を作る
-	enemies.emplace_back(enemy1);
+	enemies.emplace_back(enemy1); //とりあえずの敵
 
-	//partyとenemiesを同じ配列に格納
-	//allUnit.insert(allUnit.end(), party.begin(), party.end());
-	//allUnit.insert(allUnit.end(), enemies.begin(), enemies.end());
-
+	//基底クラスunitの配列に敵と味方を入れる
 	for (const auto& p : party) {
 		allUnit.push_back(p);
 	}
@@ -55,257 +39,136 @@ void SceneBattle::initialzie() {
 		allUnit.push_back(e);
 	}
 
-	//SPEEDにで降順ソート
+	//SPEEDの値で降順ソート
 	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
 		return a->getSPEED() > b->getSPEED();
 		});
 
-	//SPEED順に降順ソート
-	//std::sort(party.begin(), party.end(), [](Person* a, Person* b) { return a->SPEED > b->SPEED; });
-	//std::sort(enemies.begin(), enemies.end(), [](Enemy* a, Enemy* b) { return a->SPEED > b->SPEED; });
+	//DecideOrderUnit(allUnit); //１番目の行動Unit決定
 
-//	ReflectOrderImage();
-	//DealFromDeckToHand(party[0]->deck, party[0]->hand, dealCardNum);
+//	ReflectOrderImage(); //画像を行動順に描写
 
-	isBattle = true;
+	orderCount = 0;
+	//decideOrderPhase = true;
+
+	if (allUnit[orderCount]->getIsEnemy() == false) {
+
+		doPerson = static_cast<Person*>(allUnit[orderCount]);
+		isDecideOrdered = true;
+
+	}
+	else if (allUnit[orderCount]->getIsEnemy() == true) {
+
+		doEnemy = static_cast<Enemy*>(allUnit[orderCount]);
+		isDecideOrdered = true;
+	}
+
+//=========================================//
 
 
-	isPhaseStart = true;
-
-
-
-	phase = decideOrderPhase;
-
-	decideOrder = true;
-
-	//doPerson = static_cast<Person*>(allUnit[0]);
 }
 
 void SceneBattle::update(float dalta_time) {
 
 	GameManager* mgr = GameManager::GetInstance();
-	PersonManager* pmgr = PersonManager::GetInstance();
+
 	//マウス座標の取得
-	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
+	GetMousePoint(&MouseX, &MouseY);
 
-	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
-	//	DealFromDeckToHand(doPerson->deck, doPerson->hand, 5);
-	//}
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
-	//doPerson = static_cast<Person*>(allUnit[0]);
+		if (10 < MouseX && MouseX < width1 * 2 - 10 && height1 * 7 + 60 < MouseY && MouseY < height1 * 8 + 25) {
 
-	//DealFromDeckToHand(pmgr->doPerson->deck, pmgr->doPerson->hand, 5);
+			if (isDealCard == false && dealCardPhase == false) { //カードをdealする
 
-	//DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+				dealCardPhase = true;
 
-	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
+			}
 
-	//switch (phase)
-	//{
-	//case decideOrderPhase :
+			if (isDealCard == true && actionPhase == true) { //Turnを終わりにする
 
-	//	//if (doPerson == nullptr && doEnemy == nullptr) {
+				turnEndPhase = true;
 
-	//	//	for (int i = 0; i < allUnit.size(); i++) {
+			}
 
-	//	//		if (allUnit[i]->getIsDead() == false && allUnit[i]->getIsActed() == false) {
+		}
+	}
 
-	//	//			if (allUnit[i]->getIsEnemy() == false) {
+	//===1ターンの処理===//
+	if (isDecideOrdered) {
 
-	//	//				doPerson = static_cast<Person*>(allUnit[i]);
-	//	//				break;
-	//	//			}
-	//	//			else if (allUnit[i]->getIsEnemy() == true) {
+		if (allUnit[orderCount]->getIsEnemy() == false) {
 
-	//	//				doEnemy = static_cast<Enemy*>(allUnit[i]);
-	//	//				break;
-	//	//			}
+			if (dealCardPhase) {
 
-	//	//		}
+				DealFromDeckToHand(doPerson->deck, doPerson->hand, doPerson->dealHandNum);
+				
+				isDealCard = true;
+				actionPhase = true;
 
+				dealCardPhase = false;
+			}
 
-	//	//	}
+			if (actionPhase) {
 
-	//	//}
-	//	doPerson = static_cast<Person*>(allUnit[0]);
-	//	phase = dealCardPhase;
-	//	
+				UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
 
-	//case dealCardPhase : 
+			}
 
-	//	isBattle = true;
-	//	
-	//	break;
-	//}
+			if (turnEndPhase) {
 
+				actionPhase = false;
+				isDealCard = false;
 
-	//switch (phaseCount)
-	//{
-	//case 0:
-	//	 行動順を決める処理
-	//	for (auto& unit : allUnit) {
-	//		if (unit->getIsDead() == false && unit->getIsActed() == false) {
+				isDecideOrdered = false;
+				decideOrderPhase = true;
 
-	//			if (unit->getIsEnemy() == false) { // 味方の場合
+				turnEndPhase = false;
+			}
 
-	//				doPerson = static_cast<Person*>(unit);
-	//				break;
+		}
+		else if (allUnit[orderCount]->getIsEnemy() == true) {
 
-	//			}
-	//			else if (unit->getIsEnemy() == true) { // 敵の場合
-	//				
-	//				doEnemy = static_cast<Enemy*>(unit);
-	//				break;
 
-	//			}
-	//		}
-	//	}
-	//	phaseCount++;
-	//	break;
 
-	//case 1:
-	//	
-	//	if (doPerson != nullptr) {
 
-	//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
-	// 
-	//			DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
-	//		}
+		}
 
-	//		UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+	}
 
-	//	}
-	//	else if (doEnemy != nullptr) {
-	//		 敵の攻撃処理
+	if (!isDecideOrdered && decideOrderPhase) {
 
-	//	}
+		orderCount += 1;
 
-	//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_I)) {
-	//		phaseCount++;
-	//		break;
+		if (allUnit[orderCount]->getIsDead() == false) {
 
-	//	}
+			if (allUnit[orderCount]->getIsEnemy() == false) {
 
-	//case 2:
-	//	if (doPerson != nullptr) {
-	//		doPerson->isActed = true;
-	//		doPerson = nullptr;
-	//	}
-	//	else if (doEnemy != nullptr) {
-	//		doEnemy->isActed = true;
-	//		doEnemy = nullptr;
-	//	}
-	//	phaseCount = 0;
-	//	break;
-	//}
+				doPerson = static_cast<Person*>(allUnit[orderCount]);
+				isDecideOrdered = true;
 
+			}
+			else if (allUnit[orderCount]->getIsEnemy() == true) {
 
-	//if (decideOrderPhase && doPerson == nullptr && doEnemy == nullptr) {
+				doEnemy = static_cast<Enemy*>(allUnit[orderCount]);
+				isDecideOrdered = true;
 
-	//	for (auto& unit : allUnit) {
+			}
 
-	//		if (unit->getIsDead() == false && unit->getIsActed() == false) {
+		}
 
-	//			if (unit->getIsEnemy() == false) { // 味方の場合
+		decideOrderPhase = false;
+	}
 
-	//				doPerson = static_cast<Person*>(unit);
-	//				break;
 
-	//			}
-	//			else if (unit->getIsEnemy() == true) { // 敵の場合
 
-	//				doEnemy = static_cast<Enemy*>(unit);
-	//				break;
 
-	//			}
-	//		}
-	//	}
 
-	//	decideOrderPhase = false;
-	//	dealCardPhase = true;
-	//}
+	//===================//
 
-	//if (dealCardPhase) {
 
-	//	DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
-	//	dealCardPhase = false;
 
-	//}
-
-
-//	UseCardFromHand(doPerson, doPerson->getHand(), MouseX, MouseY);
-
-	//	isPhaseStart = false;
-	//}
-
-	//UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
-
-	//if (doPerson != nullptr) {
-
-	//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
-
-	//		DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
-	//	}
-
-	//	UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
-	//
-	//}
-	//	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_E)) {
-	//		isPhaseEnd = true;
-	//	}
-
-	//}
-	//else if (doEnemy != nullptr) {
-
-	//		//敵の攻撃
-
-	//}
-
-	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_I)) {	
-
-
-	//}
-
-
-	//if (isPhaseEnd) {
-
-	//	if (doPerson != nullptr) {
-
-	//		doPerson->isActed = true;
-	//		doPerson = nullptr;
-
-	//	}
-	//	else if (doEnemy != nullptr) {
-
-	//		doEnemy->isActed = true;
-	//		doEnemy = nullptr;
-
-	//	}
-
-	//	isPhaseEnd = false;
-	//	isPhaseStart = true;
-	//}
-
-
-
-
-
-//	BattleStart();
-//	Debug();
-
-	//素早さから行動順を決める
-
-
-	//if (dealHand) {
-
-	//	//カードを山札（デッキ）から手札に配る
-	//	DealFromDeckToHand(cmgr->chara1Deck, chara1Hand, 5);
-	//	dealHand = false;
-	//}
-
-
-
-	//簡易敵アニメーション 
+		//簡易敵アニメーション 
 	timer += 0.1 * 1;
 	move += 2 * sin(timer);
 
@@ -401,32 +264,48 @@ void SceneBattle::update(float dalta_time) {
 
 void SceneBattle::render() {
 
-	//１ターンの処理
-	switch (phase)
-	{
-	case SceneBattle::decideOrderPhase:
+	//=====1ターンの処理=====//
 
-		DecideOrderUnit(allUnit, decideOrder);
-		phase = dealCardPhase;
+		//if (allUnit[orderCount]->getIsActed() == false && allUnit[orderCount]->getIsDead() == false) {
 
-	case SceneBattle::dealCardPhase:
+		//	if (allUnit[orderCount]->getIsEnemy() == false) {
 
-		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_D)) {
-			DealFromDeckToHand(doPerson->deck, doPerson->hand, dealCardNum);
+		//		doPerson = static_cast<Person*>(allUnit[orderCount]);
 
-			phase = battlePhase;
-		}
-		//		DealFromDeckToHand(doPerson->deck, doPerson->hand, 5);
+		//		if (dealCardPhase) {
 
-	case SceneBattle::battlePhase:
+		//			DealFromDeckToHand(doPerson->deck,doPerson->hand,doPerson->dealHandNum);
+		//			isDealCard = true;
 
-		UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
-	
-	case SceneBattle::endPhase:
+		//			actionPhase = true;
+		//			dealCardPhase = false;
+		//		}
 
-		break;
+		//		if (actionPhase) {
 
-	}
+		//			UseCardFromHand(doPerson,doPerson->hand,MouseX,MouseY);
+
+		//			if (isClickTurnEnd) {
+
+		//				turnEnd = true;
+		//				actionPhase = false;
+		//			}
+
+		//		}
+
+		//		if (turnEnd) {
+
+		//			isDealCard = false;
+		//			
+		//			orderCount++;
+
+		//			turnEnd = false;
+
+		//		}
+
+
+
+		//	}
 
 
 
@@ -434,19 +313,9 @@ void SceneBattle::render() {
 
 
 
+	//=====描写=====//
 
-
-//	DecideOrderUnit(allUnit,decideOrder);
-	//b_deck = doPerson->deck;
-	//b_hand = doPerson->hand;
-	
-//	DealFromDeckToHand(doPerson->deck, doPerson->hand, 5);
-
-	
-
-	//PersonManager* pmgr = PersonManager::getInstance();
-
-	//背景
+			//背景
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, height1 * 10, img_background, true);
 
 	//敵
@@ -461,32 +330,18 @@ void SceneBattle::render() {
 		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
 	}
 
-
 	//drawMouseUp(MouseX, MouseY);
-
-	//行動キャラ表示
-	DrawBox(0, height1 * 6, width1 * 2, height1 * 7, gray, false);
-	DrawExtendGraph(0, height1 * 6, width1 * 2, height1 * 7, chara_select, false);
-
-
 
 	//行動順ぎめ
 	//DrawBox(0, 0, width1 * 2, height1 * 4, red, false);
 
 	//ターンの画像//
 	//DrawGraph(0, 0, img_turn, false);
-	if (startTurn) {
-		DrawExtendGraph(0, 0, width1 * 2, height1 * 1, img_chara1_face, false);
-		DrawExtendGraph(0, height1 * 1, width1 * 2, height1 * 2, img_enemy1_face, false);
-		DrawExtendGraph(0, height1 * 2, width1 * 2, height1 * 3, img_chara1_face, false);
-		DrawExtendGraph(0, height1 * 3, width1 * 2, height1 * 4, img_chara1_face, false);
-	}
-
 
 	//DrawLine(0,height1*2, width1*4, height1* 2,red);
 
 	//手札描写
-	DrawHand(doPerson->hand);
+//	DrawHand(doPerson->hand);
 
 	DrawBox(0, height1 * 7, width1 * 2, height1 * 10, Silver, true);
 
@@ -495,8 +350,6 @@ void SceneBattle::render() {
 
 	//EaseTurnImage(easeOutExpo(t), 0, width1 * 4);
 	//EaseTurnImage(easeInExpo(t), width1*4, width1 * 10);
-
-
 
 	DrawTurn();
 
@@ -515,16 +368,20 @@ void SceneBattle::render() {
 	DrawStringEx(1300, 20, -1, "scene battle");
 	DrawStringEx(1300, 40, -1, "%d", select_move);
 	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(10, height1 * 7, 1, "HP:%d", pmgr->person[0]->HP);
-	DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", pmgr->person[0]->COST, pmgr->person[0]->COSTMAX);
+	//DrawStringEx(10, height1 * 7, 1, "HP:%d/%d", doPerson->HP,doPerson->HPMAX);
+	//DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", doPerson->COST, doPerson->COSTMAX);
 
-	//DrawHpBar(hp_now, hp_max);
+	//HPbarの描画
+	//DrawHpBar(doPerson->HP, doPerson->HPMAX);
 
-	DrawBox(10, height1 * 7 + 60, width1 * 2 - 10, height1 * 8 + 25, black, false);
-	DrawBox(10, height1 * 8 + 30, width1 * 2 - 10, height1 * 9, black, false);;
-	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false);
-	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false);
+	//ボタン描画
+	DrawBox(10, height1 * 7 + 60, width1 * 2 - 10, height1 * 8 + 25, black, false); //draw or turnEndのボタン
+	DrawBox(10, height1 * 8 + 30, width1 * 2 - 10, height1 * 9, black, false); //skillのボタン
+	DrawBox(10, height1 * 9 + 10, width1 * 1 - 5, height1 * 10 - 10, black, false); //道具のボタン
+	DrawBox(width1 * 1 + 5, height1 * 9 + 10, width1 * 2 - 10, height1 * 10 - 10, black, false); //逃げるのボタン
 
+
+	//debug
 	DrawStringEx(width1 * 4, 0, -1, "HP:%d/%d", enemy1->HP, enemy1->HPMAX);
 	DrawStringEx(width1 * 4, 15, -1, "HP:%d/%d", enemy1->HPMAX);
 
@@ -537,16 +394,42 @@ void SceneBattle::render() {
 	DrawStringEx(width1 * 9, height1 * 2 + 30, -1, "%d", allUnit[2]->getIsEnemy());
 	DrawStringEx(width1 * 9, height1 * 2 + 45, -1, "%d", allUnit[3]->getIsEnemy());
 
-	DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "Speed:%d", doPerson->SPEED);
-	DrawStringEx(width1 * 9, height1 * 4 + 60, -1, "IsActed:%d", doPerson->HP);
-	DrawStringEx(width1 * 9, height1 * 4 + 75, -1, "IsDead%d", doPerson->getIsDead());
-	DrawStringEx(width1 * 9, height1 * 4 + 90, -1, "IsEnemy%d", doPerson->getIsEnemy());
+	if (doPerson != nullptr) {
+
+		DrawHpBar(doPerson->HP, doPerson->HPMAX);
+		DrawHand(doPerson->hand);
+
+		DrawStringEx(10, height1 * 7, 1, "HP:%d/%d", doPerson->HP, doPerson->HPMAX);
+		DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", doPerson->COST, doPerson->COSTMAX);
+
+		DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "doPersonSpeed:%d", doPerson->SPEED);
+		DrawStringEx(width1 * 9 - 100, height1 * 4 + 60, -1, "allUnit[0]IsActed:%d", allUnit[0]->getIsActed());
+		DrawStringEx(width1 * 9, height1 * 4 + 75, -1, "IsDead%d", doPerson->getIsDead());
+		DrawStringEx(width1 * 9, height1 * 4 + 90, -1, "IsEnemy%d", doPerson->getIsEnemy());
+		DrawStringEx(width1 * 9, height1 * 4 + 105, -1, "TurnCount:%d", turnCount);
+		DrawStringEx(width1 * 9 - 100, height1 * 4 + 120, -1, "allUnit[1]:%d", allUnit[1]->getIsActed());
+		DrawStringEx(width1 * 9 - 100, height1 * 4 + 135, -1, "orderCount:%d", orderCount);
+
+		//行動キャラ表示
+		DrawBox(0, height1 * 6, width1 * 2, height1 * 7, gray, false);
+		DrawExtendGraph(0, height1 * 6, width1 * 2, height1 * 7, doPerson->GRAPH, false);
+
+	}
 
 
+	if (!isDealCard) {
 
+		DrawStringEx(10, height1 * 7 + 60, 1, "DrawCard");
+	}
+	else if (isDealCard) {
+		DrawStringEx(10, height1 * 7 + 60, 1, "TurnEnd");
+	}
 
 
 }
+
+//=====SceneBattle関数群=====//
+
 
 void SceneBattle::DrawCard(int x, int y, int x2, int y2, int chara, bool flag)
 {
@@ -1460,7 +1343,7 @@ void SceneBattle::ReflectOrderImage() {
 }
 
 
-void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int x, int y) {
+void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*>& hand, int x, int y) {
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
@@ -1471,6 +1354,7 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる
 
 					enemy1->HP -= hand[0]->c_damage;
+					/*				person->COST -= hand[0]->c_cost;*/
 
 				}
 
@@ -1486,6 +1370,7 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 				if (hand[1]->c_damage != 0) { //試しにダメージを与えてみる
 
 					enemy1->HP -= hand[1]->c_damage;
+					//person->COST -= hand[1]->c_cost;
 
 				}
 
@@ -1497,11 +1382,12 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 
 		if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
 
-			if (person->COST > hand[2]->c_cost) { //コスト計算
+			if (person->COST >= hand[2]->c_cost) { //コスト計算
 
 				if (hand[2]->c_damage != 0) { //試しにダメージを与えてみる
 
 					enemy1->HP -= hand[2]->c_damage;
+					//person->COST -= hand[2]->c_cost;
 
 				}
 
@@ -1518,6 +1404,8 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 				if (hand[3]->c_damage != 0) { //試しにダメージを与えてみる
 
 					enemy1->HP -= hand[3]->c_damage;
+					//person->COST -= hand[3]->c_cost;
+
 
 				}
 
@@ -1534,6 +1422,7 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 				if (hand[4]->c_damage != 0) { //試しにダメージを与えてみる
 
 					enemy1->HP -= hand[4]->c_damage;
+					//person->COST -= hand[4]->c_cost;
 
 				}
 
@@ -1548,30 +1437,49 @@ void SceneBattle::UseCardFromHand(Person*& person, std::vector<Card*>& hand, int
 
 }
 
-void SceneBattle::DecideOrderUnit(std::vector<Unit*>& allUnit, bool f) {
+void SceneBattle::DecideOrderUnit(std::vector<Unit*>& allUnit) {
 
-	if (f) {
+	//if (f) {
 
-		for (auto& unit : allUnit) {
-			if (unit->getIsDead() == false && unit->getIsActed() == false) {
+	for (auto& unit : allUnit) {
+		if (unit->getIsDead() == false && unit->getIsActed() == false) {
 
-				if (unit->getIsEnemy() == false) { // 味方の場合
+			if (unit->getIsEnemy() == false) { // 味方の場合
 
-					doPerson = static_cast<Person*>(unit);
-					break;
+				doPerson = static_cast<Person*>(unit);
+				doPerson->setIsActed(true);
+				break;
 
-				}
-				else if (unit->getIsEnemy() == true) { // 敵の場合
+			}
+			else if (unit->getIsEnemy() == true) { // 敵の場合
 
-					doEnemy = static_cast<Enemy*>(unit);
-					break;
+				doEnemy = static_cast<Enemy*>(unit);
+				doEnemy->setIsActed(true);
+				break;
 
-				}
 			}
 		}
-
-		f = false;
 	}
+
+	//	f = false;
+	//}
+
+
+}
+
+void SceneBattle::ChangeFlagByclickOnRange(int x, int y, int x2, int y2, bool f, int mouseX, int mouseY) {
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+
+		if (x < mouseX && mouseX < x2 && y < mouseY && mouseY < y2) {
+
+			if (f) { f = false; }
+			else if (!f) { f = true; }
+
+		}
+
+	}
+
 
 
 }

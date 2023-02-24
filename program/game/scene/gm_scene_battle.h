@@ -47,19 +47,21 @@ public:
 
 	void Debug();
 
+	void ChangeFlagByclickOnRange(int x, int y, int x2, int y2, bool f, int mouseX, int mouseY);
+
 	//remake
 	void SetParty(std::vector<Person*>& person, std::vector<Person*>& party);
 
 	
 	
-	void UseCardFromHand(Person* &party,std::vector<Card*>& hand,int x, int y);
+	void UseCardFromHand(Person* party,std::vector<Card*>& hand,int x, int y);
 
 	void SetEmemyPick();
 	void ReflectOrderImage();
 
 	std::vector<void*> GetTurnOrder(const std::vector<Person*>& party, const std::vector<Enemy*>& enemies);
 
-	void DecideOrderUnit(std::vector<Unit*>& unit, bool f);
+	void DecideOrderUnit(std::vector<Unit*>& unit);
 
 
 	//イージング関数
@@ -112,7 +114,7 @@ private:
 	 
 	std::vector<Unit*> allUnit;
 
-	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 7, 0, 0);
+	Enemy* enemy1 = new Enemy("敵１", 100, 100, 5, 5, 0, 0);
 
 
 
@@ -231,6 +233,12 @@ private:
 	//戦闘の際使うフラグ
 	bool isTakeCard = false;
 	bool isDealCard = false;
+	bool dealCard = false; //trueでカードをdealする
+	bool turnEnd = false; //trueでターンを終了
+	int turnCount = 0;
+	bool nextTurn = false;
+	bool isDecideOrdered = false; //順番を決めたかどうか
+
 	int dealCardNum = 5; //5枚がデフォルト
 
 	bool isBattle = false;
@@ -240,25 +248,36 @@ private:
 
 	bool isPhaseStart = false;
 	bool isPhaseEnd = false;
+	bool actionPhase = false;
 
 	int phaseCount = 0; //1ターンのフェイズの経過用
 
 	bool decideOrder = false;
 
+	bool dealCardPhase = false;
+	bool decideOrderPhase = false;
+	bool turnEndPhase = false;
+
+	int orderCount = 0;
+
+	bool decideNextOrder = false;
+
+	bool isClickTurnEnd = false;
+
 	//bool decideOrderPhase = false;
 	//bool dealCardPhase = false;
 
 	//ターンのファイズ管理用enum
-	enum TurnPhase {
+	//enum TurnPhase {
 
-		decideOrderPhase,
-		dealCardPhase,
-		battlePhase,
-		endPhase,
+	//	decideOrderPhase,
+	//	dealCardPhase,
+	//	battlePhase,
+	//	endPhase,
 
-	};
+	//};
 
-	TurnPhase phase;
+	/*TurnPhase phase;*/
 
 
 	//色設定

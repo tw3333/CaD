@@ -303,9 +303,6 @@
     <ClInclude Include="program\game\scene\gm_scene_title.h">
       <Filter>program\game\scene</Filter>
     </ClInclude>
-    <ClInclude Include="program\game\model\gm_airplane.h">
-      <Filter>program\game\model</Filter>
-    </ClInclude>
     <ClInclude Include="program\game\model\gm_anim_sprite3d.h">
       <Filter>program\game\model</Filter>
     </ClInclude>
@@ -362,6 +359,9 @@
     </ClInclude>
     <ClInclude Include="program\game\gm_turn_manager.h">
       <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\model\gm_airplane.h">
+      <Filter>program\game\scene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
