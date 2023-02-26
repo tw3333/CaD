@@ -11,7 +11,7 @@ void Card::useCard() {
 
 
 
-	} e/*lse if(c_effect == false) {
+	} /*lse if(c_effect == false) {
 
 		if () {
 

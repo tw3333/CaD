@@ -121,6 +121,13 @@ void SceneBattle::update(float dalta_time) {
 			if (actionPhase) {
 
 				UseCardFromHand(doPerson, doPerson->hand, MouseX, MouseY);
+				for (int i = 0; i < enemies.size(); i++) {
+
+					if (enemies[i]->HP == 0) {
+						enemies[i]->setIsDead(true);
+					}
+
+				}
 
 			}
 
@@ -139,16 +146,46 @@ void SceneBattle::update(float dalta_time) {
 		else if (allUnit[orderCount]->getIsEnemy() == true) {
 
 			doEnemy->EnemyAct(doEnemy, party);
+			for (int i = 0; i < party.size(); i++) {
+
+				if (party[i]->HP == 0) {
+
+					party[i]->setIsDead(true);
+				}
+
+			}
 
 
 			isDecideOrdered = false;
 			decideOrderPhase = true;
+			costReset = true;
+		}
+
+		bool all_dead = std::all_of(enemies.begin(), enemies.end(), []( Enemy* e) { return e->getIsDead(); });
+
+		if (all_dead) {
+
+			mgr->chengeScene(new SceneResult());
+
+		}
+
+		if (costReset) {
+
+			for (int i = 0; i < party.size(); i++) {
+
+				party[i]->COST = party[i]->COSTMAX;
+
+			}
+			costReset = false;
+
 		}
 
 	}
 
-	if (!isDecideOrdered && decideOrderPhase) {
+	
 
+	if (!isDecideOrdered && decideOrderPhase) {
+		
 		orderCount += 1;
 
 		if (orderCount > allUnit.size() - 1) {
@@ -349,16 +386,15 @@ void SceneBattle::render() {
 
 	//debug
 	DrawStringEx(width1 * 4, 0, -1, "HP:%d/%d", enemy1->HP, enemy1->HPMAX);
-	DrawStringEx(width1 * 4, 15, -1, "HP:%d/%d", enemy1->HPMAX);
-
+	
 	DrawStringEx(width1 * 8, height1 * 2, -1, "%d", party[0]->SPEED);
 	DrawStringEx(width1 * 8, height1 * 2 + 15, -1, "%d", party[1]->SPEED);
 	DrawStringEx(width1 * 8, height1 * 2 + 30, -1, "%d", party[2]->SPEED);
 
-	DrawStringEx(width1 * 9, height1 * 2, -1, "%d", allUnit[0]->getIsEnemy());
-	DrawStringEx(width1 * 9, height1 * 2 + 15, -1, "%d", allUnit[1]->getIsEnemy());
-	DrawStringEx(width1 * 9, height1 * 2 + 30, -1, "%d", allUnit[2]->getIsEnemy());
-	DrawStringEx(width1 * 9, height1 * 2 + 45, -1, "%d", allUnit[3]->getIsEnemy());
+	//DrawStringEx(width1 * 9, height1 * 2, -1, "%d", allUnit[0]->getIsEnemy());
+	//DrawStringEx(width1 * 9, height1 * 2 + 15, -1, "%d", allUnit[1]->getIsEnemy());
+	//DrawStringEx(width1 * 9, height1 * 2 + 30, -1, "%d", allUnit[2]->getIsEnemy());
+	//DrawStringEx(width1 * 9, height1 * 2 + 45, -1, "%d", allUnit[3]->getIsEnemy());
 
 	if (doPerson != nullptr) {
 
@@ -367,16 +403,16 @@ void SceneBattle::render() {
 
 		DrawStringEx(10, height1 * 7, 1, "HP:%d/%d", doPerson->HP, doPerson->HPMAX);
 		DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", doPerson->COST, doPerson->COSTMAX);
-		DrawStringEx(60, height1 * 7 + 40, 1, "Deck:%d/%d", doPerson->deck.size(), doPerson->COSTMAX);
+		//DrawStringEx(60, height1 * 7 + 40, 1, "Deck:%d/%d", doPerson->deck.size(), doPerson->COSTMAX);
 
 
-		DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "doPersonSpeed:%d", doPerson->SPEED);
-		DrawStringEx(width1 * 9 - 100, height1 * 4 + 60, -1, "allUnit[0]IsActed:%d", allUnit[0]->getIsActed());
-		DrawStringEx(width1 * 9, height1 * 4 + 75, -1, "IsDead%d", doPerson->getIsDead());
-		DrawStringEx(width1 * 9, height1 * 4 + 90, -1, "IsEnemy%d", doPerson->getIsEnemy());
-		DrawStringEx(width1 * 9, height1 * 4 + 105, -1, "TurnCount:%d", turnCount);
-		DrawStringEx(width1 * 9 - 100, height1 * 4 + 120, -1, "allUnit[1]:%d", allUnit[1]->getIsActed());
-		DrawStringEx(width1 * 9 - 100, height1 * 4 + 135, -1, "orderCount:%d", orderCount);
+		//DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "doPersonSpeed:%d", doPerson->SPEED);
+		//DrawStringEx(width1 * 9 - 100, height1 * 4 + 60, -1, "allUnit[0]IsActed:%d", allUnit[0]->getIsActed());
+		//DrawStringEx(width1 * 9, height1 * 4 + 75, -1, "IsDead%d", doPerson->getIsDead());
+		//DrawStringEx(width1 * 9, height1 * 4 + 90, -1, "IsEnemy%d", doPerson->getIsEnemy());
+		//DrawStringEx(width1 * 9, height1 * 4 + 105, -1, "TurnCount:%d", turnCount);
+		//DrawStringEx(width1 * 9 - 100, height1 * 4 + 120, -1, "allUnit[1]:%d", allUnit[1]->getIsActed());
+		//DrawStringEx(width1 * 9 - 100, height1 * 4 + 135, -1, "orderCount:%d", orderCount);
 
 		//s“®ƒLƒƒƒ‰•\¦
 		DrawBox(0, height1 * 6, width1 * 2, height1 * 7, gray, false);

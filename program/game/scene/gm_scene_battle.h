@@ -261,6 +261,7 @@ private:
 
 	bool isClickTurnEnd = false;
 
+	bool costReset = false;
 	//bool decideOrderPhase = false;
 	//bool dealCardPhase = false;
 
