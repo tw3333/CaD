@@ -11,15 +11,17 @@
 #include "DxLib.h"
 
 #include "../gm_manager.h"
+#include "gm_scene_result.h"
 
 SceneBattle::~SceneBattle() {
 
-	
-	
-	
-	for (auto& person : party) { delete person; } 
-	for (auto& enemy : enemies) { delete enemy; }
-	for (auto& unit : allUnit) { delete unit; }
+
+
+	//	for (auto& unit : allUnit) { delete unit; }
+	//	for (auto& person : party) { delete person; }
+	//	for (auto& enemy : enemies) { delete enemy; }
+
+	for (int i = 0; i < pmgr->person.size(); i++) { pmgr->person[i]->isFirstDeal = false; }
 
 }
 
@@ -49,7 +51,7 @@ void SceneBattle::initialzie() {
 	//SPEEDの値で降順ソート
 	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
 		return a->getSPEED() > b->getSPEED();
-	});
+		});
 
 	//ReflectOrderImage(); //画像を行動順に描写
 
@@ -78,7 +80,7 @@ void SceneBattle::update(float dalta_time) {
 
 	//マウス座標の取得
 	GetMousePoint(&MouseX, &MouseY);
-	
+
 	//ボタンの処理
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
@@ -136,7 +138,7 @@ void SceneBattle::update(float dalta_time) {
 		}
 		else if (allUnit[orderCount]->getIsEnemy() == true) {
 
-			doEnemy->EnemyAct(doEnemy,party);
+			doEnemy->EnemyAct(doEnemy, party);
 
 
 			isDecideOrdered = false;
@@ -147,17 +149,17 @@ void SceneBattle::update(float dalta_time) {
 
 	if (!isDecideOrdered && decideOrderPhase) {
 
-		 orderCount += 1; 
+		orderCount += 1;
 
-		if (orderCount > allUnit.size() -1) { 
-			
+		if (orderCount > allUnit.size() - 1) {
+
 			std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
 				return a->getSPEED() > b->getSPEED();
 				});
 
 			turnCount += 1;
 			orderCount = 0;
-			
+
 		}
 
 		if (allUnit[orderCount]->getIsDead() == false) {
@@ -188,11 +190,11 @@ void SceneBattle::update(float dalta_time) {
 	//マウス座標の取得
 //	GetMousePoint(&MouseX, &MouseY); //マウス座標の取得
 
-	drawCardUp(MouseX, MouseY);
+	RaiseCard(doPerson->hand, MouseX, MouseY);
 
 	//シーン切り替え
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
-		mgr->chengeScene(new SceneCharaEdit());
+		mgr->chengeScene(new SceneResult());
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
@@ -365,6 +367,8 @@ void SceneBattle::render() {
 
 		DrawStringEx(10, height1 * 7, 1, "HP:%d/%d", doPerson->HP, doPerson->HPMAX);
 		DrawStringEx(10, height1 * 7 + 40, 1, "Cost:%d/%d", doPerson->COST, doPerson->COSTMAX);
+		DrawStringEx(60, height1 * 7 + 40, 1, "Deck:%d/%d", doPerson->deck.size(), doPerson->COSTMAX);
+
 
 		DrawStringEx(width1 * 9, height1 * 4 + 45, -1, "doPersonSpeed:%d", doPerson->SPEED);
 		DrawStringEx(width1 * 9 - 100, height1 * 4 + 60, -1, "allUnit[0]IsActed:%d", allUnit[0]->getIsActed());
@@ -420,174 +424,112 @@ void SceneBattle::DrawHand(std::vector<Card*>& hand) {
 	//
 	for (int i = 0; i < hand.size(); i++) {
 
-		switch (i)
-		{
-		case 0:
-			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[i]->c_graph, false); //1
-			break;
-		case 1:
-			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, hand[i]->c_graph, false); //2
-			break;
-		case 2:
-			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, hand[i]->c_graph, false); //3
-			break;
-		case 3:
-			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, hand[i]->c_graph, false); //4
-			break;
-		case 4:
-			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, hand[i]->c_graph, false); //5
-			break;
-		default:
-			break;
+		if (hand.size() == 1) {
+			DrawExtendGraph(512 + 320, (height1 * 7) - CardUp_1, 512 + cardW + 320, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			EaseImageCard1(easeOutExpo(t), 0, 832, 0);
+		}
+		else if (hand.size() == 2) {
+			DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1, center, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(center, (height1 * 7) - CardUp_2, center + cardW, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			if (t < 0.5) {
+				EaseImageCard1(easeOutExpo(t), 0, center - cardW, 0);
+			}
+			else {
+				EaseImageCard1(easeOutExpo(t), 0, center, 0);
+			}
+		}
+
+		else if (hand.size() == 3) {
+			DrawExtendGraph(center - 128 - cardW, (height1 * 7) - CardUp_1, center - 128, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(center - 128, (height1 * 7) - CardUp_2, center + 128, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			DrawExtendGraph(center + 128, (height1 * 7) - CardUp_3, center + 128 + cardW, (height1 * 10) - CardUp_3, hand[2]->c_graph, false); //3
+		}
+		else if (hand.size() == 4) {
+			DrawExtendGraph(center - (cardW * 2), (height1 * 7) - CardUp_1, center - cardW, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_2, center, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			DrawExtendGraph(center, (height1 * 7) - CardUp_3, center + cardW, (height1 * 10) - CardUp_3, hand[2]->c_graph, false); //3
+			DrawExtendGraph(center + cardW, (height1 * 7) - CardUp_4, center + (cardW * 2), (height1 * 10) - CardUp_4, hand[3]->c_graph, false); //4
+		}
+		else if (hand.size() == 5) {
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, hand[2]->c_graph, false); //3
+			DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, hand[3]->c_graph, false); //4
+			DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, hand[4]->c_graph, false); //5
+		}
+		else if (hand.size() == 6) {
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(576 - cardPidl_6, (height1 * 7) - CardUp_2, 832 - cardPidl_6, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			DrawExtendGraph(832 - cardPidl_6 * 2, (height1 * 7) - CardUp_3, 1088 - cardPidl_6 * 2, (height1 * 10) - CardUp_3, hand[2]->c_graph, false); //3
+			DrawExtendGraph(1088 - cardPidl_6 * 3, (height1 * 7) - CardUp_4, 1344 - cardPidl_6 * 3, (height1 * 10) - CardUp_4, hand[3]->c_graph, false); //4
+			DrawExtendGraph(1344 - cardPidl_6 * 4, (height1 * 7) - CardUp_5, 1600 - cardPidl_6 * 4, (height1 * 10) - CardUp_5, hand[4]->c_graph, false); //5
+			DrawExtendGraph(1600 - cardPidl_6 * 5, (height1 * 7) - CardUp_6, 1600, (height1 * 10) - CardUp_6, hand[5]->c_graph, false); //6
+		}
+		else if (hand.size() == 7) {
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(576 - cardPild_7, (height1 * 7) - CardUp_2, 832 - cardPild_7, (height1 * 10) - CardUp_2, hand[0]->c_graph, false); //2
+			DrawExtendGraph(832 - cardPild_7 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_7 * 2, (height1 * 10) - CardUp_3, hand[1]->c_graph, false); //3
+			DrawExtendGraph(1088 - cardPild_7 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_7 * 3, (height1 * 10) - CardUp_4, hand[2]->c_graph, false); //4
+			DrawExtendGraph(1344 - cardPild_7 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_7 * 4, (height1 * 10) - CardUp_5, hand[3]->c_graph, false); //5
+			DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_7 * 5, (height1 * 10) - CardUp_6, hand[5]->c_graph, false); //6
+			DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_7 * 6, (height1 * 10) - CardUp_7, hand[6]->c_graph, false); //7
+		}
+		else if (hand.size() == 8) {
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(576 - cardPild_8, (height1 * 7) - CardUp_2, 832 - cardPild_8, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			DrawExtendGraph(832 - cardPild_8 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_8 * 2, (height1 * 10) - CardUp_3, hand[2]->c_graph, false); //3
+			DrawExtendGraph(1088 - cardPild_8 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_8 * 3, (height1 * 10) - CardUp_4, hand[3]->c_graph, false); //4
+			DrawExtendGraph(1344 - cardPild_8 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_8 * 4, (height1 * 10) - CardUp_5, hand[4]->c_graph, false); //5	
+
+			DrawExtendGraph(1600 - cardPild_8 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_8 * 5, (height1 * 10) - CardUp_6, hand[5]->c_graph, false); //6		
+			DrawExtendGraph(1600 + (256) - cardPild_8 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_8 * 6, (height1 * 10) - CardUp_7, hand[6]->c_graph, false); //7
+			DrawExtendGraph(1600 + (256 * 2) - cardPild_8 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_8 * 7, (height1 * 10) - CardUp_8, hand[7]->c_graph, false); //8		
+		}
+		else if (hand.size() == 9) {
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(576 - cardPild_9, (height1 * 7) - CardUp_2, 832 - cardPild_9, (height1 * 10) - CardUp_2, hand[1]->c_graph, false); //2
+			DrawExtendGraph(832 - cardPild_9 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_9 * 2, (height1 * 10) - CardUp_3, hand[2]->c_graph, false); //3
+			DrawExtendGraph(1088 - cardPild_9 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_9 * 3, (height1 * 10) - CardUp_4, hand[3]->c_graph, false); //4
+			DrawExtendGraph(1344 - cardPild_9 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_9 * 4, (height1 * 10) - CardUp_5, hand[4]->c_graph, false); //5
+
+			DrawExtendGraph(1600 - cardPild_9 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_9 * 5, (height1 * 10) - CardUp_6, hand[5]->c_graph, false); //6
+			DrawExtendGraph(1600 + (256) - cardPild_9 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_9 * 6, (height1 * 10) - CardUp_7, hand[6]->c_graph, false); //7
+			DrawExtendGraph(1600 + (256 * 2) - cardPild_9 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_9 * 7, (height1 * 10) - CardUp_8, hand[7]->c_graph, false); //8
+			DrawExtendGraph(1600 + (256 * 3) - cardPild_9 * 8, (height1 * 7) - CardUp_9, 1600 + (256 * 4) - cardPild_9 * 8, (height1 * 10) - CardUp_9, hand[8]->c_graph, false); //9
+
+		}
+		else if (hand.size() == 10) {
+			DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[0]->c_graph, false); //1
+			DrawExtendGraph(576 - cardPild_10, (height1 * 7) - CardUp_2, 832 - cardPild_10, (height1 * 10) - CardUp_2, hand[0]->c_graph, false); //2
+			DrawExtendGraph(832 - cardPild_10 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_10 * 2, (height1 * 10) - CardUp_3, hand[1]->c_graph, false); //3
+			DrawExtendGraph(1088 - cardPild_10 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_10 * 3, (height1 * 10) - CardUp_4, hand[2]->c_graph, false); //4
+			DrawExtendGraph(1344 - cardPild_10 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_10 * 4, (height1 * 10) - CardUp_5, hand[3]->c_graph, false); //5
+
+			DrawExtendGraph(1600 - cardPild_10 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_10 * 5, (height1 * 10) - CardUp_6, hand[4]->c_graph, false); //6
+			DrawExtendGraph(1600 + (256) - cardPild_10 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_10 * 6, (height1 * 10) - CardUp_7, hand[5]->c_graph, false); //7
+			DrawExtendGraph(1600 + (256 * 2) - cardPild_10 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_10 * 7, (height1 * 10) - CardUp_8, hand[6]->c_graph, false); //8
+			DrawExtendGraph(1600 + (256 * 3) - cardPild_10 * 8, (height1 * 7) - CardUp_9, 1600 + (256 * 4) - cardPild_10 * 8, (height1 * 10) - CardUp_9, hand[7]->c_graph, false); //9
+			DrawExtendGraph(1600 + (256 * 4) - cardPild_10 * 9, (height1 * 7) - CardUp_10, 1600 + (256 * 5) - cardPild_10 * 9, (height1 * 10) - CardUp_10, hand[8]->c_graph, false); //10
+
 		}
 
 	}
 
-
-
-	//if (numOfCards == 1) {
-	//	//DrawExtendGraph(512 + 320, (height1 * 7) - CardUp_1, 512 + cardW + 320, (height1 * 10) - CardUp_1, card1, false); //1
-	//	EaseImageCard1(easeOutExpo(t), 0, 832, 0);
-	//}
-	//else if (numOfCards == 2) {
-	//	//DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_1,center, (height1 * 10) - CardUp_1, card1, false); //1
-	//	//DrawExtendGraph(center, (height1 * 7) - CardUp_2, center + cardW, (height1 * 10) - CardUp_2, card2, false); //2
-	//	if (t < 0.5) {
-	//		EaseImageCard1(easeOutExpo(t), 0, center - cardW, 0);
-	//	}
-	//	else {
-	//		EaseImageCard1(easeOutExpo(t), 0, center, 0);
-	//	}
-
-
-	//}
-	//else if (numOfCards == 3) {
-	//	DrawExtendGraph(center - 128 - cardW, (height1 * 7) - CardUp_1, center - 128, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(center - 128, (height1 * 7) - CardUp_2, center + 128, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(center + 128, (height1 * 7) - CardUp_3, center + 128 + cardW, (height1 * 10) - CardUp_3, card3, false); //3
-	//}
-	//else if (numOfCards == 4) {
-	//	DrawExtendGraph(center - (cardW * 2), (height1 * 7) - CardUp_1, center - cardW, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(center - cardW, (height1 * 7) - CardUp_2, center, (height1 * 10) - CardUp_2, card1, false); //2
-	//	DrawExtendGraph(center, (height1 * 7) - CardUp_3, center + cardW, (height1 * 10) - CardUp_3, card2, false); //3
-	//	DrawExtendGraph(center + cardW, (height1 * 7) - CardUp_4, center + (cardW * 2), (height1 * 10) - CardUp_4, card4, false); //4
-	//}
-	//else if (numOfCards == 5) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, chara1Hand[0]->c_graph, false); //1
-	//	DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, chara1Hand[1]->c_graph, false); //2
-	//	DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, chara1Hand[2]->c_graph, false); //3
-	//	DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, chara1Hand[3]->c_graph, false); //4
-	//	DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, chara1Hand[4]->c_graph, false); //5
-	//}
-	//else if (numOfCards == 6) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(576 - cardPidl_6, (height1 * 7) - CardUp_2, 832 - cardPidl_6, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(832 - cardPidl_6 * 2, (height1 * 7) - CardUp_3, 1088 - cardPidl_6 * 2, (height1 * 10) - CardUp_3, card3, false); //3
-	//	DrawExtendGraph(1088 - cardPidl_6 * 3, (height1 * 7) - CardUp_4, 1344 - cardPidl_6 * 3, (height1 * 10) - CardUp_4, card4, false); //4
-	//	DrawExtendGraph(1344 - cardPidl_6 * 4, (height1 * 7) - CardUp_5, 1600 - cardPidl_6 * 4, (height1 * 10) - CardUp_5, card4, false); //5
-	//	DrawExtendGraph(1600 - cardPidl_6 * 5, (height1 * 7) - CardUp_6, 1600, (height1 * 10) - CardUp_6, card4, false); //6
-	//}
-	//else if (numOfCards == 7) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(576 - cardPild_7, (height1 * 7) - CardUp_2, 832 - cardPild_7, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(832 - cardPild_7 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_7 * 2, (height1 * 10) - CardUp_3, card3, false); //3
-	//	DrawExtendGraph(1088 - cardPild_7 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_7 * 3, (height1 * 10) - CardUp_4, card4, false); //4
-	//	DrawExtendGraph(1344 - cardPild_7 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_7 * 4, (height1 * 10) - CardUp_5, card4, false); //5
-	//	DrawExtendGraph(1600 - cardPild_7 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_7 * 5, (height1 * 10) - CardUp_6, card4, false); //6
-	//	DrawExtendGraph(1600 + (256) - cardPild_7 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_7 * 6, (height1 * 10) - CardUp_7, card4, false); //7
-	//}
-	//else if (numOfCards == 8) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(576 - cardPild_8, (height1 * 7) - CardUp_2, 832 - cardPild_8, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(832 - cardPild_8 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_8 * 2, (height1 * 10) - CardUp_3, card3, false); //3
-	//	DrawExtendGraph(1088 - cardPild_8 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_8 * 3, (height1 * 10) - CardUp_4, card4, false); //4
-	//	DrawExtendGraph(1344 - cardPild_8 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_8 * 4, (height1 * 10) - CardUp_5, card4, false); //5	
-
-	//	DrawExtendGraph(1600 - cardPild_8 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_8 * 5, (height1 * 10) - CardUp_6, card4, false); //6		
-	//	DrawExtendGraph(1600 + (256) - cardPild_8 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_8 * 6, (height1 * 10) - CardUp_7, card4, false); //7
-	//	DrawExtendGraph(1600 + (256 * 2) - cardPild_8 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_8 * 7, (height1 * 10) - CardUp_8, card4, false); //8		
-	//}
-	//else if (numOfCards == 9) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(576 - cardPild_9, (height1 * 7) - CardUp_2, 832 - cardPild_9, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(832 - cardPild_9 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_9 * 2, (height1 * 10) - CardUp_3, card3, false); //3
-	//	DrawExtendGraph(1088 - cardPild_9 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_9 * 3, (height1 * 10) - CardUp_4, card4, false); //4
-	//	DrawExtendGraph(1344 - cardPild_9 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_9 * 4, (height1 * 10) - CardUp_5, card4, false); //5
-
-	//	DrawExtendGraph(1600 - cardPild_9 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_9 * 5, (height1 * 10) - CardUp_6, card4, false); //6
-	//	DrawExtendGraph(1600 + (256) - cardPild_9 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_9 * 6, (height1 * 10) - CardUp_7, card4, false); //7
-	//	DrawExtendGraph(1600 + (256 * 2) - cardPild_9 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_9 * 7, (height1 * 10) - CardUp_8, card4, false); //8
-	//	DrawExtendGraph(1600 + (256 * 3) - cardPild_9 * 8, (height1 * 7) - CardUp_9, 1600 + (256 * 4) - cardPild_9 * 8, (height1 * 10) - CardUp_9, card4, false); //9
-
-	//}
-	//else if (numOfCards == 10) {
-	//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, card1, false); //1
-	//	DrawExtendGraph(576 - cardPild_10, (height1 * 7) - CardUp_2, 832 - cardPild_10, (height1 * 10) - CardUp_2, card2, false); //2
-	//	DrawExtendGraph(832 - cardPild_10 * 2, (height1 * 7) - CardUp_3, 1088 - cardPild_10 * 2, (height1 * 10) - CardUp_3, card3, false); //3
-	//	DrawExtendGraph(1088 - cardPild_10 * 3, (height1 * 7) - CardUp_4, 1344 - cardPild_10 * 3, (height1 * 10) - CardUp_4, card4, false); //4
-	//	DrawExtendGraph(1344 - cardPild_10 * 4, (height1 * 7) - CardUp_5, 1600 - cardPild_10 * 4, (height1 * 10) - CardUp_5, card4, false); //5
-
-	//	DrawExtendGraph(1600 - cardPild_10 * 5, (height1 * 7) - CardUp_6, 1600 + (256) - cardPild_10 * 5, (height1 * 10) - CardUp_6, card4, false); //6
-	//	DrawExtendGraph(1600 + (256) - cardPild_10 * 6, (height1 * 7) - CardUp_7, 1600 + (256 * 2) - cardPild_10 * 6, (height1 * 10) - CardUp_7, card4, false); //7
-	//	DrawExtendGraph(1600 + (256 * 2) - cardPild_10 * 7, (height1 * 7) - CardUp_8, 1600 + (256 * 3) - cardPild_10 * 7, (height1 * 10) - CardUp_8, card4, false); //8
-	//	DrawExtendGraph(1600 + (256 * 3) - cardPild_10 * 8, (height1 * 7) - CardUp_9, 1600 + (256 * 4) - cardPild_10 * 8, (height1 * 10) - CardUp_9, card4, false); //9
-	//	DrawExtendGraph(1600 + (256 * 4) - cardPild_10 * 9, (height1 * 7) - CardUp_10, 1600 + (256 * 5) - cardPild_10 * 9, (height1 * 10) - CardUp_10, card4, false); //10
-
-	//}
-
 }
 
-void SceneBattle::drawCardUp(int x, int y) {
+void SceneBattle::RaiseCard(std::vector<Card*> hand, int x, int y) {
 
-	//TODO:マジックナンバーを画面比率から変数でとる
-	if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-		CardUp_1 = 45;
-	}
-	else {
-		CardUp_1 = 0;
-	}
+	if (hand.size() == 1) {
 
-	if (576 < MouseX && MouseX < 832 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-		CardUp_2 = 45;
-	}
-	else {
-		CardUp_2 = 0;
-	}
-
-	if (832 < MouseX && MouseX < 1088 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-		CardUp_3 = 45;
-	}
-	else {
-		CardUp_3 = 0;
-	}
-
-	if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-		CardUp_4 = 45;
-	}
-	else {
-		CardUp_4 = 0;
-	}
-
-	if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-		CardUp_5 = 45;
-	}
-	else {
-		CardUp_5 = 0;
-	}
-
-
-
-
-	if (numOfCards == 1) {
 		if (512 + 320 < MouseX && MouseX < 512 + cardW + 320 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_1 = 45;
 		}
 		else {
 			CardUp_1 = 0;
 		}
-	}
 
-	if (numOfCards == 2) {
+	}
+	else if (hand.size() == 2) {
 
 		if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_1 = 45;
@@ -602,9 +544,10 @@ void SceneBattle::drawCardUp(int x, int y) {
 		else {
 			CardUp_2 = 0;
 		}
-	}
 
-	if (numOfCards == 3) {
+	}
+	else if (hand.size() == 3) {
+
 		if (center - 128 - cardW < MouseX && MouseX < center - 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_1 = 45;
 		}
@@ -623,9 +566,10 @@ void SceneBattle::drawCardUp(int x, int y) {
 		else {
 			CardUp_3 = 0;
 		}
-	}
 
-	if (numOfCards == 4) {
+	}
+	else if (hand.size() == 4) {
+
 		if (center - (cardW * 2) < MouseX && MouseX < center - cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 			CardUp_1 = 45;
 		}
@@ -650,9 +594,9 @@ void SceneBattle::drawCardUp(int x, int y) {
 		else {
 			CardUp_4 = 0;
 		}
-	}
 
-	if (numOfCards == 5) {
+	}
+	else if (hand.size() == 5) {
 
 		if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
@@ -690,8 +634,8 @@ void SceneBattle::drawCardUp(int x, int y) {
 		}
 
 	}
+	else if (hand.size() == 6) {
 
-	if (numOfCards == 6) {
 		if (320 < MouseX && MouseX < 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
 		}
@@ -733,8 +677,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 		}
 
 	}
-
-	if (numOfCards == 7) {
+	else if (hand.size() == 7) {
 
 		if (320 < MouseX && MouseX < 576 - cardPild_7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
@@ -785,8 +728,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 		}
 
 	}
-
-	if (numOfCards == 8) {
+	else if (hand.size() == 8) {
 
 		if (320 < MouseX && MouseX < 576 - cardPild_8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
@@ -844,8 +786,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 		}
 
 	}
-
-	if (numOfCards == 9) {
+	else if (hand.size() == 9) {
 
 		if (320 < MouseX && MouseX < 576 - cardPild_9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
@@ -910,8 +851,7 @@ void SceneBattle::drawCardUp(int x, int y) {
 		}
 
 	}
-
-	if (numOfCards == 10) {
+	else if (hand.size() == 10) {
 
 		if (320 < MouseX && MouseX < 576 - cardPild_10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
 			CardUp_1 = 45;
@@ -981,8 +921,9 @@ void SceneBattle::drawCardUp(int x, int y) {
 		else {
 			CardUp_10 = 0;
 		}
-
 	}
+
+
 }
 
 // t: 経過時間, b: 初期値, c: 変化量, d: トータル時間
@@ -1075,6 +1016,8 @@ void SceneBattle::DrawHpBar(int hp_now, int hp_max) {
 
 void SceneBattle::DealFromDeckToHand(const std::vector<Card*>& deck, std::vector<Card*>& hand, int handNum) {
 
+	if (hand.size() == 10) { return; }
+
 	if (deck.size() < handNum) {
 		return;
 	}
@@ -1082,11 +1025,15 @@ void SceneBattle::DealFromDeckToHand(const std::vector<Card*>& deck, std::vector
 	std::mt19937 engine(std::random_device{}());
 	std::uniform_int_distribution<int> dist(0, deck.size() - 1);
 
-	hand.clear();
+
+	if (doPerson->isFirstDeal == true) { handNum = 1; }
+
 	for (int i = 0; i < handNum; ++i) {
 		int randomIndex = dist(engine);
 		hand.push_back(deck[randomIndex]);
 	}
+
+	doPerson->isFirstDeal = true;
 
 }
 
@@ -1214,96 +1161,97 @@ void SceneBattle::ReflectOrderImage() {
 			}
 		}
 
-		//while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べる
-
-		//	int i = 0;
-		//	int k = 0;
-
-		//	// i < party.size() || k < enemies.size() でもよい
-		//	while (i < party.size() && k < enemies.size()) {
-		//		if (party[i]->SPEED > enemies[k]->SPEED) {
-		//			if (order1thImage == 0) {
-		//				order1thImage = party[i]->GRAPH;
-		//			}
-		//			else if (order2thImage == 0) {
-		//				order2thImage = party[i]->GRAPH;
-		//			}
-		//			else if (order3thImage == 0) {
-		//				order3thImage = party[i]->GRAPH;
-		//			}
-		//			else if (order4thImage == 0) {
-		//				order4thImage = party[i]->GRAPH;
-		//			}
-		//			else if (order5thImage == 0) {
-		//				order5thImage = party[i]->GRAPH;
-		//			}
-		//			i++;
-		//		}
-		//		else {
-		//			if (order1thImage == 0) {
-		//				order1thImage = enemies[k]->GRAPH;
-		//			}
-		//			else if (order2thImage == 0) {
-		//				order2thImage = enemies[k]->GRAPH;
-		//			}
-		//			else if (order3thImage == 0) {
-		//				order3thImage = enemies[k]->GRAPH;
-		//			}
-		//			else if (order4thImage == 0) {
-		//				order4thImage = enemies[k]->GRAPH;
-		//			}
-		//			else if (order5thImage == 0) {
-		//				order5thImage = enemies[k]->GRAPH;
-		//			}
-		//			k++;
-		//		}
-		//	}
-
-		//	// 余った人数の処理
-		//	while (i < party.size()) {
-		//		if (order1thImage == 0) {
-		//			order1thImage = party[i]->GRAPH;
-		//		}
-		//		else if (order2thImage == 0) {
-		//			order2thImage = party[i]->GRAPH;
-		//		}
-		//		else if (order3thImage == 0) {
-		//			order3thImage = party[i]->GRAPH;
-		//		}
-		//		else if (order4thImage == 0) {
-		//			order4thImage = party[i]->GRAPH;
-		//		}
-		//		else if (order5thImage == 0) {
-		//			order5thImage = party[i]->GRAPH;
-		//		}
-		//		i++;
-		//	}
-
-		//	// 余った敵の処理
-		//	while (k < enemies.size()) {
-
-		//		if (order1thImage == 0) {
-		//			order1thImage = enemies[k]->GRAPH;
-		//		}
-		//		else if (order2thImage == 0) {
-		//			order2thImage = enemies[k]->GRAPH;
-		//		}
-		//		else if (order3thImage == 0) {
-		//			order3thImage = enemies[k]->GRAPH;
-		//		}
-		//		else if (order4thImage == 0) {
-		//			order4thImage = enemies[k]->GRAPH;
-		//		}
-		//		else if (order5thImage == 0) {
-		//			order5thImage = enemies[k]->GRAPH;
-		//		}
-		//		k++;
-
-		//	}
-		//	
-		//}
-
 	}
+	//while (i < party.size() && k < enemies.size()) { //降順にソートした同士を比べる
+
+	//	int i = 0;
+	//	int k = 0;
+
+	//	// i < party.size() || k < enemies.size() でもよい
+	//	while (i < party.size() && k < enemies.size()) {
+	//		if (party[i]->SPEED > enemies[k]->SPEED) {
+	//			if (order1thImage == 0) {
+	//				order1thImage = party[i]->GRAPH;
+	//			}
+	//			else if (order2thImage == 0) {
+	//				order2thImage = party[i]->GRAPH;
+	//			}
+	//			else if (order3thImage == 0) {
+	//				order3thImage = party[i]->GRAPH;
+	//			}
+	//			else if (order4thImage == 0) {
+	//				order4thImage = party[i]->GRAPH;
+	//			}
+	//			else if (order5thImage == 0) {
+	//				order5thImage = party[i]->GRAPH;
+	//			}
+	//			i++;
+	//		}
+	//		else {
+	//			if (order1thImage == 0) {
+	//				order1thImage = enemies[k]->GRAPH;
+	//			}
+	//			else if (order2thImage == 0) {
+	//				order2thImage = enemies[k]->GRAPH;
+	//			}
+	//			else if (order3thImage == 0) {
+	//				order3thImage = enemies[k]->GRAPH;
+	//			}
+	//			else if (order4thImage == 0) {
+	//				order4thImage = enemies[k]->GRAPH;
+	//			}
+	//			else if (order5thImage == 0) {
+	//				order5thImage = enemies[k]->GRAPH;
+	//			}
+	//			k++;
+	//		}
+	//	}
+
+	//	// 余った人数の処理
+	//	while (i < party.size()) {
+	//		if (order1thImage == 0) {
+	//			order1thImage = party[i]->GRAPH;
+	//		}
+	//		else if (order2thImage == 0) {
+	//			order2thImage = party[i]->GRAPH;
+	//		}
+	//		else if (order3thImage == 0) {
+	//			order3thImage = party[i]->GRAPH;
+	//		}
+	//		else if (order4thImage == 0) {
+	//			order4thImage = party[i]->GRAPH;
+	//		}
+	//		else if (order5thImage == 0) {
+	//			order5thImage = party[i]->GRAPH;
+	//		}
+	//		i++;
+	//	}
+
+	//	// 余った敵の処理
+	//	while (k < enemies.size()) {
+
+	//		if (order1thImage == 0) {
+	//			order1thImage = enemies[k]->GRAPH;
+	//		}
+	//		else if (order2thImage == 0) {
+	//			order2thImage = enemies[k]->GRAPH;
+	//		}
+	//		else if (order3thImage == 0) {
+	//			order3thImage = enemies[k]->GRAPH;
+	//		}
+	//		else if (order4thImage == 0) {
+	//			order4thImage = enemies[k]->GRAPH;
+	//		}
+	//		else if (order5thImage == 0) {
+	//			order5thImage = enemies[k]->GRAPH;
+	//		}
+	//		k++;
+
+	//	}
+	//	
+	//}
+
+
 }
 
 
@@ -1311,97 +1259,728 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*>& hand, int 
 
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
-		if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
+		if (hand.size() == 1) {
 
-			PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
-			if (person->COST >= hand[0]->c_cost) { //コスト計算
+			if (512 + 320 < MouseX && MouseX < 512 + cardW + 320 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 
-				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる
+				if (person->COST >= hand[0]->c_cost) {
 
-					enemy1->HP -= hand[0]->c_damage;
-					/*				person->COST -= hand[0]->c_cost;*/
+					person->COST -= hand[0]->c_cost;
 
+					useCard(hand[0],person,party,enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
 				}
 
 			}
 
 		}
+		else if (hand.size() == 2) {
 
+			if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
 
-		if (576 < x && x < 832 && height1 * 7 <= y && y <= height1 * 10) {
+				if (person->COST >= hand[0]->c_cost) {
 
-			if (person->COST >= hand[1]->c_cost) { //コスト計算
+					person->COST -= hand[0]->c_cost;
 
-				PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
-
-				if (hand[1]->c_damage != 0) { //試しにダメージを与えてみる
-
-					enemy1->HP -= hand[1]->c_damage;
-					//person->COST -= hand[1]->c_cost;
-
-				}
-
-
-
-			}
-		}
-
-
-		if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
-
-
-
-			if (person->COST >= hand[2]->c_cost) { //コスト計算
-
-				if (hand[2]->c_damage != 0) { //試しにダメージを与えてみる
-
-					enemy1->HP -= hand[2]->c_damage;
-					//person->COST -= hand[2]->c_cost;
-
-				}
-
-
-
-			}
-		}
-
-
-		if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-
-			if (person->COST >= hand[3]->c_cost) { //コスト計算
-
-				if (hand[3]->c_damage != 0) { //試しにダメージを与えてみる
-
-					enemy1->HP -= hand[3]->c_damage;
-					//person->COST -= hand[3]->c_cost;
-
-
-				}
-
-
-
-			}
-		}
-
-
-		if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
-
-			if (person->COST >= hand[4]->c_cost) { //コスト計算
-
-				if (hand[4]->c_damage != 0) { //試しにダメージを与えてみる
-
-					enemy1->HP -= hand[4]->c_damage;
-					//person->COST -= hand[4]->c_cost;
-
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
 				}
 
 			}
-		}
 
+			if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin() + 1);
+				}
+			}
+
+		}
+		else if (hand.size() == 3) {
+
+			if (center - 128 - cardW < MouseX && MouseX < center - 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+			if (center - 128 < MouseX && MouseX < center + 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin() + 1);
+				}
+			}
+
+			if (center + 128 < MouseX && MouseX < center + 128 + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin() + 2);
+				}
+			}
+
+
+		}
+		else if (hand.size() == 4) {
+
+			if (center - (cardW * 2) < MouseX && MouseX < center - cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+			if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin() + 1);
+				}
+			}
+
+			if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin() + 2);
+				}
+			}
+
+			if (center + cardW < MouseX && MouseX < center + (cardW * 2) && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+
+		}
+		else if (hand.size() == 5) {
+
+			if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
+
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+
+			}
+
+
+			if (576 < x && x < 832 && height1 * 7 <= y && y <= height1 * 10) {
+
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+1);
+				}
+			}
+
+
+			if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
+
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+2);
+				}
+			}
+
+
+			if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+
+			if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+
+				if (person->COST >= hand[4]->c_cost) {
+
+					person->COST -= hand[4]->c_cost;
+
+					useCard(hand[4], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+4);
+				}
+			}
+
+
+		}
+		else if (hand.size() == 6) {
+
+			if (320 < MouseX && MouseX < 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+
+			if (576 - cardPidl_6 < MouseX && MouseX < 832 - cardPidl_6 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+1);
+				}
+			}
+
+
+			if (832 - cardPidl_6 * 2 < MouseX && MouseX < 1088 - cardPidl_6 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+2);
+				}
+			}
+
+			if (1088 - cardPidl_6 * 3 < MouseX && MouseX < 1344 - cardPidl_6 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+			if (1344 - cardPidl_6 * 4 < MouseX && MouseX < 1600 - cardPidl_6 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[4]->c_cost) {
+
+					person->COST -= hand[4]->c_cost;
+
+					useCard(hand[4], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+4);
+				}
+			}
+
+			if (1600 - cardPidl_6 * 5 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[5]->c_cost) {
+
+					person->COST -= hand[5]->c_cost;
+
+					useCard(hand[5], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+5);
+				}
+			}
+
+		}
+		else if (hand.size() == 7) {
+
+			if (320 < MouseX && MouseX < 576 - cardPild_7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+			if (576 - cardPild_7 < MouseX && MouseX < 832 - cardPild_7 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+
+			if (832 - cardPild_7 * 2 < MouseX && MouseX < 1088 - cardPild_7 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+2);
+				}
+			}
+
+			if (1088 - cardPild_7 * 3 < MouseX && MouseX < 1344 - cardPild_7 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+
+			if (1344 - cardPild_7 * 4 < MouseX && MouseX < 1600 - cardPild_7 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[4]->c_cost) {
+
+					person->COST -= hand[4]->c_cost;
+
+					useCard(hand[4], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+4);
+				}
+			}
+
+			if (1600 - cardPild_7 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_7 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[5]->c_cost) {
+
+					person->COST -= hand[5]->c_cost;
+
+					useCard(hand[5], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+5);
+				}
+			}
+
+
+			if (1600 + (256) - cardPild_7 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_7 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[6]->c_cost) {
+
+					person->COST -= hand[6]->c_cost;
+
+					useCard(hand[6], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+6);
+				}
+			}
+
+
+		}
+		else if (hand.size() == 8) {
+
+			if (320 < MouseX && MouseX < 576 - cardPild_8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+			if (576 - cardPild_8 < MouseX && MouseX < 832 - cardPild_8 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+1);
+				}
+			}
+
+
+			if (832 - cardPild_8 * 2 < MouseX && MouseX < 1088 - cardPild_8 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+2);
+				}
+			}
+
+			if (1088 - cardPild_8 * 3 < MouseX && MouseX < 1344 - cardPild_8 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+			if (1344 - cardPild_8 * 4 < MouseX && MouseX < 1600 - cardPild_8 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[4]->c_cost) {
+
+					person->COST -= hand[4]->c_cost;
+
+					useCard(hand[4], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+4);
+				}
+			}
+
+			if (1600 - cardPild_8 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_8 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[5]->c_cost) {
+
+					person->COST -= hand[5]->c_cost;
+
+					useCard(hand[5], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+5);
+				}
+			}
+
+
+			if (1600 + (256) - cardPild_8 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_8 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[6]->c_cost) {
+
+					person->COST -= hand[6]->c_cost;
+
+					useCard(hand[6], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+6);
+				}
+			}
+
+			if (1600 + (256 * 2) - cardPild_8 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_8 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[7]->c_cost) {
+
+					person->COST -= hand[7]->c_cost;
+
+					useCard(hand[7], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+7);
+				}
+			}
+
+
+		}
+		else if (hand.size() == 9) {
+
+			if (320 < MouseX && MouseX < 576 - cardPild_9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+
+			if (576 - cardPild_9 < MouseX && MouseX < 832 - cardPild_9 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+1);
+				}
+			}
+
+			if (832 - cardPild_9 * 2 < MouseX && MouseX < 1088 - cardPild_9 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+2);
+				}
+			}
+
+			if (1088 - cardPild_9 * 3 < MouseX && MouseX < 1344 - cardPild_9 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+
+			if (1344 - cardPild_9 * 4 < MouseX && MouseX < 1600 - cardPild_9 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[4]->c_cost) {
+
+					person->COST -= hand[4]->c_cost;
+
+					useCard(hand[4], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+4);
+				}
+			}
+
+			if (1600 - cardPild_9 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_9 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[5]->c_cost) {
+
+					person->COST -= hand[5]->c_cost;
+
+					useCard(hand[5], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+5);
+				}
+			}
+
+
+			if (1600 + (256) - cardPild_9 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_9 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[6]->c_cost) {
+
+					person->COST -= hand[6]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+6);
+				}
+			}
+
+
+			if (1600 + (256 * 2) - cardPild_9 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_9 * 8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[7]->c_cost) {
+
+					person->COST -= hand[7]->c_cost;
+
+					useCard(hand[7], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+7);
+				}
+			}
+
+
+			if (1600 + (256 * 3) - cardPild_9 * 8 < MouseX && MouseX < 1600 + (256 * 4) - cardPild_9 * 9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[8]->c_cost) {
+
+					person->COST -= hand[8]->c_cost;
+
+					useCard(hand[8], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+8);
+				}
+			}
+
+
+		}
+		else if (hand.size() == 10) {
+			if (320 < MouseX && MouseX < 576 - cardPild_10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[0]->c_cost) {
+
+					person->COST -= hand[0]->c_cost;
+
+					useCard(hand[0], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin());
+				}
+			}
+
+			if (576 - cardPild_10 < MouseX && MouseX < 832 - cardPild_10 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[1]->c_cost) {
+
+					person->COST -= hand[1]->c_cost;
+
+					useCard(hand[1], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+1);
+				}
+			}
+
+
+			if (832 - cardPild_10 * 2 < MouseX && MouseX < 1088 - cardPild_10 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[2]->c_cost) {
+
+					person->COST -= hand[2]->c_cost;
+
+					useCard(hand[2], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+2);
+				}
+			}
+
+			if (1088 - cardPild_10 * 3 < MouseX && MouseX < 1344 - cardPild_10 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[3]->c_cost) {
+
+					person->COST -= hand[3]->c_cost;
+
+					useCard(hand[3], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+3);
+				}
+			}
+
+			if (1344 - cardPild_10 * 4 < MouseX && MouseX < 1600 - cardPild_10 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[4]->c_cost) {
+
+					person->COST -= hand[4]->c_cost;
+
+					useCard(hand[4], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+4);
+				}
+			}
+
+			if (1600 - cardPild_10 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_10 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[5]->c_cost) {
+
+					person->COST -= hand[5]->c_cost;
+
+					useCard(hand[5], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+5);
+				}
+			}
+
+
+			if (1600 + (256) - cardPild_10 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_10 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[6]->c_cost) {
+
+					person->COST -= hand[6]->c_cost;
+
+					useCard(hand[6], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+6);
+				}
+			}
+
+
+			if (1600 + (256 * 2) - cardPild_10 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_10 * 8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[7]->c_cost) {
+
+					person->COST -= hand[7]->c_cost;
+
+					useCard(hand[7], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+7);
+				}
+			}
+
+
+			if (1600 + (256 * 3) - cardPild_10 * 8 < MouseX && MouseX < 1600 + (256 * 4) - cardPild_10 * 9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[8]->c_cost) {
+
+					person->COST -= hand[8]->c_cost;
+
+					useCard(hand[8], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+8);
+				}
+			}
+
+
+			if (1600 + (256 * 4) - cardPild_10 * 9 < MouseX && MouseX < 1600 + (256 * 5) - cardPild_10 * 10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+				if (person->COST >= hand[9]->c_cost) {
+
+					person->COST -= hand[9]->c_cost;
+
+					useCard(hand[9], person, party, enemies);
+					PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+					hand.erase(hand.begin()+9);
+				}
+			}
+
+
+
+		}
 
 
 
 	}
+
+
+}
+
+void SceneBattle::useCard(Card*& card, Person* person, std::vector<Person*>& party, std::vector<Enemy*>& enemies) {
+
+	if (card->c_effect) {
+
+
+	}
+	else if (card->c_effect == false) {
+
+		if(card->c_damage > 0) {
+			
+			enemies[0]->HP -= card->c_damage;
+			
+		}
+		else if (card->c_hate > 0) {
+
+			person->HATE += card->c_hate;
+
+		}
+		else if (card->c_protec > 0) {
+
+			person->PROTEC += card->c_protec;
+
+		}
+		else if (card->c_slow > 0) {
+
+			enemies[0]->SPEED -= card->c_slow;
+
+		}
+		else if (card->c_weak > 0) {
+
+		}
+
+
+
+	}
+
+
 
 
 }
@@ -1456,3 +2035,467 @@ void SceneBattle::ChangeFlagByclickOnRange(int x, int y, int x2, int y2, bool f,
 
 //memo
 //小規模な要素の追加はemplace_backを使用するとよい？（要検索）
+
+		//switch (i)
+		//{
+		//case 0:
+		//	DrawExtendGraph(320, (height1 * 7) - CardUp_1, 576, (height1 * 10) - CardUp_1, hand[i]->c_graph, false); //1
+		//	break;
+		//case 1:
+		//	DrawExtendGraph(576, (height1 * 7) - CardUp_2, 832, (height1 * 10) - CardUp_2, hand[i]->c_graph, false); //2
+		//	break;
+		//case 2:
+		//	DrawExtendGraph(832, (height1 * 7) - CardUp_3, 1088, (height1 * 10) - CardUp_3, hand[i]->c_graph, false); //3
+		//	break;
+		//case 3:
+		//	DrawExtendGraph(1088, (height1 * 7) - CardUp_4, 1344, (height1 * 10) - CardUp_4, hand[i]->c_graph, false); //4
+		//	break;
+		//case 4:
+		//	DrawExtendGraph(1344, (height1 * 7) - CardUp_5, 1600, (height1 * 10) - CardUp_5, hand[i]->c_graph, false); //5
+		//	break;
+		//default:
+		//	break;
+		//}
+
+	////TODO:マジックナンバーを画面比率から変数でとる
+	//if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//	CardUp_1 = 45;
+	//}
+	//else {
+	//	CardUp_1 = 0;
+	//}
+
+	//if (576 < MouseX && MouseX < 832 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//	CardUp_2 = 45;
+	//}
+	//else {
+	//	CardUp_2 = 0;
+	//}
+
+	//if (832 < MouseX && MouseX < 1088 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//	CardUp_3 = 45;
+	//}
+	//else {
+	//	CardUp_3 = 0;
+	//}
+
+	//if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//	CardUp_4 = 45;
+	//}
+	//else {
+	//	CardUp_4 = 0;
+	//}
+
+	//if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//	CardUp_5 = 45;
+	//}
+	//else {
+	//	CardUp_5 = 0;
+	//}
+
+
+//if (numOfCards == 1) {
+//	if (512 + 320 < MouseX && MouseX < 512 + cardW + 320 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//}
+//
+//if (numOfCards == 2) {
+//
+//	if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//
+//	if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//}
+//
+//if (numOfCards == 3) {
+//	if (center - 128 - cardW < MouseX && MouseX < center - 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//	if (center - 128 < MouseX && MouseX < center + 128 && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//	if (center + 128 < MouseX && MouseX < center + 128 + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//}
+//
+//if (numOfCards == 4) {
+//	if (center - (cardW * 2) < MouseX && MouseX < center - cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//	if (center - cardW < MouseX && MouseX < center && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//	if (center < MouseX && MouseX < center + cardW && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//	if (center + cardW < MouseX && MouseX < center + (cardW * 2) && (height1 * 7) < MouseY && MouseY < (height1 * 10)) {
+//		CardUp_4 = 45;
+//	}
+//	else {
+//		CardUp_4 = 0;
+//	}
+//}
+//
+//if (numOfCards == 5) {
+//
+//	if (320 < MouseX && MouseX < 576 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//
+//	if (576 < MouseX && MouseX < 832 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//
+//	if (832 < MouseX && MouseX < 1088 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//
+//	if (1088 < MouseX && MouseX < 1344 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_4 = 45;
+//	}
+//	else {
+//		CardUp_4 = 0;
+//	}
+//
+//	if (1344 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_5 = 45;
+//	}
+//	else {
+//		CardUp_5 = 0;
+//	}
+//
+//}
+//
+//if (numOfCards == 6) {
+//	if (320 < MouseX && MouseX < 576 - cardPidl_6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//
+//	if (576 - cardPidl_6 < MouseX && MouseX < 832 - cardPidl_6 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//
+//	if (832 - cardPidl_6 * 2 < MouseX && MouseX < 1088 - cardPidl_6 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//	if (1088 - cardPidl_6 * 3 < MouseX && MouseX < 1344 - cardPidl_6 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_4 = 45;
+//	}
+//	else {
+//		CardUp_4 = 0;
+//	}
+//	if (1344 - cardPidl_6 * 4 < MouseX && MouseX < 1600 - cardPidl_6 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_5 = 45;
+//	}
+//	else {
+//		CardUp_5 = 0;
+//	}
+//
+//	if (1600 - cardPidl_6 * 5 < MouseX && MouseX < 1600 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_6 = 45;
+//	}
+//	else {
+//		CardUp_6 = 0;
+//	}
+//
+//}
+//
+//if (numOfCards == 7) {
+//
+//	if (320 < MouseX && MouseX < 576 - cardPild_7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//
+//	if (576 - cardPild_7 < MouseX && MouseX < 832 - cardPild_7 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//
+//	if (832 - cardPild_7 * 2 < MouseX && MouseX < 1088 - cardPild_7 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//
+//	if (1088 - cardPild_7 * 3 < MouseX && MouseX < 1344 - cardPild_7 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_4 = 45;
+//	}
+//	else {
+//		CardUp_4 = 0;
+//	}
+//
+//	if (1344 - cardPild_7 * 4 < MouseX && MouseX < 1600 - cardPild_7 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_5 = 45;
+//	}
+//	else {
+//		CardUp_5 = 0;
+//	}
+//	if (1600 - cardPild_7 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_7 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_6 = 45;
+//	}
+//	else {
+//		CardUp_6 = 0;
+//	}
+//
+//	if (1600 + (256) - cardPild_7 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_7 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_7 = 45;
+//	}
+//	else {
+//		CardUp_7 = 0;
+//	}
+//
+//}
+//
+//if (numOfCards == 8) {
+//
+//	if (320 < MouseX && MouseX < 576 - cardPild_8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//
+//	if (576 - cardPild_8 < MouseX && MouseX < 832 - cardPild_8 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//
+//	if (832 - cardPild_8 * 2 < MouseX && MouseX < 1088 - cardPild_8 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//
+//	if (1088 - cardPild_8 * 3 < MouseX && MouseX < 1344 - cardPild_8 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_4 = 45;
+//	}
+//	else {
+//		CardUp_4 = 0;
+//	}
+//
+//	if (1344 - cardPild_8 * 4 < MouseX && MouseX < 1600 - cardPild_8 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_5 = 45;
+//	}
+//	else {
+//		CardUp_5 = 0;
+//	}
+//	if (1600 - cardPild_8 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_8 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_6 = 45;
+//	}
+//	else {
+//		CardUp_6 = 0;
+//	}
+//
+//	if (1600 + (256) - cardPild_8 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_8 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_7 = 45;
+//	}
+//	else {
+//		CardUp_7 = 0;
+//	}
+//
+//	if (1600 + (256 * 2) - cardPild_8 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_8 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_8 = 45;
+//	}
+//	else {
+//		CardUp_8 = 0;
+//	}
+//
+//}
+//
+//if (numOfCards == 9) {
+//
+//	if (320 < MouseX && MouseX < 576 - cardPild_9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_1 = 45;
+//	}
+//	else {
+//		CardUp_1 = 0;
+//	}
+//
+//	if (576 - cardPild_9 < MouseX && MouseX < 832 - cardPild_9 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_2 = 45;
+//	}
+//	else {
+//		CardUp_2 = 0;
+//	}
+//
+//	if (832 - cardPild_9 * 2 < MouseX && MouseX < 1088 - cardPild_9 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_3 = 45;
+//	}
+//	else {
+//		CardUp_3 = 0;
+//	}
+//
+//	if (1088 - cardPild_9 * 3 < MouseX && MouseX < 1344 - cardPild_9 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_4 = 45;
+//	}
+//	else {
+//		CardUp_4 = 0;
+//	}
+//
+//	if (1344 - cardPild_9 * 4 < MouseX && MouseX < 1600 - cardPild_9 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_5 = 45;
+//	}
+//	else {
+//		CardUp_5 = 0;
+//	}
+//	if (1600 - cardPild_9 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_9 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_6 = 45;
+//	}
+//	else {
+//		CardUp_6 = 0;
+//	}
+//
+//	if (1600 + (256) - cardPild_9 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_9 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_7 = 45;
+//	}
+//	else {
+//		CardUp_7 = 0;
+//	}
+//
+//	if (1600 + (256 * 2) - cardPild_9 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_9 * 8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_8 = 45;
+//	}
+//	else {
+//		CardUp_8 = 0;
+//	}
+//
+//	if (1600 + (256 * 3) - cardPild_9 * 8 < MouseX && MouseX < 1600 + (256 * 4) - cardPild_9 * 9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+//		CardUp_9 = 45;
+//	}
+//	else {
+//		CardUp_9 = 0;
+//	}
+//
+//}
+
+	//if (numOfCards == 10) {
+
+	//	if (320 < MouseX && MouseX < 576 - cardPild_10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_1 = 45;
+	//	}
+	//	else {
+	//		CardUp_1 = 0;
+	//	}
+
+	//	if (576 - cardPild_10 < MouseX && MouseX < 832 - cardPild_10 * 2 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_2 = 45;
+	//	}
+	//	else {
+	//		CardUp_2 = 0;
+	//	}
+
+	//	if (832 - cardPild_10 * 2 < MouseX && MouseX < 1088 - cardPild_10 * 3 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_3 = 45;
+	//	}
+	//	else {
+	//		CardUp_3 = 0;
+	//	}
+
+	//	if (1088 - cardPild_10 * 3 < MouseX && MouseX < 1344 - cardPild_10 * 4 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_4 = 45;
+	//	}
+	//	else {
+	//		CardUp_4 = 0;
+	//	}
+
+	//	if (1344 - cardPild_10 * 4 < MouseX && MouseX < 1600 - cardPild_10 * 5 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_5 = 45;
+	//	}
+	//	else {
+	//		CardUp_5 = 0;
+	//	}
+	//	if (1600 - cardPild_10 * 5 < MouseX && MouseX < 1600 + (256) - cardPild_10 * 6 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_6 = 45;
+	//	}
+	//	else {
+	//		CardUp_6 = 0;
+	//	}
+
+	//	if (1600 + (256) - cardPild_10 * 6 < MouseX && MouseX < 1600 + (256 * 2) - cardPild_10 * 7 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_7 = 45;
+	//	}
+	//	else {
+	//		CardUp_7 = 0;
+	//	}
+
+	//	if (1600 + (256 * 2) - cardPild_10 * 7 < MouseX && MouseX < 1600 + (256 * 3) - cardPild_10 * 8 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_8 = 45;
+	//	}
+	//	else {
+	//		CardUp_8 = 0;
+	//	}
+
+	//	if (1600 + (256 * 3) - cardPild_10 * 8 < MouseX && MouseX < 1600 + (256 * 4) - cardPild_10 * 9 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_9 = 45;
+	//	}
+	//	else {
+	//		CardUp_9 = 0;
+	//	}
+
+	//	if (1600 + (256 * 4) - cardPild_10 * 9 < MouseX && MouseX < 1600 + (256 * 5) - cardPild_10 * 10 && height1 * 7 <= MouseY && MouseY <= height1 * 10) {
+	//		CardUp_10 = 45;
+	//	}
+	//	else {
+	//		CardUp_10 = 0;
+	//	}
+
+	//}

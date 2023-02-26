@@ -35,7 +35,7 @@ public:
 
 	//ŠÖ”ŒQ
 	void DrawTurn();
-	void drawCardUp(int x, int y);
+	void RaiseCard(std::vector<Card*> hand, int x, int y);
 	void DrawHand(std::vector<Card*> &hand);
 	void EaseTurnImage(double out_t, double in_t, int x_s, int x_e);
 	void EaseImageCard1(double t, int x_s, int x_e, int delay);
@@ -46,6 +46,8 @@ public:
 	void DrawOrder();
 
 	void Debug();
+
+	void useCard(Card* &card,Person* person,std::vector<Person*> &party, std::vector<Enemy*> &enemies);
 
 	void ChangeFlagByclickOnRange(int x, int y, int x2, int y2, bool f, int mouseX, int mouseY);
 

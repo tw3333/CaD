@@ -8,6 +8,7 @@
 #include "../gm_person_manager.h"
 #include "../gm_card_manager.h"
 #include"../gm_manager.h"
+#include "gm_scene_result.h"
 
 #include "DxLib.h"
 
@@ -56,6 +57,12 @@ void SceneSelectPhase::update(float delta_time) {
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RETURN)) {
 		mgr->chengeScene(new SceneBattle());
 	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_U)) {
+		mgr->chengeScene(new SceneResult());
+	}
+
+
 
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_SPACE) && dun_flame_move == 0) {
 	//	mgr->chengeScene(new ScenePlay());

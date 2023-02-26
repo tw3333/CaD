@@ -24,6 +24,8 @@ public:
 
 	int HEAL = 10;
 
+	int DROPEXP = 100; //獲得経験値
+
 	bool isEnemy = true; //判別用
 	bool isActed = false; //行動済みかどうか
 	bool isDead = false; //死んでるかどうか

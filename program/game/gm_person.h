@@ -20,14 +20,20 @@ public:
 
 
 	//テストステータス
+	int LEVEL = 1;
 	int HP; //HP
 	int HPMAX; //最大HP
 	int COST; //コスト
 	int COSTMAX; //最大コスト
 	int SPEED; //ターン順位に使用する素早さ
 	int HATE = 10;
+	int EXP = 50;
+	int NEEDEXP = 100;
+	int PROTEC = 0;
+
 	bool PICK = false;
 	bool EDIT = false;
+	bool isFirstDeal = false;
 	
 	bool isActed = false; //行動済みかどうか
 	bool isDead = false; //死んでるかどうか
@@ -42,7 +48,6 @@ public:
 	std::vector<Card*> deck; //山札
 	std::vector<Card*> hand; //手札
 
-
 	//SceneDeckEditで使用
 	std::vector<Card*> cardList; //そのキャラが所持しているカード一覧
 
@@ -54,6 +59,9 @@ public:
 	bool isBurn = false; //燃えているかどうか
 	bool isPoison = false; //毒状態かどうか
 	
+	//Person関数
+	void AddExp(int exp);
+
 
 	//getter setter
 	//Person特有

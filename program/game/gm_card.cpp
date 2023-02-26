@@ -5,8 +5,24 @@
 #include <string>
 
 
+void Card::useCard() {
+
+	if (c_effect == true) {
 
 
+
+	} e/*lse if(c_effect == false) {
+
+		if () {
+
+		}
+
+
+	}*/
+
+
+
+}
 
 
 
