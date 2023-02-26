@@ -25,6 +25,7 @@ public:
 	int COST; //コスト
 	int COSTMAX; //最大コスト
 	int SPEED; //ターン順位に使用する素早さ
+	int HATE = 10;
 	bool PICK = false;
 	bool EDIT = false;
 	
@@ -52,9 +53,17 @@ public:
 	//実装予定ステータス
 	bool isBurn = false; //燃えているかどうか
 	bool isPoison = false; //毒状態かどうか
-	int hate = 0; //ヘイト
+	
 
 	//getter setter
+	//Person特有
+	int getHate() const { return HATE; }
+
+
+
+
+
+	//Unit共通
 	int getSPEED() const override { return SPEED; }
 	void setSPEED(int speed) override { SPEED = speed; }
 

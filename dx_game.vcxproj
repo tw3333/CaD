@@ -44,6 +44,7 @@
     <ClCompile Include="program\game\gm_main.cpp" />
     <ClCompile Include="program\game\gm_manager.cpp" />
     <ClCompile Include="program\game\gm_person_manager.cpp" />
+    <ClCompile Include="program\game\gm_sound_manager.cpp" />
     <ClCompile Include="program\game\gm_turn_manager.cpp" />
     <ClCompile Include="program\game\model\gm_airplane.cpp" />
     <ClCompile Include="program\game\model\gm_anim_sprite3d.cpp" />
@@ -82,6 +83,7 @@
     <ClInclude Include="program\game\gm_card_manager.h" />
     <ClInclude Include="program\game\gm_enemy.h" />
     <ClInclude Include="program\game\gm_enemy_manager.h" />
+    <ClInclude Include="program\game\gm_sound_manager.h" />
     <ClInclude Include="program\game\gm_turn_manager.h" />
     <ClInclude Include="program\game\gm_unit.h" />
     <ClInclude Include="program\game\gm_person.h" />

@@ -7,9 +7,6 @@
 
 
 void SceneDeckEdit::initialzie() {
-	//cmgr->LoadCardDate();
-	//cmgr->LoadCardGraph();
-	//cmgr->SortJobCard();
 
 	//tab管理用フラグ
 	tab = true;
@@ -45,53 +42,59 @@ void SceneDeckEdit::update(float delta_time) {
 		}
 	}
 
-
-
-
-	//tab操作用関数群
-	/*opTab(tab);
-	opChara01_Tab(chara1_tab);
-	opChara02_Tab(chara2_tab);
-	opChara03_Tab(chara3_tab);
-	opChara04_Tab(chara4_tab);*/
-
 }
 
 void SceneDeckEdit::render() {
-
-	//cmgr->LoadCardDate();
-	//cmgr->LoadCardGraph();
-	//cmgr->SortJobCard();
-
-	//DrawBox(0, 0, width1 * 10, height1 * 10, white, true);
-
-	//下地
-	DrawBox(width1 * 0, height1 * 1, width1 * 3, height1 * 10, dsgray, true);
-	DrawBox(width1 * 3, height1 * 1, width1 * 7, height1 * 10, dimgray, true);
-	DrawBox(width1 * 7, height1 * 1, width1 * 10, height1 * 10, gray, true);
+	
+	//SetFontSize(30);
+	// 
+	//下地(背景)
+	DrawBox(0,0,width1*10,height1*10,white,true);
+	//DrawBox(width1 * 0, height1 * 1, width1 * 3, height1 * 10, dsgray, true);
+	//DrawBox(width1 * 3, height1 * 1, width1 * 7, height1 * 10, dimgray, true);
+	//DrawBox(width1 * 7, height1 * 1, width1 * 10, height1 * 10, gray, true);
 	DrawExtendGraph(width1 * 0, height1 * 0, width1 * 2, height1 * 1, chara01_face, true);
 
-	//Tab(draw_tab);
+	//UIBOX
+	DrawBox(10, height1 * 1 + 10, 286 , height1 * 10 - 10, ui, true); //カードの表示BOX
+	DrawBox(296, height1 * 1 + 10, width1 * 6 + (width1 * 1 / 2), height1 * 10 - 10, ui, true); //デッキの表示BOX
+	DrawBox(width1 * 6 + (width1 * 1 / 2) + 10, height1 * 1 + 10, width1 * 10 -10, height1 * 10 - 10, ui, true); //CardListのBOX
 
-	//Chara01_Tab(chara1_tab);
+	//view関数選択されたカードの表示
+	DrawExtendGraph(20, height1 * 1 + 20, 276, height1 * 4 + 20, viewCard, false);
 
 
 	DrawBox(0, 0, width1 * 1, height1 * 1, gray, true);
-
-	//DrawCardZone();
-	DrawListZone();
+	
+	//カードの表示
+    DrawListZone(); //Personが所持しているカード一覧
 	DrawDeckZone(); //選択されたカード（デッキの中身）
 
-	//アタリ線
-	for (int i = 0; i < 10; ++i) {
-		DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
-		DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
+	//カードクリックで左にカードを大きく表示
+	ClickDisPlayCardInDeck(pmgr->person,MouseX,MouseY);
+
+	for (int i = 0; i < pmgr->person.size(); i++) {
+
+		if (pmgr->person[i]->EDIT == true) {
+
+			DrawStringEx(296, 60, 1, "DeckCount:%d/15", pmgr->person[i]->deck.size());
+
+		}
+
 	}
 
-	DrawStringEx(1300, 60, -1, "X:%d Y:%d", MouseX, MouseY);
-	DrawStringEx(480, 60, -1, "DeckCount:%d", c1deck_count);
+	DrawStringEx(296, 80, 1, "[Z]:全て取り消し");
+
+
+	DrawStringEx(1300, 60, 1, "X:%d Y:%d", MouseX, MouseY);
 	DrawStringEx(0, 0, 1, "戻る");
 
+
+	//アタリ線
+	//for (int i = 0; i < 10; ++i) {
+	//	DrawLine(0, height1 + height1 * i, DXE_WINDOW_WIDTH, height1 + height1 * i, 0);
+	//	DrawLine(width1 + width1 * i, 0, width1 + width1 * i, DXE_WINDOW_HEIGHT, 0);
+	//}
 }
 
 
@@ -197,69 +200,16 @@ void SceneDeckEdit::DrawDeckZone() {
 				int x = k % 4;
 				int y = k / 4;
 
-				DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), pmgr->person[i]->deck[k]->c_graph, false);
+				int z = 10 * (k / 4);
+
+
+				DrawExtendGraph((318 + (x * 20)) + (width1 * x), height1 * (1 + y * 2) + 20 + z, (318 + (x * 20)) + (width1 * (1 + x)), height1 * (3 + y * 2) + 20 + z, pmgr->person[i]->deck[k]->c_graph, false);
 
 			}
 
 		}
 
 	}
-
-
-
-
-
-
-
-	/*if (pmgr->person[0]->EDIT == true) {
-
-		for (int i = 0; i < cmgr->chara1Deck.size(); ++i) {
-			int x = i % 4;
-			int y = i / 4;
-
-			DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), cmgr->chara1Deck[i]->c_graph, false);
-
-		}
-	}
-
-	if (pmgr->person[1]->EDIT == true) {
-		for (int i = 0; i < cmgr->chara2Deck.size(); ++i) {
-			int x = i % 4;
-			int y = i / 4;
-
-			DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), cmgr->chara2Deck[i]->c_graph, false);
-
-		}
-
-	}
-
-	if (pmgr->person[2] ->EDIT == true) {
-		for (int i = 0; i < cmgr->chara3Deck.size(); ++i) {
-			int x = i % 4;
-			int y = i / 4;
-
-			DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), cmgr->chara3Deck[i]->c_graph, false);
-
-		}
-	}
-
-	if (pmgr->person[3]->EDIT == true) {
-		for (int i = 0; i < cmgr->chara4Deck.size(); ++i) {
-			int x = i % 4;
-			int y = i / 4;
-
-			DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), cmgr->chara4Deck[i]->c_graph, false);
-
-		}
-	}*/
-
-	//for (int i = 0; i < cmgr->chara1Deck.size(); ++i) {
-	//	int x = i % 4;
-	//	int y = i / 4;
-
-	//	DrawExtendGraph(width1 * (3 + x), height1 * (1 + y * 2), width1 * (4 + x), height1 * (3 + y * 2), cmgr->chara1Deck[i]->c_graph, false);
-
-	//}
 
 }
 
@@ -278,12 +228,17 @@ void SceneDeckEdit::DrawListZone() {
 
 				int x = k % 3;
 				int y = k / 3;
+				int z = 12 * (k % 3);
+				int q = 10 * (k / 3);
 
-				DrawExtendGraph(width1 * (7 + x), height1 * (1 + y * 2), width1 * (8 + x), height1 * (3 + y * 2), pmgr->person[i]->cardList[k]->c_graph, false);
+				//DrawExtendGraph(width1 * 6 + (width1 * 1 / 2) + 20, height1 * 1 + 20, width1 * 7 + (width1 * 1 / 2) + 20, height1 * 3 + 20, pmgr->person[i]->cardList[k]->c_graph, false);
+				//DrawExtendGraph(width1 * (7 + x), height1 * (1 + y * 2), width1 * (8 + x), height1 * (3 + y * 2), pmgr->person[i]->cardList[k]->c_graph, false);
 
 
-
-
+				DrawExtendGraph(width1 * (6 + x) + (width1 * 1 / 2) + 32 + z, height1 * (1 + y * 2) + 20 +q, width1 * (7 + x) + (width1 * 1 / 2) + 32 + z, height1 * (3 + y * 2) + 20 + q, pmgr->person[i]->cardList[k]->c_graph, false);
+				//DrawExtendGraph(width1 * 6 + (width1 * 1 / 2) + 21, height1 * 1 + 20, width1 * 7 + (width1 * 1 / 2) + 31, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+				//DrawExtendGraph(width1 * 7 + (width1 * 1 / 2) + 43, height1 * 1 + 20, width1 * 8 + (width1 * 1 / 2) + 43, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+				//DrawExtendGraph(width1 * 8 + (width1 * 1 / 2) + 56, height1 * 1 + 20, width1 * 9 + (width1 * 1 / 2) + 56, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
 			}
 
 
@@ -291,49 +246,7 @@ void SceneDeckEdit::DrawListZone() {
 
 	}
 
-
-
-	//if (pmgr->person[0]->EDIT == true) {
-	//	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara1[0]->c_graph, false);
-	//	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara1[1]->c_graph, false);
-	//	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara1[2]->c_graph, false);
-	//	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara1[3]->c_graph, false);
-	//	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara1[4]->c_graph, false);
-
-	//}
-
-	////if (pmgr->person2->EDIT == true) {
-	////	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara2[0]->c_graph, false);
-	////	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara2[1]->c_graph, false);
-	////	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara2[2]->c_graph, false);
-	////	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara2[3]->c_graph, false);
-	////	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara2[4]->c_graph, false);
-
-	////}
-
-	//if (pmgr->person[2]->EDIT == true) {
-	//	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara3[0]->c_graph, false);
-	//	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara3[1]->c_graph, false);
-	//	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara3[2]->c_graph, false);
-	//	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara3[3]->c_graph, false);
-	//	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara3[4]->c_graph, false);
-
-	//}
-
-	//if (pmgr->person[3]->EDIT == true) {
-	//	DrawExtendGraph(width1 * 7, height1 * 1, width1 * 8, height1 * 3, cmgr->cardDataChara4[0]->c_graph, false);
-	//	DrawExtendGraph(width1 * 8, height1 * 1, width1 * 9, height1 * 3, cmgr->cardDataChara4[1]->c_graph, false);
-	//	DrawExtendGraph(width1 * 9, height1 * 1, width1 * 10, height1 * 3, cmgr->cardDataChara4[2]->c_graph, false);
-	//	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 8, height1 * 5, cmgr->cardDataChara4[3]->c_graph, false);
-	//	DrawExtendGraph(width1 * 8, height1 * 3, width1 * 9, height1 * 5, cmgr->cardDataChara4[4]->c_graph, false);
-
-	//}
-
-
-
 }
-
-
 
 
 //選択されたカードのかぶりを監視しつつ、カードをデッキに挿入する関数
@@ -409,11 +322,45 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 	}
 
 
+}
+
+void SceneDeckEdit::ClickDisPlayCardInDeck(std::vector<Person*> &person, int mx, int my) {
+
+	for (int i = 0; i < person.size(); i++) {
+
+		if (person[i]->EDIT == true) {
+
+			for (int k = 0; k < pmgr->person[i]->deck.size(); k++) {
+
+					int x = k % 4;
+					int y = k / 4;
+
+					int z = 10 * (k / 4);
+
+					if ((318 + (x * 20)) + (width1 * x) < mx && mx < (318 + (x * 20)) + (width1 * (1 + x)) && height1 * (1 + y * 2) + 20 + z < my && my < height1 * (3 + y * 2) + 20 + z) {
+
+						if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+
+							viewCard = pmgr->person[i]->deck[k]->c_graph;
+
+						}
+						
+					}
+
+			}
 
 
 
+		}
 
 
+	}
+
+
+}
+
+
+//memo(ここから先コードなし)
 
 	//	//if ((GetMouseInput() & MOUSE_INPUT_LEFT) != 0) {
 	//	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
@@ -556,4 +503,17 @@ void SceneDeckEdit::ListMouseCheck(int mx, int my) {
 	//		}
 	//	}
 
-}
+
+
+	//DrawExtendGraph(20, height1 * 1 + 20, 276, height1 * 4 + 20,pmgr->person[0]->cardList[0]->c_graph,false);
+
+	//DrawExtendGraph(318, height1 * 1 + 20, 318 + width1 * 1, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(338 + width1 * 1, height1 * 1 + 20, 338 + width1 * 2, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(358 + width1 * 2, height1 * 1 + 20, 358 + width1 * 3, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(378 + width1 * 3, height1 * 1 + 20, 378 + width1 * 4, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(346 + width1 * 4, height1 * 1 + 20, 356 + width1 * 5, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(306 + width1 * 5, height1 * 1 + 20, 366 + width1 * 6, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+
+	//DrawExtendGraph(width1 * 6 + (width1 * 1 / 2) + 21, height1 * 1 + 20, width1 * 7 + (width1 * 1 / 2) + 31, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(width1 * 7 + (width1 * 1 / 2) + 43, height1 * 1 + 20, width1 * 8 + (width1 * 1 / 2) + 43, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);
+	//DrawExtendGraph(width1 * 8 + (width1 * 1 / 2) + 56, height1 * 1 + 20, width1 * 9 + (width1 * 1 / 2) + 56, height1 * 3 + 20, pmgr->person[0]->cardList[0]->c_graph, false);

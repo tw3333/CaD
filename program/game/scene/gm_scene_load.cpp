@@ -3,14 +3,17 @@
 #include "gm_scene_selectphase.h"
 
 void SceneLoad::initialzie() {
+	//Soundデータのロード
+	smgr->LoadSoundSe();
 
+	//Personデータのロード
 	pmgr->AddPersonPointerToVector();
 	pmgr->LoadPersonGraph();
 
+	//Cardデータのロード
 	cmgr->LoadCardDate();
 	cmgr->LoadCardGraph();
 	cmgr->SortJobCard();
-
 
 }
 

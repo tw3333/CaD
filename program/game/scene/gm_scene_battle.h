@@ -8,7 +8,7 @@
 
 #include "../gm_enemy.h"
 
-
+#include "../gm_sound_manager.h"
 
 
 
@@ -76,6 +76,8 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
 
+	SoundManager* smgr = new SoundManager();
+
 
 
 	int test = 30;
@@ -105,13 +107,6 @@ private:
 	std::vector<Card*> b_hand;
 
 
-	//‘¬‚³‚Ì”»’è‚Ì‚½‚ßA“¯‚¶”z—ñ‚Éparty‚Æenemies‚ğ“ü‚ê‚é
-	std::vector<std::pair<int, bool>> turnOrder; //<Speed,isEnemy>
-
-	//std::vector<void*> allChara;
-
-	//std::vector<std::unique_ptr<Unit>> allUnit;
-	 
 	std::vector<Unit*> allUnit;
 
 	Enemy* enemy1 = new Enemy("“G‚P", 100, 100, 5, 5, 0, 0);

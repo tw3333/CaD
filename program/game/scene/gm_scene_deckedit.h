@@ -42,6 +42,9 @@ public:
 
 	//カードとマウスの判定
 	void ListMouseCheck(int mx, int my);
+	void ClickDisPlayCardInDeck(std::vector<Person*> &person, int mx, int my);
+	void ViewDeck(Person*& person, std::vector<Card*>& deck, int mx, int my);
+
 
 
 	void CheckHandle(std::vector<Card*> &deck, Card* card );
@@ -94,12 +97,16 @@ private:
 	int tab_flame_move = 0;
 	int c1deck_count = 0;
 
+	int viewCard = 0;
 
 	//カラーコード
 	int white = GetColor(255,255,255);
 	int gray = GetColor(128,128,128);
 	int dimgray = GetColor(100,100,100);
 	int dsgray = GetColor(47, 79, 79); //darkslategray
+	int ui = GetColor(21, 31, 43); //#4d2c17
+
+
 
 	bool d_select_chara1 = false;
 	bool d_select_chara2 = false;

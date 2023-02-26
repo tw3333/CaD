@@ -26,14 +26,7 @@ void SceneSelectPhase::initialzie() {
 
 	tab2 = false;
 
-	//pmgr->AddPersonPointerToVector();
-	//pmgr->LoadPersonGraph();
-
-	//cmgr->LoadCardDate();
-	//cmgr->LoadCardGraph();
-	//cmgr->SortJobCard();
-
-
+	//window表示フラグ
 	dungeonWindow = true; //最初はダンジョンWindow表示
 	charaWindow = false;
 	dungeonWindow = false;
@@ -41,6 +34,7 @@ void SceneSelectPhase::initialzie() {
 	shopWindow = false;
 	guildWindow = false;
 
+	//最初はEditをfalseに
 	pmgr->person[0]->EDIT = false;
 	pmgr->person[1]->EDIT = false;
 	pmgr->person[2]->EDIT = false;
@@ -118,103 +112,6 @@ void SceneSelectPhase::update(float delta_time) {
 
 void SceneSelectPhase::render() {
 
-	////UI描写
-	//DrawExtendGraph(0,0,width1*10,height1*10,background,false);
-	//DrawBox(0, 0, width1 * 10, height1 * 1, gray, true);
-	//DrawExtendGraph(0, 0, width1 * 2, height1 * 1, s_guild_tile, false);
-
-	//DrawBox(0,height1*9,width1*10,height1*10,gray,true);
-
-	////DrawBox(0, 0, width1 * 3, height1 * 10, 0, true);
-
-	//DrawTab(0, 1, 3, 2, select_dungeon);
-	//DrawTab(0, 2, 3, 3, select_chara);
-	//DrawTab(0, 3, 3, 4, select_party);
-
-	//DrawTab(0, 4, 3, 5, select_tab);
-	///*drawTab(0, 5, 3, 6, select_tab);
-	//drawTab(0, 6, 3, 7, select_tab);
-	//drawTab(0, 7, 3, 8, select_tab);
-	//drawTab(0, 8, 3, 9, select_tab);
-	//drawTab(0, 9, 3, 10, select_tab);*/
-
-
-	//DrawTab(0, 1 + flame_move, 3, 2 + flame_move, select_flame);
-	////drawTab(0,1,3,2,select_);
-
-	//if (select_dungeon_tab) {
-	//	//DrawExtendGraph(width1 * 3, height1 * 1, width1 * 7, height1 * 10, select_tab, false);
-
-	//	DrawBox(width1 * 3, height1 * 1, width1 * 7, height1 * 10, gray2, true);
-
-	//	DrawExtendGraph(width1 * 4, height1 * 1, width1 * 6, height1 * 2, dungeon_1, true);
-	//	DrawExtendGraph(width1 * 4, height1 * 2, width1 * 6, height1 * 3, dungeon_2, true);
-	//	DrawExtendGraph(width1 * 4, height1 * 3, width1 * 6, height1 * 4, dungeon_3, true);
-	//	DrawExtendGraph(width1 * 4, height1 * 4, width1 * 6, height1 * 5, dungeon_4, true);
-	//	DrawExtendGraph(width1 * 4, height1 * 5, width1 * 6, height1 * 6, dungeon_5, true);
-	//	DrawExtendGraph(width1 * 4, height1 * 7, width1 * 6, height1 * 7, dungeon_6, true);
-
-	//	DrawExtendGraph(width1 * 4, height1 * (1 + dun_flame_move), width1 * 6, height1 * (2 + dun_flame_move), dungeon_select_flame, true);
-
-	//	DrawBox(width1 * 7, height1 * 1, width1 * 10, height1 * 10, black, true);
-
-	//	if (dun_flame_move == 0) {
-	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン１");
-	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★☆☆☆☆");
-	//	}
-
-	//	if (dun_flame_move == 1) {
-	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン２");
-	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★☆☆☆");
-	//	}
-	//	if (dun_flame_move == 2) {
-	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン３");
-	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★☆☆");
-	//	}
-	//	if (dun_flame_move == 3) {
-	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン４");
-	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★★☆");
-	//	}
-
-	//	if (dun_flame_move == 4) {
-	//		DrawStringEx(width1 * 7, height1 * 1, -1, "ダンジョン５");
-	//		DrawStringEx(width1 * 7, height1 * 1 + 50, -1, "難易度：★★★★★");
-	//	}
-	//}
-
-	//if (select_party_tab) {
-	//	
-	//	DrawBox(width1 * 3, height1 * 1, width1 * 10, height1 * 10, gray2, true);
-	//	DrawGraph(width1 * 4, height1 * 1 + (height1 / 2), member_img, true);
-	//	DrawGraph(width1 * 4, height1 * 2, x2y1_flame_B, true);
-
-	//	//選ばれたキャラ描写
-	//	//pickCheck(pick_chara1, pick_chara2, pick_chara3, pick);
-	//	DrawExtendGraph(width1 * 4, height1 * 2,width1*6,height1*3, pick_chara1, false);
-	//	DrawExtendGraph(width1 * 4, height1 * 3,width1*6,height1*4, pick_chara2, false);
-	//	DrawExtendGraph(width1 * 4, height1 * 4,width1*6,height1*5, pick_chara3, false);
-
-	//	DrawGraph(width1 * 4, height1 * 2, x2y1_flame_1, true);
-	//	DrawGraph(width1 * 4, height1 * 3, x2y1_flame_2, true);
-	//	DrawGraph(width1 * 4, height1 * 4, x2y1_flame_3, true);
-
-
-	//	DrawExtendGraph(width1 * 7, height1 * 2, width1 * 9, height1 * 3, chara01, false);
-	//	DrawExtendGraph(width1 * 7, height1 * 3, width1 * 9, height1 * 4, chara02, false);
-	//	DrawExtendGraph(width1 * 7, height1 * 4, width1 * 9, height1 * 5, chara03, false);
-	//	DrawExtendGraph(width1 * 7, height1 * 5, width1 * 9, height1 * 6, chara04, false);
-	//	DrawGraph(width1 * 7, height1 * (2 + p_flame_move), x2y1_flame_R, true);
-
-	//	DrawBox(width1*3,height1*7,width1*10,height1*10,10,true);
-
-	//	DrawStringEx(width1 * 3, height1 * 7, -1, "[z]:全て取り消し　[x]:選択");
-	//	DrawStringEx(width1 * 3, height1 * 7 + 30, -1, "３人をパーティ編成してください");
-
-	//	//DrawExtendGraph();
-
-	//}
-
-
 	//DrawStringEx(850, 50, -1, "scene selectphase");
 	//DrawStringEx(width1 * 0, height1 * 4, 100, "[space]:決定　[C]:戻る");
 	//DrawStringEx(width1 * 0, height1 * 4 + 50, 100, "[↑↓]：ウエ/シタ");
@@ -256,121 +153,6 @@ void SceneSelectPhase::DrawTab(int x, int y, int x2, int y2, int load) {
 
 //void SceneSelectPhase::DrawPartyTab() {
 //}
-
-
-
-
-
-//void SceneSelectPhase::opTabParty(bool flag) {
-//	
-//	if (tab_party) {
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
-//			p_flame_move -= 1;
-//		}
-//		else if (p_flame_move < 0) {
-//			p_flame_move = 0;
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-//			p_flame_move += 1;
-//		}
-//		else if (p_flame_move > 3) {
-//			p_flame_move = 3;
-//		}
-//
-//		//chara1pick
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 0) {
-//			
-//			if (pick_chara1 == 0) {
-//				pick_chara1 = chara01;
-//			} 
-//			else if (pick_chara1 != 0  && pick_chara2 == 0) {
-//				pick_chara2 = chara01;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-//				pick_chara3 = chara01;
-//			}
-//			
-//			pmgr->person1->PICK = true;
-//			
-//		}
-//
-//		//chara2pick
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 1) {
-//			
-//			if (pick_chara1 == 0) {
-//				pick_chara1 = chara02;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 == 0) {
-//				pick_chara2 = chara02;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-//				pick_chara3 = chara02;
-//			}
-//
-//			pmgr->person2->PICK = true;
-//		}
-//
-//		//chara3pick
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 2) {
-//			
-//			if (pick_chara1 == 0) {
-//				pick_chara1 = chara03;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 == 0) {
-//				pick_chara2 = chara03;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-//				pick_chara3 = chara03;
-//			}
-//
-//			pmgr->person3->PICK = true;
-//		}
-//
-//		//chara4pick
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_X) && p_flame_move == 3) {
-//			
-//			if (pick_chara1 == 0) {
-//				pick_chara1 = chara04;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 == 0) {
-//				pick_chara2 = chara04;
-//			}
-//			else if (pick_chara1 != 0 && pick_chara2 != 0 && pick_chara3 == 0) {
-//				pick_chara3 = chara04;
-//			}
-//
-//			pmgr->person4->PICK = true;
-//
-//		}
-//		
-//		//全て取り消し
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_Z)) {
-//			pick_chara1 = 0;
-//			pick_chara2 = 0;
-//			pick_chara3 = 0;
-//
-//			pmgr->person1->PICK = false;
-//			pmgr->person2->PICK = false;
-//			pmgr->person3->PICK = false;
-//			pmgr->person4->PICK = false;
-//
-//
-//		}
-//
-//		if (tnl::Input::IsKeyDownTrigger(eKeys::KB_C)) {
-//			select_party_tab = false;
-//			tab_party = false;
-//			tab = true;
-//			
-//		}
-//
-//	}
-//	
-//}
-
-
 
 void SceneSelectPhase::DrawDungeonWindow(bool f) {
 

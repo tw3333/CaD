@@ -14,6 +14,13 @@
 
 SceneBattle::~SceneBattle() {
 
+	
+	
+	
+	for (auto& person : party) { delete person; } 
+	for (auto& enemy : enemies) { delete enemy; }
+	for (auto& unit : allUnit) { delete unit; }
+
 }
 
 
@@ -42,14 +49,11 @@ void SceneBattle::initialzie() {
 	//SPEEDの値で降順ソート
 	std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
 		return a->getSPEED() > b->getSPEED();
-		});
+	});
 
-	//DecideOrderUnit(allUnit); //１番目の行動Unit決定
-
-//	ReflectOrderImage(); //画像を行動順に描写
+	//ReflectOrderImage(); //画像を行動順に描写
 
 	orderCount = 0;
-	//decideOrderPhase = true;
 
 	if (allUnit[orderCount]->getIsEnemy() == false) {
 
@@ -63,7 +67,7 @@ void SceneBattle::initialzie() {
 		isDecideOrdered = true;
 	}
 
-//=========================================//
+	//=========================================//
 
 
 }
@@ -74,7 +78,8 @@ void SceneBattle::update(float dalta_time) {
 
 	//マウス座標の取得
 	GetMousePoint(&MouseX, &MouseY);
-
+	
+	//ボタンの処理
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 
 		if (10 < MouseX && MouseX < width1 * 2 - 10 && height1 * 7 + 60 < MouseY && MouseY < height1 * 8 + 25) {
@@ -95,6 +100,7 @@ void SceneBattle::update(float dalta_time) {
 	}
 
 	//===1ターンの処理===//
+
 	if (isDecideOrdered) {
 
 		if (allUnit[orderCount]->getIsEnemy() == false) {
@@ -102,7 +108,7 @@ void SceneBattle::update(float dalta_time) {
 			if (dealCardPhase) {
 
 				DealFromDeckToHand(doPerson->deck, doPerson->hand, doPerson->dealHandNum);
-				
+
 				isDealCard = true;
 				actionPhase = true;
 
@@ -129,16 +135,29 @@ void SceneBattle::update(float dalta_time) {
 		}
 		else if (allUnit[orderCount]->getIsEnemy() == true) {
 
+			doEnemy->EnemyAct(doEnemy,party);
 
 
-
+			isDecideOrdered = false;
+			decideOrderPhase = true;
 		}
 
 	}
 
 	if (!isDecideOrdered && decideOrderPhase) {
 
-		orderCount += 1;
+		 orderCount += 1; 
+
+		if (orderCount > allUnit.size() -1) { 
+			
+			std::sort(allUnit.begin(), allUnit.end(), [](Unit* a, Unit* b) {
+				return a->getSPEED() > b->getSPEED();
+				});
+
+			turnCount += 1;
+			orderCount = 0;
+			
+		}
 
 		if (allUnit[orderCount]->getIsDead() == false) {
 
@@ -152,7 +171,6 @@ void SceneBattle::update(float dalta_time) {
 
 				doEnemy = static_cast<Enemy*>(allUnit[orderCount]);
 				isDecideOrdered = true;
-
 			}
 
 		}
@@ -160,13 +178,7 @@ void SceneBattle::update(float dalta_time) {
 		decideOrderPhase = false;
 	}
 
-
-
-
-
 	//===================//
-
-
 
 		//簡易敵アニメーション 
 	timer += 0.1 * 1;
@@ -264,58 +276,9 @@ void SceneBattle::update(float dalta_time) {
 
 void SceneBattle::render() {
 
-	//=====1ターンの処理=====//
-
-		//if (allUnit[orderCount]->getIsActed() == false && allUnit[orderCount]->getIsDead() == false) {
-
-		//	if (allUnit[orderCount]->getIsEnemy() == false) {
-
-		//		doPerson = static_cast<Person*>(allUnit[orderCount]);
-
-		//		if (dealCardPhase) {
-
-		//			DealFromDeckToHand(doPerson->deck,doPerson->hand,doPerson->dealHandNum);
-		//			isDealCard = true;
-
-		//			actionPhase = true;
-		//			dealCardPhase = false;
-		//		}
-
-		//		if (actionPhase) {
-
-		//			UseCardFromHand(doPerson,doPerson->hand,MouseX,MouseY);
-
-		//			if (isClickTurnEnd) {
-
-		//				turnEnd = true;
-		//				actionPhase = false;
-		//			}
-
-		//		}
-
-		//		if (turnEnd) {
-
-		//			isDealCard = false;
-		//			
-		//			orderCount++;
-
-		//			turnEnd = false;
-
-		//		}
-
-
-
-		//	}
-
-
-
-
-
-
-
 	//=====描写=====//
 
-			//背景
+	//背景
 	DrawExtendGraph(0, 0, DXE_WINDOW_WIDTH, height1 * 10, img_background, true);
 
 	//敵
@@ -1349,6 +1312,7 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*>& hand, int 
 
 		if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
 
+			//PlaySoundMem();
 			if (person->COST >= hand[0]->c_cost) { //コスト計算
 
 				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる

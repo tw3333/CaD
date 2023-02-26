@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "gm_unit.h"
+#include "gm_person.h"
 
 //TODO:カプセル化
 
@@ -20,6 +21,9 @@ public:
 	int SPEED; //ターン順位に使用する素早さ
 	int GRAPH; //敵の画像
 	int EGRAPH; //敵の攻撃エフェクト
+
+	int HEAL = 10;
+
 	bool isEnemy = true; //判別用
 	bool isActed = false; //行動済みかどうか
 	bool isDead = false; //死んでるかどうか
@@ -27,7 +31,16 @@ public:
 	//実装予定ステータス
 	bool burn = false; //燃えているかどうか
 	bool poison = false; //毒状態かどうか
-	
+
+	//行動パターン　0: 攻撃のみ　1:攻撃と回復　2:状態異常持ち　3:回復のみ
+	int behavior = 0;
+
+
+
+	//Enemy行動用関数
+	void EnemyAct(Enemy* enemy, std::vector<Person*>& party);
+	void Attack(Enemy* enemy, std::vector<Person*>& party);
+	void Heal(Enemy* enemy);
 
 	//getter setter
 	int getSPEED() const override { return SPEED; }
