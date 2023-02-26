@@ -76,7 +76,7 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
 
-	SoundManager* smgr = new SoundManager();
+	SoundManager* smgr = SoundManager::GetInstance();
 
 
 

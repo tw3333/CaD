@@ -86,6 +86,7 @@ void SceneBattle::update(float dalta_time) {
 
 			if (isDealCard == false && dealCardPhase == false) { //カードをdealする
 
+				PlaySoundMem(smgr->dealCard_se, DX_PLAYTYPE_BACK);
 				dealCardPhase = true;
 
 			}
@@ -1312,7 +1313,7 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*>& hand, int 
 
 		if (320 < x && x < 576 && height1 * 7 <= y && y <= height1 * 10) {
 
-			//PlaySoundMem();
+			PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
 			if (person->COST >= hand[0]->c_cost) { //コスト計算
 
 				if (hand[0]->c_damage != 0) { //試しにダメージを与えてみる
@@ -1331,6 +1332,8 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*>& hand, int 
 
 			if (person->COST >= hand[1]->c_cost) { //コスト計算
 
+				PlaySoundMem(smgr->useCard_se, DX_PLAYTYPE_BACK);
+
 				if (hand[1]->c_damage != 0) { //試しにダメージを与えてみる
 
 					enemy1->HP -= hand[1]->c_damage;
@@ -1345,6 +1348,8 @@ void SceneBattle::UseCardFromHand(Person* person, std::vector<Card*>& hand, int 
 
 
 		if (832 < x && x < 1088 && height1 * 7 <= y && y <= height1 * 10) {
+
+
 
 			if (person->COST >= hand[2]->c_cost) { //コスト計算
 

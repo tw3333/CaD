@@ -39,7 +39,7 @@ private:
 	//コンストラクタ
 	PersonManager() {
 	}
-
+	~PersonManager(){}
 
 
 
