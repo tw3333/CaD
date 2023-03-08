@@ -208,6 +208,12 @@
     <ClCompile Include="program\game\gm_sound_manager.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\scene\gm_scene_test2.cpp">
+      <Filter>program\game\scene</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_board.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="program\library\picojson.h">
@@ -367,6 +373,12 @@
       <Filter>program\game\scene</Filter>
     </ClInclude>
     <ClInclude Include="program\game\gm_sound_manager.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\scene\gm_scene_test2.h">
+      <Filter>program\game\scene</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_board.h">
       <Filter>program\game</Filter>
     </ClInclude>
   </ItemGroup>

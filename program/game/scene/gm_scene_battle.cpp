@@ -81,6 +81,7 @@ void SceneBattle::update(float dalta_time) {
 	//マウス座標の取得
 	GetMousePoint(&MouseX, &MouseY);
 
+
 	//ボタンの処理
 	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
 

@@ -6,6 +6,7 @@
 #include "scene/gm_scene_selectphase.h"
 
 #include "scene/gm_scene_load.h"
+#include "scene/gm_scene_test2.h"
 
 //#include "scene/gm_scene_battle.h"
 

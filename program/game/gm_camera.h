@@ -16,7 +16,7 @@ public :
 	tnl::Quaternion rot_;
 
 	tnl::Vector3 free_look_angle_xy_ = { tnl::ToRadian(30), 0, 0 };
-	float target_distance_ = 50;
+	float target_distance_ = 100;
 
 	void update();
 };

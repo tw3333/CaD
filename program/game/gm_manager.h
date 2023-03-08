@@ -60,8 +60,8 @@ public :
 
 	//‰æ–Ê‚Ì‘å‚«‚³‚ğ10‚ÅŠ„‚Á‚½‚à‚Ì 
 	//1600x900 ¨@‚Pƒ}ƒX160x90
-	int width = DXE_WINDOW_WIDTH / 10;
-	int height = DXE_WINDOW_HEIGHT / 10;
+	int width_ = DXE_WINDOW_WIDTH / 10;
+	int height_ = DXE_WINDOW_HEIGHT / 10;
 	
 	
 

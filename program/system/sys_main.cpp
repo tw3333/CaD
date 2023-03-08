@@ -6,6 +6,10 @@
 #include "../game/gm_main.h"
 #include "../dxlib_ext/dxlib_ext.h"
 
+#define INIT_SCREEN_W (1920)
+#define INIT_SCREEN_H (1080)
+
+
 
 static std::chrono::system_clock::time_point clock_start, clock_end ; 
 static std::chrono::system_clock::time_point fps_clock_start, fps_clock_end;
@@ -15,12 +19,15 @@ static std::chrono::system_clock::time_point fps_clock_start, fps_clock_end;
 int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 						LPSTR lpCmdLine, int nCmdShow )
 {
-
 	// ウィンドウモードで起動
 	ChangeWindowMode( true ) ;
 
-	// ウィンドウサイズ設定
+	// サイズ変更を可能にする
+	SetWindowSizeChangeEnableFlag(TRUE, FALSE);
+
+	//ウィンドウサイズ設定
 	SetGraphMode(DXE_WINDOW_WIDTH, DXE_WINDOW_HEIGHT, 32 ) ;
+
 
 	// ＤＸライブラリ初期化処理
 	if( DxLib_Init() == -1 )		
@@ -43,6 +50,7 @@ int WINAPI WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance,
 	// メッセージループ
 	while( 1 )
 	{
+
 		// フレーム間の経過時間
 		// マイクロ秒で計測して秒に変換
 		clock_end = std::chrono::system_clock::now();
