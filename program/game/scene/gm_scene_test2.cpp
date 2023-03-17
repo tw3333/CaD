@@ -20,6 +20,13 @@ void Test2::initialzie() {
 	img_board_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
 	img_board_->pos_ = { 0,0,0 };
 
+	player_ = dxe::Mesh::CreatePlaneMV({ (float)128, (float)48, 0 });
+	player_->setTexture(dxe::Texture::CreateFromFile("graphics/c1_anim_down.png"));
+	player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
+	player_->pos_ = { 20,44,20 };
+
+	c1_face = LoadGraph("graphics/unit/ally/c1_face.png");
+	//SetLightEnable(FALSE);
 }
 
 void Test2::update(float delta_time) {
@@ -72,6 +79,7 @@ void Test2::render() {
 
 
 	img_board_->render(camera_);
+	player_->render(camera_);
 
 	//DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
 
@@ -131,7 +139,7 @@ void Test2::PersonBox() {
 
 	DrawBox(0 + 10, h1 * 1 + 10, w1 * 2 + 20, h1 * 3 + 10, silver, true); //‰º’n
 	
-	DrawExtendGraph(15, h1 * 1 + 15, w1 * 2 + 15, h1*2, pmgr_->person[0]->GRAPH,false); //‰æ‘œ
+	DrawExtendGraph(15, h1 * 1 + 15, w1 * 2 + 15, h1*2, c1_face,false); //‰æ‘œ
 
 	DrawBox(15, h1 * 1 + 15, w1 * 2 + 15, h1 * 2, black,false); //‰æ‘œ‚Ì˜g
 

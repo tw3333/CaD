@@ -17,7 +17,7 @@ private:
 	
 	//
 	int id_ = 0;
-	std::string name_ = '\0';
+	//std::string name_ = '\0';
 	int face_graph_ = 0;
 	 
 
@@ -35,7 +35,12 @@ private:
 
 	bool pick_ = false;
 	bool edit_ = false;
+
 	bool is_first_deal_ = false;
+	bool is_acted_ = false;
+	bool is_dead_ = false;
+	
+	int deal_hand_num_ = 5;
 
 	int graph_ = 0;
 

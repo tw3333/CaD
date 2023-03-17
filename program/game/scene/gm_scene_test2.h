@@ -15,6 +15,7 @@ public:
 	GmCamera* camera_ = nullptr;
 	
 	dxe::Mesh* img_board_ = nullptr;
+	dxe::Mesh* player_ = nullptr;
 
 	tnl::Quaternion fox_rot_;
 	
@@ -55,7 +56,7 @@ private:
 	int w1 = DXE_WINDOW_WIDTH / 10;
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 
-
+	int c1_face;
 
 	//カラーコード
 	int black = GetColor(0,0,0);
