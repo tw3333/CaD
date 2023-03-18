@@ -6,7 +6,8 @@ public:
 	Board() {
 
 	}
-	~Board();
+	~Board(){};
+
 
 
 

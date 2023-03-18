@@ -20,8 +20,8 @@ void Test2::initialzie() {
 	img_board_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
 	img_board_->pos_ = { 0,0,0 };
 
-	player_ = dxe::Mesh::CreatePlaneMV({ (float)128, (float)48, 0 });
-	player_->setTexture(dxe::Texture::CreateFromFile("graphics/c1_anim_down.png"));
+	player_ = dxe::Mesh::CreatePlaneMV({ (float)64, (float)64, 0 });
+	player_->setTexture(dxe::Texture::CreateFromFile("graphics/unit/ally/c1_board_img.png"));
 	player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
 	player_->pos_ = { 20,44,20 };
 
