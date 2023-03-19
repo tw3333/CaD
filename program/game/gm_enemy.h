@@ -45,6 +45,8 @@ public:
 	void Heal(Enemy* enemy);
 
 	//getter setter
+	int getSquareID() { return ksquare_id_; }
+
 	int getSPEED() const override { return SPEED; }
 	void setSPEED(int speed) override { SPEED = speed; }
 
@@ -59,23 +61,13 @@ public:
 
 private:
 
-	////ステータス
-	////テスト
-	//std::string NAME; //名前
+	const int ksquare_id_ = 2;
 
-	//int HP; //HP
-	//int HPMAX; //最大HP
-	//
-	//int ATTACK; //攻撃力
-	//
-	//int SPEED; //ターン順位に使用する素早さ
+	//ステータス
+	int hp_ = 0;
+	int hp_max_ = 0;
 
-	////実装予定ステータス
-	//bool burn; //燃えているかどうか
-	//bool poison; //毒状態かどうか
-
-	//int GRAPH; //敵の画像
-	//int EGRAPH; //敵の攻撃エフェクト
+	int speed_ = 0;
 
 
 };

@@ -20,24 +20,49 @@ void Test2::initialzie() {
 	img_board_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
 	img_board_->pos_ = { 0,0,0 };
 
-	player_ = dxe::Mesh::CreatePlaneMV({ (float)64, (float)64, 0 });
-	player_->setTexture(dxe::Texture::CreateFromFile("graphics/unit/ally/c1_board_img.png"));
-	player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
-	player_->pos_ = { 20,44,20 };
+	int b_w = w1 * 8 / 10;
+	int b_h = h1 * 8 / 10;
 
+	player_ = dxe::Mesh::CreatePlaneMV({ (float)74, (float)74, 0 });
+	player_->setTexture(dxe::Texture::CreateFromFile("graphics/unit/ally/c1_board_img.png"));
+	//player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
+	player_->pos_ = { 0,44,0};
+	player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(0));
 	c1_face = LoadGraph("graphics/unit/ally/c1_face.png");
 	//SetLightEnable(FALSE);
+
+	square_ = dxe::Mesh::CreatePlaneMV({ (float)b_w * 1, (float)b_h * 1, 0 });
+	square_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
+	square_->pos_ = { 0,1,0 };
+	square_->rot_q_ = tnl::Quaternion::RotationAxis({ 1,0,0 }, tnl::ToRadian(90));
+
+
+
+
 }
 
 void Test2::update(float delta_time) {
 	GameManager* gmgr = GameManager::GetInstance();
 
-	if (tnl::Input::IsKeyDown(eKeys::KB_UP)) {
-		camera_->pos_ += tnl::Vector3::TransformCoord({ 0, 0, 1 }, camera_->rot_);
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
+		//player_->pos_ += tnl::Vector3::TransformCoord({ 0, -1, 0 }, camera_->rot_);
+		square_->pos_.z += 36;
 	}
 
-	if (tnl::Input::IsKeyDown(eKeys::KB_DOWN)) {
-		camera_->pos_ += tnl::Vector3::TransformCoord({ 0, 0, -1 }, camera_->rot_);
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
+/*		player_->pos_ += tnl::Vector3::TransformCoord({ 0, 1, 0 }, camera_->rot_);
+		*/square_->pos_.z += -36;
+	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
+		//player_->pos_ += tnl::Vector3::TransformCoord({ -1, 0, 0 }, camera_->rot_);
+		square_->pos_.x += -64;
+	}
+
+	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
+		square_->pos_.x += 64;
+
+		//player_->pos_ += tnl::Vector3::TransformCoord({ 1, 0, 0 }, camera_->rot_);
 	}
 
 	if (tnl::Input::IsKeyDown(eKeys::KB_W)) {
@@ -55,15 +80,6 @@ void Test2::update(float delta_time) {
 		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(1));
 	}
 
-	if (tnl::Input::IsKeyDown(eKeys::KB_LEFT)) {
-		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(-1));
-	}
-
-	if (tnl::Input::IsKeyDown(eKeys::KB_RIGHT)) {
-		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(1));
-	}
-
-
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_U)) {
 
 		if (ui) { ui = false; }
@@ -80,6 +96,7 @@ void Test2::render() {
 
 	img_board_->render(camera_);
 	player_->render(camera_);
+	square_->render(camera_);
 
 	//DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
 
@@ -89,9 +106,9 @@ void Test2::render() {
 	//DrawBox(0 + 10,h1*1/2+ 10, w1*4 , h1*1 ,silver,true);
 	//DrawBox(0 + 10, h1*1 + 10, w1 * 2 +10, h1*3 +10, silver, true);
 
-	DrawStringEx(w1 * 8, h1 * 2, -1, "posX%f", camera_->pos_.x);
-	DrawStringEx(w1 * 8, h1 * 2 + 20, -1, "posX%f", camera_->pos_.y);
-	DrawStringEx(w1 * 8, h1 * 2 + 40, -1, "posX%f", camera_->pos_.z);
+	DrawStringEx(w1 * 8, h1 * 2, -1, "s_posX%f", square_->pos_.x);
+	DrawStringEx(w1 * 8, h1 * 2 + 20, -1, "s_posY%f", square_->pos_.y);
+	DrawStringEx(w1 * 8, h1 * 2 + 40, -1, "s_posZ%f", square_->pos_.z);
 
 	DrawStringEx(w1 * 8, h1 * 2 + 60, -1, "rot_%d", camera_->rot_);
 
@@ -101,9 +118,9 @@ void Test2::render() {
 	for (int i = 0; i < 10; ++i) {
 
 		int mas_x = (w1 * 8) / 10;
-		int mas_y = (h1 * 8) / 10;
+		int mas_z = (h1 * 8) / 10;
 
-		DrawLine3D(VGet(-640.0f, 0.0f, -360.0f + (mas_y * i)), VGet(640.0f, 0.0f, -360.0f + (mas_y * i)), red);
+		DrawLine3D(VGet(-640.0f, 0.0f, -360.0f + (mas_z * i)), VGet(640.0f, 0.0f, -360.0f + (mas_z * i)), red);
 		DrawLine3D(VGet(-640.0f + (mas_x * i), 0.0f, -360.0f), VGet(-640.0f + (mas_x * i), 0.0f, 360.0f), red);
 
 	}
@@ -120,7 +137,7 @@ void Test2::render() {
 	DrawBox(0, 0, w1 * 10, (h1 * 1) / 2, silver, true);
 	DrawBox(0 + 10,h1*1/2+ 10, w1*4 , h1*1 ,silver,true);
 	//DrawBox(0 + 10, h1*1 + 10, w1 * 2 +10, h1*3 +10, silver, true);
-	PersonBox();
+	//PersonBox();
 	if (ui) {
 
 		DrawGridGround(camera_, 50, 20);

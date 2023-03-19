@@ -11,12 +11,16 @@ public:
 
 	
 	//gette,setter
+	int getSquareID() { return ksquare_id_; }
+	
 
 
 private:
 	
+
+	const int ksquare_id_ = 1;
 	//
-	int id_ = 0;
+	const int kally_id_ = 0;
 	//std::string name_ = '\0';
 	int face_graph_ = 0;
 	 

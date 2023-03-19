@@ -387,5 +387,11 @@
     <ClInclude Include="program\game\gm_ally.h">
       <Filter>program\game</Filter>
     </ClInclude>
+    <ClInclude Include="program\game\gm_square.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_obstacle.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

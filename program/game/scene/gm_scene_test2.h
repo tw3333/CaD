@@ -5,6 +5,8 @@
 
 #include "../gm_person_manager.h"
 
+#include "../gm_board.h"
+
 
 class Test2 : public SceneBase {
 public:
@@ -12,19 +14,28 @@ public:
 	Test2() {}
 	~Test2();
 
+
 	GmCamera* camera_ = nullptr;
 	
 	dxe::Mesh* img_board_ = nullptr;
 	dxe::Mesh* player_ = nullptr;
+	dxe::Mesh* square_ = nullptr;
+
+
 
 	tnl::Quaternion fox_rot_;
 	
+	Board* board_ = new Board();
 
+
+	//ƒƒ“ƒoŠÖ”ŒQ
 	void initialzie() override;
 	void update(float delta_time) override;
 	void render() override;
 
 	PersonManager* pmgr_ = PersonManager::GetInstance();
+
+
 
 	//debug
 	bool ui = true;
