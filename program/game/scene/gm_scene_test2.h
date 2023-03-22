@@ -6,6 +6,7 @@
 #include "../gm_person_manager.h"
 
 #include "../gm_board.h"
+#include <memory>
 
 
 class Test2 : public SceneBase {
@@ -14,29 +15,28 @@ public:
 	Test2() {}
 	~Test2();
 
-
 	GmCamera* camera_ = nullptr;
-	
-	dxe::Mesh* img_board_ = nullptr;
+	tnl::Quaternion fox_rot_;
+	//std::unique_ptr<dxe::Mesh> img_board_ = nullptr;
 	dxe::Mesh* player_ = nullptr;
 	dxe::Mesh* square_ = nullptr;
-
-
-
-	tnl::Quaternion fox_rot_;
+	//dxe::Mesh* obj_board_ = nullptr;
 	
+	//クラスのインスタンス
 	Board* board_ = new Board();
-
+	PersonManager* pmgr_ = PersonManager::GetInstance();
 
 	//メンバ関数群
+	void DrawBoard();
+	void RenderUnit();
+	void GetSquareInfoGUIByClick();
+	
+
 	void initialzie() override;
 	void update(float delta_time) override;
 	void render() override;
 
-	PersonManager* pmgr_ = PersonManager::GetInstance();
-
-
-
+	
 	//debug
 	bool ui = true;
 
@@ -62,18 +62,20 @@ private:
 		int effect;
 	};
 
-	Cell board_[10][10];
+	
 
 	int w1 = DXE_WINDOW_WIDTH / 10;
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 
-	int c1_face;
+	int mouse_point_x_ = 0;
+	int mouse_point_y_ = 0;
+
+	int c1_face = 0;
 
 	//カラーコード
 	int black = GetColor(0,0,0);
 	int red = GetColor(255,0,0);
 	int silver = GetColor(192,192,192);
 	int darkolivegreen = GetColor(85,107,47);
-
 
 };

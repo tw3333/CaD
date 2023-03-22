@@ -30,12 +30,11 @@ public:
 
 	//ƒƒ“ƒoŠÖ”ŒQ
 	void setSquare(int row, int col, Unit* unit);
-
-
+	
+	void MakeObjBoard();
 
 	//getter,setter
-
-
+	dxe::Mesh* obj_board_ = nullptr;
 
 
 private:
@@ -43,7 +42,12 @@ private:
 	static const int kboard_size_ = 10;
 
 	
+	//std::shared_ptr<dxe::Mesh> obj_board2_;
+	std::vector<dxe::Mesh*> obj_units_;
 
+
+	int w1 = DXE_WINDOW_WIDTH / 10;
+	int h1 = DXE_WINDOW_HEIGHT / 10;
 
 
 };

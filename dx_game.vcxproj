@@ -35,6 +35,7 @@
     <ClCompile Include="program\dxlib_ext\dxlib_ext_texture.cpp" />
     <ClCompile Include="program\dxlib_ext\OBJLoader.cpp" />
     <ClCompile Include="program\game\gm_ally.cpp" />
+    <ClCompile Include="program\game\gm_ally_manager.cpp" />
     <ClCompile Include="program\game\gm_board.cpp" />
     <ClCompile Include="program\game\gm_camera.cpp" />
     <ClCompile Include="program\game\gm_card.cpp" />
@@ -47,6 +48,7 @@
     <ClCompile Include="program\game\gm_manager.cpp" />
     <ClCompile Include="program\game\gm_person_manager.cpp" />
     <ClCompile Include="program\game\gm_sound_manager.cpp" />
+    <ClCompile Include="program\game\gm_square.cpp" />
     <ClCompile Include="program\game\gm_turn_manager.cpp" />
     <ClCompile Include="program\game\model\gm_airplane.cpp" />
     <ClCompile Include="program\game\model\gm_anim_sprite3d.cpp" />
@@ -82,6 +84,7 @@
     <ClInclude Include="program\dxlib_ext\dxlib_ext_texture.h" />
     <ClInclude Include="program\dxlib_ext\OBJLoader.h" />
     <ClInclude Include="program\game\gm_ally.h" />
+    <ClInclude Include="program\game\gm_ally_manager.h" />
     <ClInclude Include="program\game\gm_board.h" />
     <ClInclude Include="program\game\gm_camera.h" />
     <ClInclude Include="program\game\gm_card.h" />

@@ -217,6 +217,12 @@
     <ClCompile Include="program\game\gm_ally.cpp">
       <Filter>program\game</Filter>
     </ClCompile>
+    <ClCompile Include="program\game\gm_ally_manager.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
+    <ClCompile Include="program\game\gm_square.cpp">
+      <Filter>program\game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="program\library\picojson.h">
@@ -391,6 +397,9 @@
       <Filter>program\game</Filter>
     </ClInclude>
     <ClInclude Include="program\game\gm_obstacle.h">
+      <Filter>program\game</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\gm_ally_manager.h">
       <Filter>program\game</Filter>
     </ClInclude>
   </ItemGroup>

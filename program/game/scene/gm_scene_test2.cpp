@@ -3,7 +3,7 @@
 Test2::~Test2() {
 
 	delete camera_;
-	delete img_board_;
+	//delete img_board_;
 
 	
 }
@@ -15,52 +15,67 @@ void Test2::initialzie() {
 	camera_->ctrl_type_ = GmCamera::CTRL_TYPE_QTN;
 	camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(55));
 
-	img_board_ = dxe::Mesh::CreatePlaneMV({ (float)w1 * 8,(float)h1 * 8,0 });
-	img_board_->setTexture(dxe::Texture::CreateFromFile("graphics/512.bmp"));
-	img_board_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
-	img_board_->pos_ = { 0,0,0 };
+
+	
+	//img_board_ = dxe::Mesh::CreatePlaneMV({ (float)w1 * 8,(float)h1 * 8,0 });
+	//img_board_->setTexture(dxe::Texture::CreateFromFile("graphics/512.bmp"));
+	//img_board_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
+	//img_board_->pos_ = { 0,0,0 };
 
 	int b_w = w1 * 8 / 10;
 	int b_h = h1 * 8 / 10;
 
-	player_ = dxe::Mesh::CreatePlaneMV({ (float)74, (float)74, 0 });
-	player_->setTexture(dxe::Texture::CreateFromFile("graphics/unit/ally/c1_board_img.png"));
-	//player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
-	player_->pos_ = { 0,44,0};
-	player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(0));
+	//player_ = dxe::Mesh::CreatePlaneMV({ (float)74, (float)74, 0 });
+	//player_->setTexture(dxe::Texture::CreateFromFile("graphics/unit/ally/c1_board_img.png"));
+	////player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(50));
+	//player_->pos_ = { 0,44,0};
+	//player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(0));
+	
 	c1_face = LoadGraph("graphics/unit/ally/c1_face.png");
 	//SetLightEnable(FALSE);
 
+	board_->MakeObjBoard();
+	board_->squares_[0][0]->setSquareType(Square::kAlly);
+	board_->squares_[0][0]->MakeObjUnit();
+
+	board_->squares_[9][0]->setSquareType(Square::kAlly);
+	board_->squares_[9][0]->MakeObjUnit();
+
+
+
 	square_ = dxe::Mesh::CreatePlaneMV({ (float)b_w * 1, (float)b_h * 1, 0 });
 	square_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
-	square_->pos_ = { 0,1,0 };
+	square_->pos_ = { -64,1,-36 };
 	square_->rot_q_ = tnl::Quaternion::RotationAxis({ 1,0,0 }, tnl::ToRadian(90));
 
-
-
+	
 
 }
 
 void Test2::update(float delta_time) {
 	GameManager* gmgr = GameManager::GetInstance();
 
+	GetMousePoint(&mouse_point_x_, &mouse_point_y_);
+
+
+
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
 		//player_->pos_ += tnl::Vector3::TransformCoord({ 0, -1, 0 }, camera_->rot_);
-		square_->pos_.z += 36;
+		square_->pos_.z += 72;
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
 /*		player_->pos_ += tnl::Vector3::TransformCoord({ 0, 1, 0 }, camera_->rot_);
-		*/square_->pos_.z += -36;
+		*/square_->pos_.z += -72;
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
 		//player_->pos_ += tnl::Vector3::TransformCoord({ -1, 0, 0 }, camera_->rot_);
-		square_->pos_.x += -64;
+		square_->pos_.x += -128;
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
-		square_->pos_.x += 64;
+		square_->pos_.x += 128;
 
 		//player_->pos_ += tnl::Vector3::TransformCoord({ 1, 0, 0 }, camera_->rot_);
 	}
@@ -91,12 +106,14 @@ void Test2::update(float delta_time) {
 void Test2::render() {
 
 	camera_->update();
-	//DrawGridGround(camera_, 50, 20);
+
+	board_->obj_board_->render(camera_);
+	//board_->squares_[0][0]->obj_unit_->render(camera_);
+	RenderUnit();
 
 
-	img_board_->render(camera_);
-	player_->render(camera_);
 	square_->render(camera_);
+
 
 	//DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
 
@@ -106,14 +123,18 @@ void Test2::render() {
 	//DrawBox(0 + 10,h1*1/2+ 10, w1*4 , h1*1 ,silver,true);
 	//DrawBox(0 + 10, h1*1 + 10, w1 * 2 +10, h1*3 +10, silver, true);
 
-	DrawStringEx(w1 * 8, h1 * 2, -1, "s_posX%f", square_->pos_.x);
-	DrawStringEx(w1 * 8, h1 * 2 + 20, -1, "s_posY%f", square_->pos_.y);
-	DrawStringEx(w1 * 8, h1 * 2 + 40, -1, "s_posZ%f", square_->pos_.z);
+	DrawStringEx(w1 * 9, h1 * 2, -1, "s_posX%f", square_->pos_.x);
+	DrawStringEx(w1 * 9, h1 * 2 + 20, -1, "s_posY%f", square_->pos_.y);
+	DrawStringEx(w1 * 9, h1 * 2 + 40, -1, "s_posZ%f", square_->pos_.z);
 
-	DrawStringEx(w1 * 8, h1 * 2 + 60, -1, "rot_%d", camera_->rot_);
+	DrawStringEx(w1 * 9, h1 * 2 + 60, -1, "rot_%d", camera_->rot_);
+
+	DrawStringEx(w1 * 9, h1 * 2 + 80, -1, "mouseX:%d", mouse_point_x_);
+	DrawStringEx(w1 * 9, h1 * 2 + 100, -1, "mouseY:%d", mouse_point_y_);
 
 
 
+	GetSquareInfoGUIByClick();
 
 	for (int i = 0; i < 10; ++i) {
 
@@ -125,8 +146,12 @@ void Test2::render() {
 
 	}
 
-	DrawLine3D({ 640.f,0.0f,-360.0f }, { 640.f,0.0f,360.0f }, red);
-	
+
+
+	//DrawLine3D({ 640.f,0.0f,-360.0f }, { 640.f,0.0f,360.0f }, red);
+
+	DrawLine3D({-640.0f,1000,1000.0f},{-640.0f,0.0f,360.0f},red);
+	DrawLine3D({ 640.0f,1000,1000.0f }, { 640.0f,0.0f,360.0f }, red);
 
 
 
@@ -150,7 +175,7 @@ void Test2::render() {
 
 }
 
-//UIŠÖ”
+//GUIŠÖ”ŒQ
 void Test2::PersonBox() {
 
 
@@ -166,3 +191,68 @@ void Test2::PersonBox() {
 
 
 }
+
+void Test2::GetSquareInfoGUIByClick() {
+
+	int b_w0 = -640;
+	int b_h0 = 360;
+
+	int w1 = 128;
+	int h1 = 72;
+
+	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+		if (b_w0 < mouse_point_x_ && mouse_point_x_ < b_w0 + w1 && b_h0 < mouse_point_y_ && mouse_point_y_ < b_w0 - h1) {
+
+			if (ui) { ui = false; }
+			else if (!ui) { ui = true; }
+
+		}
+	}
+
+
+
+
+}
+
+
+
+
+//•`ŽÊŠÖ˜A
+void Test2::DrawBoard() {
+
+	/*img_board_ = dxe::Mesh::CreatePlaneMV({ (float)w1 * 8,(float)h1 * 8,0 });
+	img_board_->setTexture(dxe::Texture::CreateFromFile("graphics/512.bmp"));
+	img_board_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(90));
+	img_board_->pos_ = { 0,0,0 };
+
+	img_board_->render(camera_);
+*/
+
+
+}
+
+void Test2::RenderUnit() {
+
+	for (int i = 0; i < 10; ++i) {
+		for (int k = 0; k < 10; ++k) {
+
+			if (board_->squares_[i][k]->getSquareType() == Square::kEnpty) {
+				//board_->squares_[i][k]->obj_unit_->render(camera_);
+
+			}
+			else if (board_->squares_[i][k]->getSquareType() == Square::kAlly) {
+
+				board_->squares_[i][k]->obj_unit_->render(camera_);
+
+
+
+			}
+
+
+		}
+
+
+	}
+
+}
+
