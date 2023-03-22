@@ -4,6 +4,7 @@
 #include "../gm_camera.h"
 
 #include "../gm_person_manager.h"
+#include "../gm_ally_manager.h"
 
 #include "../gm_board.h"
 #include <memory>
@@ -25,6 +26,7 @@ public:
 	//クラスのインスタンス
 	Board* board_ = new Board();
 	PersonManager* pmgr_ = PersonManager::GetInstance();
+	AllyManager* amgr_ = AllyManager::GetInstance();
 
 	//メンバ関数群
 	void DrawBoard();

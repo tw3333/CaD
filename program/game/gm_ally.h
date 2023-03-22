@@ -12,12 +12,24 @@ public:
 	
 	//gette,setter
 	int getSquareID() { return ksquare_id_; }
-	
+	void setAllyPos(int row, int col) { row_ = row; col_ = col; }
+
+	int getRow() { return row_; }
+	int getCol() { return col_; }
+
+	//画像ハンドル
+	int face_img_ = 0;
+	int face2_img_ = 0;
+	int battle_img_ = 0;
+	int stand_img_ = 0;
 
 
 private:
 	
 	const int ksquare_id_ = 1;
+
+	int row_ = 0;
+	int col_ = 0;
 	
 	int ally_id_ = 0;
 	std::string name_;
@@ -46,11 +58,7 @@ private:
 	
 	int deal_hand_num_ = 5;
 
-	//画像ハンドル
-	int face_img_ = 0;
-	int face2_img_ = 0;
-	int battle_img_ = 0;
-	int stand_img_ = 0;
+
 
 
 

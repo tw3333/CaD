@@ -25,7 +25,8 @@ public:
 	std::vector<Ally*> allies_;
 
 
-
+	void MakeAllies();
+	void LoadAlliesGraph();
 
 	//ƒƒ“ƒoŠÖ”ŒQ
 
