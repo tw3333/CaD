@@ -1,3 +1,4 @@
+
 #pragma once
 #pragma warning(disable:4005)
 #define DIRECTINPUT_VERSION 0x800

@@ -10,6 +10,8 @@ Test2::~Test2() {
 
 void Test2::initialzie() {
 
+	//SetUseLighting(false);
+
 	camera_ = new GmCamera();
 	camera_->pos_ = { 0,620,-560 };
 	camera_->ctrl_type_ = GmCamera::CTRL_TYPE_QTN;
@@ -31,32 +33,47 @@ void Test2::initialzie() {
 	//player_->pos_ = { 0,44,0};
 	//player_->rot_q_ = tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(0));
 	
-	c1_face = LoadGraph("graphics/unit/ally/c1_face.png");
+	//c1_face = LoadGraph(amgr_->allies_[0]->battle_img_.c_str());
 	//SetLightEnable(FALSE);
 
 	board_->MakeObjBoard();
-	board_->squares_[0][0]->setSquareType(Square::kAlly);
-	board_->squares_[0][0]->MakeObjUnit();
 
-	board_->squares_[9][0]->setSquareType(Square::kAlly);
-	board_->squares_[9][0]->MakeObjUnit();
+//	board_->squares_[0][0]->setSquareType(Square::kAlly);
+////	board_->squares_[0][0]->MakeObjUnit();
+//	
+//
+//	board_->squares_[9][0]->setSquareType(Square::kAlly);
+//	board_->squares_[9][0]->MakeObjUnit();
 
+	amgr_->MakeAllies();
+	amgr_->LoadAlliesGraph();
+
+	c1_face = LoadGraph(amgr_->allies_[0]->battle_img_.c_str());
+
+	amgr_->allies_[0]->setAllyPos(2,4);
+	board_->squares_[2][4]->setUnit(amgr_->allies_[0]);
+	board_->squares_[2][4]->setSquareType(Square::SquareType::kAlly);
+	board_->squares_[2][4]->MakeObjUnit(amgr_->allies_[0]->battle_img_);
+
+	amgr_->allies_[1]->setAllyPos(2, 3);
+	board_->squares_[2][3]->setUnit(amgr_->allies_[1]);
+	board_->squares_[2][3]->setSquareType(Square::SquareType::kAlly);
+	board_->squares_[2][3]->MakeObjUnit(amgr_->allies_[0]->battle_img_);
 
 
 	square_ = dxe::Mesh::CreatePlaneMV({ (float)b_w * 1, (float)b_h * 1, 0 });
-	square_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
+	square_->setTexture(dxe::Texture::CreateFromFile(amgr_->allies_[0]->battle_img_.c_str()));
 	square_->pos_ = { -64,1,-36 };
 	square_->rot_q_ = tnl::Quaternion::RotationAxis({ 1,0,0 }, tnl::ToRadian(90));
 
-	
 
 }
 
 void Test2::update(float delta_time) {
+	
 	GameManager* gmgr = GameManager::GetInstance();
 
 	GetMousePoint(&mouse_point_x_, &mouse_point_y_);
-
 
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
@@ -65,8 +82,8 @@ void Test2::update(float delta_time) {
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
-/*		player_->pos_ += tnl::Vector3::TransformCoord({ 0, 1, 0 }, camera_->rot_);
-		*/square_->pos_.z += -72;
+		/*player_->pos_ += tnl::Vector3::TransformCoord({ 0, 1, 0 }, camera_->rot_);*/
+		square_->pos_.z += -72;
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
@@ -106,15 +123,18 @@ void Test2::update(float delta_time) {
 void Test2::render() {
 
 	camera_->update();
-
 	board_->obj_board_->render(camera_);
+
 	//board_->squares_[0][0]->obj_unit_->render(camera_);
 	RenderUnit();
 
 
+	RenderHand();
+	
+
 	square_->render(camera_);
 
-
+	//DrawBillboard3D(VGet(0,1,0),0.0f,0.0f, 64, 0,c1_face,true);
 	//DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
 
 	//DrawBox((w1*1)/2, 0, w1 * 9 + (w1*1/2), h1 * 10, darkolivegreen, true);
@@ -131,7 +151,7 @@ void Test2::render() {
 
 	DrawStringEx(w1 * 9, h1 * 2 + 80, -1, "mouseX:%d", mouse_point_x_);
 	DrawStringEx(w1 * 9, h1 * 2 + 100, -1, "mouseY:%d", mouse_point_y_);
-
+	DrawStringEx(w1 * 9, h1 * 2 + 120, -1, "path:%s\n", amgr_->allies_[0]->battle_img_.c_str());
 
 
 	GetSquareInfoGUIByClick();
@@ -236,11 +256,11 @@ void Test2::RenderUnit() {
 	for (int i = 0; i < 10; ++i) {
 		for (int k = 0; k < 10; ++k) {
 
-			if (board_->squares_[i][k]->getSquareType() == Square::kEnpty) {
+			if (board_->squares_[i][k]->getSquareType() == Square::SquareType::kEnpty) {
 				//board_->squares_[i][k]->obj_unit_->render(camera_);
 
 			}
-			else if (board_->squares_[i][k]->getSquareType() == Square::kAlly) {
+			else if (board_->squares_[i][k]->getSquareType() == Square::SquareType::kAlly) {
 
 				board_->squares_[i][k]->obj_unit_->render(camera_);
 
@@ -256,3 +276,30 @@ void Test2::RenderUnit() {
 
 }
 
+void Test2::RenderCard(int x, int y) {
+
+	float h_1 = DXE_WINDOW_HEIGHT / 10;
+	float w_1 = DXE_WINDOW_WIDTH / 10;
+
+	float card_w = w_1;
+	float card_h = (h_1 * 2) + (h_1 / 2);
+
+	DrawBox(x, y, x + card_w, y + card_h,silver, true);
+
+
+
+
+}
+
+void Test2::RenderHand() {
+
+	float h_1 = DXE_WINDOW_HEIGHT / 10;
+	float w_1 = DXE_WINDOW_WIDTH / 10;
+
+	float card_w_ = w_1;
+	float card_h_ = (h_1 * 2) + (h_1 / 2);
+
+	RenderCard(w_1*4,h_1*7);
+
+
+}

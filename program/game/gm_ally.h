@@ -19,8 +19,8 @@ public:
 
 	//‰æ‘œƒnƒ“ƒhƒ‹
 	int face_img_ = 0;
-	int face2_img_ = 0;
-	int battle_img_ = 0;
+	std::string face2_img_;
+	std::string battle_img_;
 	int stand_img_ = 0;
 
 

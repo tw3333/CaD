@@ -34,6 +34,7 @@ public:
 
 	
 	void useCard();
+	
 
 
 	//bool cure = false; //ó‘ÔˆÙí‚ğ’¼‚·
@@ -96,6 +97,14 @@ public:
 
 
 private:
+
+	float h_1 = DXE_WINDOW_HEIGHT / 10;
+	float w_1 = DXE_WINDOW_WIDTH / 10;
+
+	float card_w_ = w_1;
+	float card_h_ = (h_1 * 2) + (h_1 / 2);
+
+	
 
 };
 

@@ -15,12 +15,13 @@ public:
 
 	~Square(){}
 
-	enum {
+	enum class SquareType {
 		kEnpty,
 		kAlly,
 		kEnemy,
 		kObstacle
 	};
+
 
 	dxe::Mesh* obj_unit_ = nullptr;
 
@@ -28,18 +29,19 @@ public:
 	//ÉÅÉìÉoä÷êîåQ
 	void setUnit(Unit* unit) { unit_ = unit; }
 	void SetSquarePos(int row, int col) { row_ = row; col_ = col; }
-	void MakeObjUnit();
+	void MakeObjUnit(std::string file_path);
 	void SetUnitToSquare();
 
 
 	//setter,getter
-	int getSquareType() { return type_; }
-	void setSquareType(int enumtype) { type_ = enumtype; }
+	SquareType getSquareType() { return square_type_; }
+	void setSquareType(SquareType enumclasstype) { square_type_ = enumclasstype; }
 
 private:
 
+	SquareType square_type_ = SquareType::kEnpty;
 	
-	int type_ = Square::kEnpty;
+	//int type_ = Square::kEnpty;
 
 	Unit* unit_ = nullptr;
 
@@ -52,5 +54,5 @@ private:
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 	int b_w = w1 * 8 / 10;
 	int b_h = h1 * 8 / 10;
-
+	
 };

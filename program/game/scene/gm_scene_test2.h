@@ -33,6 +33,9 @@ public:
 	void RenderUnit();
 	void GetSquareInfoGUIByClick();
 	
+	void RenderCard(int x, int y);
+	void RenderHand();
+
 
 	void initialzie() override;
 	void update(float delta_time) override;
@@ -49,22 +52,6 @@ private:
 
 	int kboard_size_ = 10;
 	const int knum_cells_ = kboard_size_ * kboard_size_;
-
-	enum CellType {
-	
-		Empty,
-		Person,
-		Enemy,
-		EFFRCT,
-
-	};
-
-	struct Cell {
-		CellType type;
-		int effect;
-	};
-
-	
 
 	int w1 = DXE_WINDOW_WIDTH / 10;
 	int h1 = DXE_WINDOW_HEIGHT / 10;
