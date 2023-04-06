@@ -3,7 +3,7 @@
 
 //”Õ–Ê‚ğ•\‚·ƒNƒ‰ƒX
 
-class Square;
+
 
 class Board {
 public:
