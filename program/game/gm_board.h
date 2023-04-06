@@ -49,6 +49,10 @@ private:
 	int w1 = DXE_WINDOW_WIDTH / 10;
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 
+	int board_w_ = w1 * 8;
+	int board_h_ = h1 * 8;
+
+
 
 };
 

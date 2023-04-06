@@ -59,6 +59,11 @@ private:
 	int mouse_point_x_ = 0;
 	int mouse_point_y_ = 0;
 
+	int mouse_pos_x_ = 0;
+	int mouse_pos_y_ = 0;
+
+	VECTOR screen_pos_ = {0,0};
+
 	int c1_face = 0;
 
 	//カラーコード

@@ -50,6 +50,17 @@ private:
 	int row_ = 0;
 	int col_ = 0;
 
+	struct square_w_ {
+		int start = 0;
+		int end = 0;
+	};
+
+	struct square_h_ {
+		int start = 0;
+		int end = 0;
+	};
+
+
 	int w1 = DXE_WINDOW_WIDTH / 10;
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 	int b_w = w1 * 8 / 10;
