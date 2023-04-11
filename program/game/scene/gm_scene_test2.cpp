@@ -11,13 +11,14 @@ Test2::~Test2() {
 void Test2::initialzie() {
 
 	//SetUseLighting(false);
-
+	SetMouseDispFlag(true);
+	//SetCameraNearFar(100.0f,101.0f);
 	camera_ = new GmCamera();
-	camera_->pos_ = { 0,620,-560 };
+	camera_->pos_ = { 0,680,-605 };
 	camera_->ctrl_type_ = GmCamera::CTRL_TYPE_QTN;
-	camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(55));
+	camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(54));
 
-
+	//SetCameraNearFar(100.0f, 15000.0f);
 	
 	//img_board_ = dxe::Mesh::CreatePlaneMV({ (float)w1 * 8,(float)h1 * 8,0 });
 	//img_board_->setTexture(dxe::Texture::CreateFromFile("graphics/512.bmp"));
@@ -37,6 +38,9 @@ void Test2::initialzie() {
 	//SetLightEnable(FALSE);
 
 	board_->MakeObjBoard();
+	board_->squares_[0][0]->MakeObjSquare();
+	board_->squares_[3][6]->MakeObjSquare();
+
 
 //	board_->squares_[0][0]->setSquareType(Square::kAlly);
 ////	board_->squares_[0][0]->MakeObjUnit();
@@ -49,6 +53,7 @@ void Test2::initialzie() {
 	amgr_->LoadAlliesGraph();
 
 	c1_face = LoadGraph(amgr_->allies_[0]->battle_img_.c_str());
+	face_ = LoadGraph("graphics/unit/ally/c1_face2_img.png");
 
 	amgr_->allies_[0]->setAllyPos(2,4);
 	board_->squares_[2][4]->setUnit(amgr_->allies_[0]);
@@ -62,9 +67,16 @@ void Test2::initialzie() {
 
 
 	square_ = dxe::Mesh::CreatePlaneMV({ (float)b_w * 1, (float)b_h * 1, 0 });
-	square_->setTexture(dxe::Texture::CreateFromFile(amgr_->allies_[0]->battle_img_.c_str()));
-	square_->pos_ = { -64,1,-36 };
+	square_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
+	square_->pos_ = { -64,0,-36 };
 	square_->rot_q_ = tnl::Quaternion::RotationAxis({ 1,0,0 }, tnl::ToRadian(90));
+
+	turn_triangle_ = dxe::Mesh::CreateTriangleEquilateralMV((float)50);
+	turn_triangle_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
+	turn_triangle_->pos_ = {-64,110,5 };
+	turn_triangle_->rot_q_ = tnl::Quaternion::RotationAxis({ 0,0,1 }, tnl::ToRadian(180));
+
+
 
 
 }
@@ -75,24 +87,37 @@ void Test2::update(float delta_time) {
 
 	GetMousePoint(&mouse_point_x_, &mouse_point_y_);
 
+	//マウスポインタがある画面上の座標に該当する3D空間上のNear面の座標を取得
+	//start_pos_ = ConvScreenPosToWorldPos(VGet(mouse_point_x_,mouse_point_y_,0.0f));
+	//マウスポインタがある画面上の座標に該当する3D空間上のFar面の座標を取得
+	end_pos_ = ConvScreenPosToWorldPos(VGet(mouse_point_x_, mouse_point_y_, 1.0f));
+
+
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_UP)) {
 		//player_->pos_ += tnl::Vector3::TransformCoord({ 0, -1, 0 }, camera_->rot_);
 		square_->pos_.z += 72;
+		turn_triangle_->pos_.z += 72;
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_DOWN)) {
 		/*player_->pos_ += tnl::Vector3::TransformCoord({ 0, 1, 0 }, camera_->rot_);*/
 		square_->pos_.z += -72;
+		turn_triangle_->pos_.z += -72;
+
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_LEFT)) {
 		//player_->pos_ += tnl::Vector3::TransformCoord({ -1, 0, 0 }, camera_->rot_);
 		square_->pos_.x += -128;
+		turn_triangle_->pos_.x += -128;
+
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_RIGHT)) {
 		square_->pos_.x += 128;
+		turn_triangle_->pos_.x += 128;
+
 
 		//player_->pos_ += tnl::Vector3::TransformCoord({ 1, 0, 0 }, camera_->rot_);
 	}
@@ -104,12 +129,20 @@ void Test2::update(float delta_time) {
 		camera_->pos_ += tnl::Vector3::TransformCoord({ 0, -1, 0 }, camera_->rot_);
 	}
 
+	if (tnl::Input::IsKeyDown(eKeys::KB_Q)) {
+		camera_->pos_ += tnl::Vector3::TransformCoord({ 0, 0,  1 }, camera_->rot_);
+	}
+	if (tnl::Input::IsKeyDown(eKeys::KB_E)) {
+		camera_->pos_ += tnl::Vector3::TransformCoord({ 0, 0, -1 }, camera_->rot_);
+	}
+
 	if (tnl::Input::IsKeyDown(eKeys::KB_R)) {
-		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(-1));
+		
+		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(1));
 	}
 
 	if (tnl::Input::IsKeyDown(eKeys::KB_F)) {
-		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(1));
+		camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(-1));
 	}
 
 	if (tnl::Input::IsKeyDownTrigger(eKeys::KB_U)) {
@@ -118,21 +151,41 @@ void Test2::update(float delta_time) {
 		else if (!ui) { ui = true; }
 	}
 
+	turn_triangle_->rot_q_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(3));
+	//camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(cnt));
+	
+	tnl::Vector3 msv = tnl::Input::GetMousePosition();
+	
+	tnl::Vector3 ray = tnl::Vector3::CreateScreenRay(
+		msv.x
+		, msv.y
+		, camera_->screen_w_
+		, camera_->screen_h_
+		, camera_->view_
+		, camera_->proj_);
+
+	tnl::Vector3 hit;
+
+	if (tnl::IsIntersectLinePlane(camera_->pos_, camera_->pos_ + (ray * 10000.0f), { 10, 10, 10 }, { 0, 1, 0 }, &hit)) {
+		square_->pos_ = hit;
+	}
+
+
 }
 
 void Test2::render() {
 
 	camera_->update();
-	board_->obj_board_->render(camera_);
 
-	//board_->squares_[0][0]->obj_unit_->render(camera_);
+	board_->obj_board_->render(camera_);
+	board_->squares_[0][0]->obj_square_->render(camera_);
+	board_->squares_[3][6]->obj_square_->render(camera_);
+
 	RenderUnit();
 
-
-	RenderHand();
-	
-
 	square_->render(camera_);
+	
+	turn_triangle_->render(camera_);
 
 	//DrawBillboard3D(VGet(0,1,0),0.0f,0.0f, 64, 0,c1_face,true);
 	//DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
@@ -152,9 +205,18 @@ void Test2::render() {
 	DrawStringEx(w1 * 9, h1 * 2 + 80, -1, "mouseX:%d", mouse_point_x_);
 	DrawStringEx(w1 * 9, h1 * 2 + 100, -1, "mouseY:%d", mouse_point_y_);
 	DrawStringEx(w1 * 9, h1 * 2 + 120, -1, "path:%s\n", amgr_->allies_[0]->battle_img_.c_str());
+	//DrawStringEx(w1 * 1, h1 * 2 + 140, -1, "x.begin%f",board_->squares_[0][0]->getXZBeginScreenPos().x);
+	DrawStringEx(w1 * 9, h1 * 2 + 160, -1, "x:%d", board_->squares_[0][0]->pos_x_);
+	
+	DrawStringEx(w1 * 9, h1 * 2 + 180, -1, "cpos.x:%f", camera_->pos_.x);
+	DrawStringEx(w1 * 9, h1 * 2 + 200, -1, "cpos.y:%f", camera_->pos_.y);
+	DrawStringEx(w1 * 9, h1 * 2 + 220, -1, "cpos.z:%f", camera_->pos_.z);
+	DrawStringEx(w1 * 9, h1 * 2 + 240, -1, "cnt:%d", cnt);
+
 
 
 	GetSquareInfoGUIByClick();
+	
 
 	for (int i = 0; i < 10; ++i) {
 
@@ -175,12 +237,12 @@ void Test2::render() {
 
 
 
-	DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
+	//DrawBox(0,0,w1*10,(h1*1) / 2,silver,true);
 
 	//DrawBox((w1*1)/2, 0, w1 * 9 + (w1*1/2), h1 * 10, darkolivegreen, true);
 
-	DrawBox(0, 0, w1 * 10, (h1 * 1) / 2, silver, true);
-	DrawBox(0 + 10,h1*1/2+ 10, w1*4 , h1*1 ,silver,true);
+	//DrawBox(0, 0, w1 * 10, (h1 * 1) / 2, silver, true);
+	//DrawBox(0 + 10,h1*1/2+ 10, w1*4 , h1*1 ,silver,true);
 	//DrawBox(0 + 10, h1*1 + 10, w1 * 2 +10, h1*3 +10, silver, true);
 	//PersonBox();
 	if (ui) {
@@ -192,10 +254,21 @@ void Test2::render() {
 			DrawLine(w1 + w1 * i, 0, w1 + w1 * i, DXE_WINDOW_HEIGHT, -1);
 		}
 	}
+	RenderHand();
+	//AllyInfoUI();
+
+	DrawExtendGraph(10,h1*1,10 + w1*2,h1*2,face_,false);
+
+	DrawLine(0,(h1*7)+(h1*1)/2,w1*1, (h1 * 7) + (h1 * 1) / 2,-1);
+	DrawLine(w1*1/2,h1*7, w1 * 1 / 2,h1*8,-1);
+
+	DrawLine(w1*9, (h1 * 7) + (h1 * 1) / 2, w1 * 10, (h1 * 7) + (h1 * 1) / 2, -1);
+	DrawLine(w1 * 9 + (w1*1 / 2), h1 * 7, w1 * 9 + (w1 * 1 / 2), h1 * 8, -1);
+
 
 }
 
-//GUI関数群
+//UI関数群
 void Test2::PersonBox() {
 
 
@@ -212,22 +285,55 @@ void Test2::PersonBox() {
 
 }
 
+void Test2::AllyInfoUI() {
+
+	DrawBox(10, 10, w1 * 2, h1 * 2, silver, true); //下地
+	DrawBox(15,15,(w1*2)-5,(h1*1)-5,black,false); //顔画像
+
+
+	//DrawExtendGraph();
+
+
+
+
+}
+
 void Test2::GetSquareInfoGUIByClick() {
 
-	int b_w0 = -640;
-	int b_h0 = 360;
+	VECTOR square_x_begin;
+	VECTOR square_x_end;
 
-	int w1 = 128;
-	int h1 = 72;
+	VECTOR square_z_begin;
+	VECTOR square_z_end;
 
-	if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
-		if (b_w0 < mouse_point_x_ && mouse_point_x_ < b_w0 + w1 && b_h0 < mouse_point_y_ && mouse_point_y_ < b_w0 - h1) {
+	for (int i = 0; i < 10; ++i) {
+		for (int j = 0; j < 10; ++j) {
 
-			if (ui) { ui = false; }
-			else if (!ui) { ui = true; }
+			if (board_->squares_[i][j]->getXZBeginScreenPos().x < mouse_point_x_ &&
+				mouse_point_x_ < board_->squares_[i][j]->getXZEndScreenPos().x &&
+				board_->squares_[i][j]->getXZBeginScreenPos().z < mouse_point_y_ && 
+				mouse_point_y_ < board_->squares_[i][j]->getXZEndScreenPos().y)
+			{
+
+
+				DrawStringEx(w1 * 9, h1 * 2 + 260, -1, "square[%d][%d]", board_->squares_[i][j]->getSquareRow(),board_->squares_[i][j]->getSquareCol() );
+				
+
+			}
 
 		}
+
 	}
+
+
+	//if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
+	//	if (b_w0 < mouse_point_x_ && mouse_point_x_ < b_w0 + w1 && b_h0 < mouse_point_y_ && mouse_point_y_ < b_w0 - h1) {
+
+	//		if (ui) { ui = false; }
+	//		else if (!ui) { ui = true; }
+
+	//	}
+	//}
 
 
 

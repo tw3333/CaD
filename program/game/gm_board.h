@@ -4,7 +4,6 @@
 //盤面を表すクラス
 
 
-
 class Board {
 public:
 
@@ -49,6 +48,7 @@ private:
 	int w1 = DXE_WINDOW_WIDTH / 10;
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 
+	//Object作成時の盤面のサイズw*h
 	int board_w_ = w1 * 8;
 	int board_h_ = h1 * 8;
 

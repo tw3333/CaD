@@ -23,6 +23,9 @@ public:
 	std::string battle_img_;
 	int stand_img_ = 0;
 
+	std::string face2_img_path_;
+	std::string battle_img_path_;
+
 
 private:
 	
@@ -57,9 +60,5 @@ private:
 	bool is_dead_ = false;
 	
 	int deal_hand_num_ = 5;
-
-
-
-
 
 };

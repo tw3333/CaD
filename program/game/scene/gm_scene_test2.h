@@ -22,6 +22,7 @@ public:
 	dxe::Mesh* player_ = nullptr;
 	dxe::Mesh* square_ = nullptr;
 	//dxe::Mesh* obj_board_ = nullptr;
+	dxe::Mesh* turn_triangle_ = nullptr;
 	
 	//クラスのインスタンス
 	Board* board_ = new Board();
@@ -47,6 +48,7 @@ public:
 
 	//UI関数
 	void PersonBox();
+	void AllyInfoUI();
 
 private:
 
@@ -62,9 +64,13 @@ private:
 	int mouse_pos_x_ = 0;
 	int mouse_pos_y_ = 0;
 
-	VECTOR screen_pos_ = {0,0};
+	VECTOR start_pos_ = { 0,0,0 };
+	VECTOR end_pos_ = {0,0,0};
 
 	int c1_face = 0;
+	int face_ = 0;
+
+	int cnt = 55;
 
 	//カラーコード
 	int black = GetColor(0,0,0);
