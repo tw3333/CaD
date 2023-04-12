@@ -38,6 +38,7 @@ void Test2::initialzie() {
 	//SetLightEnable(FALSE);
 
 	board_->MakeObjBoard();
+	board_->MakeSquaresInstance();
 	board_->squares_[0][0]->MakeObjSquare();
 	board_->squares_[3][6]->MakeObjSquare();
 
@@ -68,8 +69,13 @@ void Test2::initialzie() {
 
 	square_ = dxe::Mesh::CreatePlaneMV({ (float)b_w * 1, (float)b_h * 1, 0 });
 	square_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
-	square_->pos_ = { -64,0,-36 };
+	//square_->pos_ = { -64,0,-36 };
 	square_->rot_q_ = tnl::Quaternion::RotationAxis({ 1,0,0 }, tnl::ToRadian(90));
+
+	select_square_ = dxe::Mesh::CreatePlaneMV({ (float)b_w * 1, (float)b_h * 1, 0 });
+	select_square_->setTexture(dxe::Texture::CreateFromFile("graphics/yellow.bmp"));
+	select_square_->pos_ = { -64,1,-36 };
+	select_square_->rot_q_ = tnl::Quaternion::RotationAxis({ 1,0,0 }, tnl::ToRadian(90));
 
 	turn_triangle_ = dxe::Mesh::CreateTriangleEquilateralMV((float)50);
 	turn_triangle_->setTexture(dxe::Texture::CreateFromFile("graphics/red1.bmp"));
@@ -154,11 +160,11 @@ void Test2::update(float delta_time) {
 	turn_triangle_->rot_q_ *= tnl::Quaternion::RotationAxis({ 0, 1, 0 }, tnl::ToRadian(3));
 	//camera_->rot_ *= tnl::Quaternion::RotationAxis({ 1, 0, 0 }, tnl::ToRadian(cnt));
 	
-	tnl::Vector3 msv = tnl::Input::GetMousePosition();
+	msv_ = tnl::Input::GetMousePosition();
 	
-	tnl::Vector3 ray = tnl::Vector3::CreateScreenRay(
-		msv.x
-		, msv.y
+	ray_ = tnl::Vector3::CreateScreenRay(
+		msv_.x
+		, msv_.y
 		, camera_->screen_w_
 		, camera_->screen_h_
 		, camera_->view_
@@ -166,9 +172,30 @@ void Test2::update(float delta_time) {
 
 	tnl::Vector3 hit;
 
-	if (tnl::IsIntersectLinePlane(camera_->pos_, camera_->pos_ + (ray * 10000.0f), { 10, 10, 10 }, { 0, 1, 0 }, &hit)) {
-		square_->pos_ = hit;
+	if (tnl::IsIntersectLinePlane(camera_->pos_, camera_->pos_ + (ray_ * 10000.0f), { 1, 1, 1 }, { 0, 1, 0 }, &hit)) {
+		hit_ = hit;
 	}
+
+	for (int i = 0; i < 10; ++i) {
+		for (int j = 0; j < 10; ++j) {
+
+			if (board_->squares_[i][j]->getXZBeginPos().x < hit_.x 
+				&& hit_.x < board_->squares_[i][j]->getXZEndPos().x
+				&& board_->squares_[i][j]->getXZBeginPos().z > hit_.z
+				&& hit_.z > board_->squares_[i][j]->getXZEndPos().z) 
+			{
+
+				square_->pos_.x = board_->squares_[i][j]->getXZBeginPos().x + 64;
+				square_->pos_.z = board_->squares_[i][j]->getXZBeginPos().z - 36;
+
+			}
+		}
+	}
+
+
+
+
+	Dedug();
 
 
 }
@@ -265,6 +292,35 @@ void Test2::render() {
 	DrawLine(w1*9, (h1 * 7) + (h1 * 1) / 2, w1 * 10, (h1 * 7) + (h1 * 1) / 2, -1);
 	DrawLine(w1 * 9 + (w1*1 / 2), h1 * 7, w1 * 9 + (w1 * 1 / 2), h1 * 8, -1);
 
+	int a = 0;
+	int b = 0;
+
+	for (int i = 0; i < 10; ++i) {
+		for (int j = 0; j < 10; ++j) {
+			
+			if (board_->squares_[i][j]->getXZBeginPos().x < hit_.x
+				&& hit_.x < board_->squares_[i][j]->getXZEndPos().x
+				&& board_->squares_[i][j]->getXZBeginPos().z > hit_.z
+				&& hit_.z > board_->squares_[i][j]->getXZEndPos().z)
+			{
+
+				
+				
+				a = i;
+				b = j;
+
+
+			}
+
+
+		}
+	}
+
+	DrawStringEx(0, 0, -1, "square[%d][%d]", a, b);
+	DrawStringEx(0, 20, -1, "posx%f,posy%f,posz%f", hit_.x, hit_.y, hit_.z);
+	DrawStringEx(0,40,-1,"square%f", board_->squares_[5][2]->getXZBeginPos().x);
+	DrawStringEx(0, 60, -1, "square[%d][%d]", board_->squares_[2][3]->getSquareRow(), board_->squares_[2][3]->getSquareCol());
+
 
 }
 
@@ -306,24 +362,24 @@ void Test2::GetSquareInfoGUIByClick() {
 	VECTOR square_z_begin;
 	VECTOR square_z_end;
 
-	for (int i = 0; i < 10; ++i) {
-		for (int j = 0; j < 10; ++j) {
+	//for (int i = 0; i < 10; ++i) {
+	//	for (int j = 0; j < 10; ++j) {
 
-			if (board_->squares_[i][j]->getXZBeginScreenPos().x < mouse_point_x_ &&
-				mouse_point_x_ < board_->squares_[i][j]->getXZEndScreenPos().x &&
-				board_->squares_[i][j]->getXZBeginScreenPos().z < mouse_point_y_ && 
-				mouse_point_y_ < board_->squares_[i][j]->getXZEndScreenPos().y)
-			{
+	//		if (board_->squares_[i][j]->getXZBeginScreenPos().x < mouse_point_x_ &&
+	//			mouse_point_x_ < board_->squares_[i][j]->getXZEndScreenPos().x &&
+	//			board_->squares_[i][j]->getXZBeginScreenPos().z < mouse_point_y_ && 
+	//			mouse_point_y_ < board_->squares_[i][j]->getXZEndScreenPos().y)
+	//		{
 
 
-				DrawStringEx(w1 * 9, h1 * 2 + 260, -1, "square[%d][%d]", board_->squares_[i][j]->getSquareRow(),board_->squares_[i][j]->getSquareCol() );
-				
+	//			DrawStringEx(w1 * 9, h1 * 2 + 260, -1, "square[%d][%d]", board_->squares_[i][j]->getSquareRow(),board_->squares_[i][j]->getSquareCol() );
+	//			
 
-			}
+	//		}
 
-		}
+	//	}
 
-	}
+	//}
 
 
 	//if (tnl::Input::IsMouseTrigger(eMouseTrigger::IN_LEFT)) {
@@ -409,3 +465,37 @@ void Test2::RenderHand() {
 
 
 }
+
+void Test2::Dedug() {
+
+	//for (int i = 0; i < 10; ++i) {
+	//	for (int j = 0; j < 10; ++j) {
+
+	//		if (board_->squares_[i][j]->getXZBeginPos().x < hit_.x && hit_.x < board_->squares_[i][j]->getXZEndPos().x
+	//			&& board_->squares_[i][j]->getXZBeginPos().z > hit_.z && hit_.z > board_->squares_[i][j]->getXZEndPos().z)
+	//		{
+
+
+
+
+
+
+	//		}
+
+
+	//	}
+	//}
+
+
+	//if (board_->squares_[0][0]->getXZBeginPos().x < hit_.x && hit_.x < board_->squares_[0][0]->getXZEndPos().x
+	//	&& board_->squares_[0][0]->getXZBeginPos().z > hit_.z && hit_.z > board_->squares_[0][0]->getXZEndPos().z)
+	//{
+	//	square_->pos_ = {0,0,0};
+
+
+	//}
+
+
+
+}
+

@@ -7,6 +7,18 @@ void Board::setSquare(int row, int col,Unit* unit) {
 
 }
 
+void Board::MakeSquaresInstance() {
+
+	for (int i = 0; i < 10; ++i) {
+		for (int k = 0; k < 10; ++k) {
+
+			squares_[i][k] =new Square(i,k);
+
+		}
+	}
+
+}
+
 
 void Board::MakeObjBoard() {
 

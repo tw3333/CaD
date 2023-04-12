@@ -7,15 +7,10 @@
 class Board {
 public:
 
-	Board() {
+	Board(int screen_w, int screen_h) {
 
-		for (int i = 0; i < 10; ++i) {
-			for (int k = 0; k < 10; ++k) {
-
-				squares_[i][k] =new Square(i,k);
-
-			}
-		}
+		board_w_ = (screen_w / 10) * 8;
+		board_h_ = (screen_h / 10) * 8;
 	
 	}
 
@@ -29,11 +24,14 @@ public:
 
 	//メンバ関数群
 	void setSquare(int row, int col, Unit* unit);
+	void MakeSquaresInstance();
 	
 	void MakeObjBoard();
 
 	//getter,setter
 	dxe::Mesh* obj_board_ = nullptr;
+	int getBoardW() { return board_w_; }
+	int getBoardH() { return board_h_; }
 
 
 private:
@@ -49,8 +47,8 @@ private:
 	int h1 = DXE_WINDOW_HEIGHT / 10;
 
 	//Object作成時の盤面のサイズw*h
-	int board_w_ = w1 * 8;
-	int board_h_ = h1 * 8;
+	int board_w_ = 0;
+	int board_h_ = 0;
 
 
 

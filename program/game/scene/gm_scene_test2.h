@@ -21,11 +21,12 @@ public:
 	//std::unique_ptr<dxe::Mesh> img_board_ = nullptr;
 	dxe::Mesh* player_ = nullptr;
 	dxe::Mesh* square_ = nullptr;
+	dxe::Mesh* select_square_ = nullptr;
 	//dxe::Mesh* obj_board_ = nullptr;
 	dxe::Mesh* turn_triangle_ = nullptr;
 	
 	//クラスのインスタンス
-	Board* board_ = new Board();
+	Board* board_ = new Board(DXE_WINDOW_WIDTH,DXE_WINDOW_HEIGHT);
 	PersonManager* pmgr_ = PersonManager::GetInstance();
 	AllyManager* amgr_ = AllyManager::GetInstance();
 
@@ -33,7 +34,9 @@ public:
 	void DrawBoard();
 	void RenderUnit();
 	void GetSquareInfoGUIByClick();
-	
+	void Dedug();
+
+
 	void RenderCard(int x, int y);
 	void RenderHand();
 
@@ -60,9 +63,11 @@ private:
 
 	int mouse_point_x_ = 0;
 	int mouse_point_y_ = 0;
-
 	int mouse_pos_x_ = 0;
 	int mouse_pos_y_ = 0;
+	tnl::Vector3 msv_ = {0,0,0};
+	tnl::Vector3 ray_ = {0,0,0};
+	tnl::Vector3 hit_ = {0,0,0};
 
 	VECTOR start_pos_ = { 0,0,0 };
 	VECTOR end_pos_ = {0,0,0};
