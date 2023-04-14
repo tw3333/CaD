@@ -7,6 +7,10 @@ void SceneLoad::initialzie() {
 	//Soundデータのロード
 	smgr->LoadSoundSe();
 
+	//Allyデータのロード
+	amgr_->MakeAllies();
+	amgr_->LoadAlliesGraph();
+
 	//Personデータのロード
 	pmgr->AddPersonPointerToVector();
 	pmgr->LoadPersonGraph();
@@ -15,6 +19,8 @@ void SceneLoad::initialzie() {
 	cmgr->LoadCardDate();
 	cmgr->LoadCardGraph();
 	cmgr->SortJobCard();
+
+
 
 }
 
@@ -30,7 +36,7 @@ void SceneLoad::update(float delta_time) {
 
 				if (pmgr->person[i]->cardList[k] != nullptr) {
 
-					gmgr->chengeScene(new Test2);
+					gmgr->chengeScene(new SceneSelectPhase());
 
 
 

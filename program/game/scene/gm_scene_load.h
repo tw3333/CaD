@@ -5,6 +5,7 @@
 #include "../gm_person_manager.h"
 #include "../gm_card_manager.h"
 #include "../gm_sound_manager.h"
+#include "../gm_ally_manager.h"
 
 class SceneLoad : public SceneBase  {
 public:
@@ -17,6 +18,8 @@ public:
 	void render() override;
 
 	PersonManager* pmgr = PersonManager::GetInstance();
+	
+	AllyManager* amgr_ = AllyManager::GetInstance();
 
 	CardManager* cmgr = CardManager::GetInstance();
 	

@@ -2,6 +2,7 @@
 #include "gm_scene_base.h"
 
 #include "../gm_person_manager.h"
+#include "../gm_ally_manager.h"
 #include "../gm_card_manager.h"
 
 
@@ -55,6 +56,9 @@ public:
 
 	//PersonManager
 	PersonManager* pmgr = PersonManager::GetInstance();
+
+	//Allymanager
+	AllyManager* amgr_ = AllyManager::GetInstance();
 
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
@@ -162,6 +166,10 @@ private:
 	int chara2 = 2;
 	int chara3 = 3;
 	int chara4 = 4;
+
+	int pick1th_ally_id_ = 0;
+	int pick2th_ally_id_ = 0;
+	int pick3th_ally_id_ = 0;
 
 
 	

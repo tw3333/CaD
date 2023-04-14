@@ -195,8 +195,13 @@ void SceneSelectPhase::DrawDungeonWindow(bool f) {
 			DrawBox(width1 * 7 + 50 + 50, height1 * 2 + 100, width1 * 9 + 50 + 50, height1 * 3 + 100, gray, true);
 
 
+			//ally(face2_img)•\Ž¦
+			DrawExtendGraph(width1 * 5 + 50, height1 * 1 + 40, width1 * 7 + 50, height1 * 2 + 40, amgr_->allies_[0]->face2_img_handle_, true);
+			DrawExtendGraph(width1 * 7 + 50 + 50, height1 * 1 + 40, width1 * 9 + 50 + 50, height1 * 2 + 40, amgr_->allies_[1]->face2_img_handle_, true);
+			DrawExtendGraph(width1 * 5 + 50, height1 * 2 + 100, width1 * 7 + 50, height1 * 3 + 100, amgr_->allies_[2]->face2_img_handle_, true);
+			DrawExtendGraph(width1 * 7 + 50 + 50, height1 * 2 + 100, width1 * 9 + 50 + 50, height1 * 3 + 100, amgr_->allies_[3]->face2_img_handle_, true);
 
-
+		
 			DrawBox(width1 * 2 + 80, height1 * 1 + 40, width1 * 4 + 80, height1 * 2 + 40, gray, true);
 			DrawBox(width1 * 2 + 80, height1 * 2 + 40 + 60, width1 * 4 + 80, height1 * 3 + 40 + 60, gray, true);
 			DrawBox(width1 * 2 + 80, height1 * 3 + 40 + 120, width1 * 4 + 80, height1 * 4 + 40 + 120, gray, true);
@@ -427,6 +432,16 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 					}
 
+					amgr_->allies_[0]->setIsPicked(true);
+
+					if (pick1th_ally_id_ == 0) {
+
+
+
+
+					}
+
+
 				}
 
 				//chara2
@@ -498,6 +513,12 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 					pmgr->person[1]->PICK = false;
 					pmgr->person[2]->PICK = false;
 					pmgr->person[3]->PICK = false;
+
+					amgr_->allies_[0]->setIsPicked(false);
+					amgr_->allies_[1]->setIsPicked(false);
+					amgr_->allies_[2]->setIsPicked(false);
+					amgr_->allies_[3]->setIsPicked(false);
+
 				}
 
 			}

@@ -82,5 +82,6 @@ private:
 	int red = GetColor(255,0,0);
 	int silver = GetColor(192,192,192);
 	int darkolivegreen = GetColor(85,107,47);
-
+	
+	int dxlib_blend_mode_ = DX_BLENDMODE_ALPHA;
 };
