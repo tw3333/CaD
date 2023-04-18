@@ -23,6 +23,7 @@ public:
 	}
 
 	std::vector<Ally*> allies_;
+	std::vector<Ally*> party_;
 
 
 	void MakeAllies();

@@ -5,6 +5,7 @@
 #include "../gm_ally_manager.h"
 #include "../gm_card_manager.h"
 
+#include "../gm_button.h"
 
 class SceneSelectPhase : public SceneBase {
 public:
@@ -28,6 +29,9 @@ public:
 	void opTabParty(bool flag);
 
 	void PickCheck(int pick1, int pick2, int pick3, int pick_chara);
+	void CheckPickOrder(Ally& ally);
+
+
 
 	//remake
 	//Še‰æ–Ê‚Ì•`Ê—pŠÖ”
@@ -63,7 +67,7 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
 
-
+	Button button_;
 
 private:
 

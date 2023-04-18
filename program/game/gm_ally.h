@@ -11,7 +11,6 @@ public:
 		ally_id_ = id;
 		cost_max_ = cost;
 
-	
 	}
 	~Ally(){};
 

@@ -37,6 +37,7 @@
     <ClCompile Include="program\game\gm_ally.cpp" />
     <ClCompile Include="program\game\gm_ally_manager.cpp" />
     <ClCompile Include="program\game\gm_board.cpp" />
+    <ClCompile Include="program\game\gm_button.cpp" />
     <ClCompile Include="program\game\gm_camera.cpp" />
     <ClCompile Include="program\game\gm_card.cpp" />
     <ClCompile Include="program\game\gm_card_manager.cpp" />
@@ -86,6 +87,7 @@
     <ClInclude Include="program\game\gm_ally.h" />
     <ClInclude Include="program\game\gm_ally_manager.h" />
     <ClInclude Include="program\game\gm_board.h" />
+    <ClInclude Include="program\game\gm_button.h" />
     <ClInclude Include="program\game\gm_camera.h" />
     <ClInclude Include="program\game\gm_card.h" />
     <ClInclude Include="program\game\gm_card_manager.h" />
@@ -95,6 +97,7 @@
     <ClInclude Include="program\game\gm_sound_manager.h" />
     <ClInclude Include="program\game\gm_square.h" />
     <ClInclude Include="program\game\gm_turn_manager.h" />
+    <ClInclude Include="program\game\gm_ui.h" />
     <ClInclude Include="program\game\gm_unit.h" />
     <ClInclude Include="program\game\gm_person.h" />
     <ClInclude Include="program\game\gm_item.h" />

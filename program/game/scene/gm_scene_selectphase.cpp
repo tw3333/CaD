@@ -10,6 +10,8 @@
 #include"../gm_manager.h"
 #include "gm_scene_result.h"
 
+#include "../gm_button.h"
+
 #include "DxLib.h"
 
 void SceneSelectPhase::initialzie() {
@@ -41,6 +43,7 @@ void SceneSelectPhase::initialzie() {
 	pmgr->person[2]->EDIT = false;
 	pmgr->person[3]->EDIT = false;
 
+	
 
 }
 
@@ -48,7 +51,7 @@ void SceneSelectPhase::initialzie() {
 void SceneSelectPhase::update(float delta_time) {
 	GameManager* mgr = GameManager::GetInstance();
 
-
+	
 	//シーン遷移
 	//if (tnl::Input::IsKeyDownTrigger(eKeys::KB_ESCAPE)) {
 	//	mgr->chengeScene(new SceneTitle());
@@ -80,7 +83,7 @@ void SceneSelectPhase::update(float delta_time) {
 	int count;
 	count = GetNowCount();
 
-
+	button_.UpdateMousePoint(MouseX,MouseY);
 
 	//Windowをマウスで選択
 	SelectMouseWindow(MouseX, MouseY);
@@ -389,6 +392,18 @@ void SceneSelectPhase::SelectMouseWindow(int mx, int my) {
 
 		}
 
+
+		if (button_.IsBoundsLeftClicked(width1 * 8, 0, width1 * 10, height1 * 1)) {
+
+			storageWindow = true;
+
+			guildWindow = false;
+			dungeonWindow = false;
+			charaWindow = false;
+			shopWindow = false;
+
+		}
+
 	}
 }
 
@@ -434,12 +449,7 @@ void SceneSelectPhase::OpDungeonWindow(bool f, int mx, int my) {
 
 					amgr_->allies_[0]->setIsPicked(true);
 
-					if (pick1th_ally_id_ == 0) {
-
-
-
-
-					}
+					//CheckPickOrder();
 
 
 				}
@@ -755,4 +765,43 @@ void SceneSelectPhase::DrawPartyPick() {
 	}
 
 
+}
+
+
+
+//arg1...ally_id, arg2...is_picked
+void SceneSelectPhase::CheckPickOrder(Ally& ally) {
+
+	if (ally.getIsPicked() == false) {
+
+		if (pick1th_ally_id_ == 0) {
+			pick1th_ally_id_ = ally.getAllyID();
+		}
+		else if (pick1th_ally_id_ != 0 && pick2th_ally_id_ == 0) {
+			pick2th_ally_id_ = ally.getAllyID();
+		}
+		else if (pick1th_ally_id_ != 0 && pick2th_ally_id_ != 0) {
+			pick3th_ally_id_ = ally.getAllyID();
+		}
+
+
+	}
+
+
+
+	
+	//if (is_picked == false) {
+
+	//	if (pick1th_ally_id_ == 0) {
+	//		pick1th_ally_id_ = ally_id;
+	//	}
+	//	else if (pick1th_ally_id_ != 0 && pick2th_ally_id_ == 0) {
+	//		pick2th_ally_id_ = ally_id;
+	//	}
+	//	else if (pick1th_ally_id_ != 0 && pick2th_ally_id_ != 0) {
+	//		pick3th_ally_id_ = ally_id;
+	//	}
+
+	//}
+	
 }
