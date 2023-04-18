@@ -1,11 +1,13 @@
 #pragma once
-#include "gm_ui.h"
+//#include "gm_ui.h"
 #include "../library/tnl_input.h"
 
-class Button : public UI {
+class Button {
 public:
 
 	//void update();
+	Button() {}
+	~Button() {}
 	
 	void UpdateMousePoint(int x, int y) { mouse_point_x_ = x; mouse_point_y_ = y; }
 	bool IsBoundsLeftClicked(int x1, int y1, int x2, int y2);

@@ -29,7 +29,7 @@ public:
 	void opTabParty(bool flag);
 
 	void PickCheck(int pick1, int pick2, int pick3, int pick_chara);
-	void CheckPickOrder(Ally& ally);
+	void CheckPickOrder(Ally* ally);
 
 
 
@@ -67,7 +67,7 @@ public:
 	//CardManager
 	CardManager* cmgr = CardManager::GetInstance();
 
-	Button button_;
+	Button* button_ = new Button();
 
 private:
 
