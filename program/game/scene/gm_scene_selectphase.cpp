@@ -14,6 +14,8 @@
 
 #include "DxLib.h"
 
+//git test
+
 void SceneSelectPhase::initialzie() {
 
 	//LoadSelectPhaseGraph();
