@@ -3,6 +3,8 @@
 #include "gm_scene_selectphase.h"
 #include "gm_scene_test2.h"
 
+#include "gm_scene_battle.h"
+
 void SceneLoad::initialzie() {
 	//Soundデータのロード
 	smgr->LoadSoundSe();
@@ -36,7 +38,7 @@ void SceneLoad::update(float delta_time) {
 
 				if (pmgr->person[i]->cardList[k] != nullptr) {
 
-					gmgr->chengeScene(new SceneSelectPhase());
+					gmgr->chengeScene(new Test2());
 
 
 
