@@ -414,5 +414,14 @@
     <ClInclude Include="program\game\gm_button.h">
       <Filter>program\game</Filter>
     </ClInclude>
+    <ClInclude Include="program\game\ui\ui_component.h">
+      <Filter>program\game\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\ui\ui_panel.h">
+      <Filter>program\game\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="program\game\ui\ui_button.h">
+      <Filter>program\game\ui</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

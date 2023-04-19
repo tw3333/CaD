@@ -119,6 +119,9 @@
     <ClInclude Include="program\game\scene\gm_scene_test2.h" />
     <ClInclude Include="program\game\scene\gm_scene_title.h" />
     <ClInclude Include="program\game\scene\gm_test.h" />
+    <ClInclude Include="program\game\ui\ui_button.h" />
+    <ClInclude Include="program\game\ui\ui_component.h" />
+    <ClInclude Include="program\game\ui\ui_panel.h" />
     <ClInclude Include="program\library\picojson.h" />
     <ClInclude Include="program\library\stb_image.h" />
     <ClInclude Include="program\library\tnl_flyweight_map.h" />
