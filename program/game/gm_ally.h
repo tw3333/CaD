@@ -25,6 +25,8 @@ public:
 	int getCol() { return col_; }
 	void setIsPicked(bool is_picked) { is_picked_ = is_picked; }
 	bool getIsPicked() { return is_picked_; }
+	void setIsEdited(bool is_edited) { is_edited_ = is_edited; }
+	bool getIsEdited() { return is_edited_; }
 
 
 
@@ -49,7 +51,7 @@ private:
 	int pick_order_ = 0;
 
 
-	int ally_id_ = 0;
+	int ally_id_;
 	std::string name_;
 
 	//ステータス
@@ -71,7 +73,7 @@ private:
 
 	//状態フラグ
 	bool is_picked_ = false;
-	bool edit_ = false;
+	bool is_edited_ = false;
 	bool is_first_deal_ = false;
 	bool is_acted_ = false;
 	bool is_dead_ = false;

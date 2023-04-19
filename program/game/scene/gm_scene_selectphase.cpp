@@ -253,16 +253,17 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 
 			DrawBox(width1 * 2 + 10, height1 * 1 + 10, width1 * 10 - 10, height1 * 10 - 10, gray2, true);
 
+			//Allyのボックス下地
+			DrawBox(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, gray, true);
+			DrawBox(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, gray, true);
+			DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
+			DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
 
-			//DrawBox(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, gray, true);
-			//DrawBox(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, gray, true);
-			//DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
-			//DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
-
-			DrawExtendGraph(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, pmgr->person[0]->GRAPH, false);
-			//DrawBox(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, gray, true);
-			//DrawBox(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, gray, true);
-			//DrawBox(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, gray, true);
+			//Allyの画像表示
+			DrawExtendGraph(width1 * 2 + 100, height1 * 1 + 40, width1 * 4 + 100, height1 * 2 + 40, amgr_->allies_[0]->face2_img_handle_, true);
+			DrawExtendGraph(width1 * 4 + 100 + 50, height1 * 1 + 40, width1 * 6 + 100 + 50, height1 * 2 + 40, amgr_->allies_[1]->face2_img_handle_, true);
+			DrawExtendGraph(width1 * 6 + 100 + 50 + 50, height1 * 1 + 40, width1 * 8 + 100 + 50 + 50, height1 * 2 + 40, amgr_->allies_[2]->face2_img_handle_, true);
+			DrawExtendGraph(width1 * 2 + 100, height1 * 2 + 40 + 60, width1 * 4 + 100, height1 * 3 + 40 + 60, amgr_->allies_[3]->face2_img_handle_, true);
 
 
 
@@ -273,19 +274,35 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 
 		}
 
-		if (pmgr->person[0]->EDIT == true) {
+		if (amgr_->allies_[0]->getIsEdited() == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "%d", pmgr->person[0]->GRAPH);
+			DrawExtendGraph(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, amgr_->allies_[0]->face2_img_handle_, true); //chara
 
 		}
-		if (pmgr->person[1]->EDIT == true) {
+		if (amgr_->allies_[1]->getIsEdited() == true) {
+			DrawExtendGraph(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, amgr_->allies_[1]->face2_img_handle_, true); //chara
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara2(未実装)");
 		}
-		if (pmgr->person[2]->EDIT == true) {
+		if (amgr_->allies_[2]->getIsEdited() == true) {
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara3");
+			DrawExtendGraph(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, amgr_->allies_[2]->face2_img_handle_, true); //chara
+
 		}
-		if (pmgr->person[3]->EDIT == true) {
+		if (amgr_->allies_[3]->getIsEdited() == true) {
+			DrawExtendGraph(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, amgr_->allies_[3]->face2_img_handle_, true); //chara
 			DrawStringEx(10, height1 * 1 + 10, 1, "Chara4");
 		}
+
+		//for (int i = 0; i < amgr_->allies_.size(); ++i) {
+		//
+		//	if (amgr_->allies_[i]->getIsEdited() == true) {
+
+		//		DrawExtendGraph(10, height1 * 1 + 10, width1 * 2, height1 * 2 + 10, amgr_->allies_[i]->face2_img_handle_, true); //chara
+
+		//	}
+
+		//}
+
 
 
 		DrawStringEx(10, height1 * 2 + 10 + 10, 1, "deck");
@@ -293,10 +310,10 @@ void SceneSelectPhase::DrawCharaWindow(bool f) {
 		DrawStringEx(10, height1 * 4 + 10 + 30, 1, "soubi(未実装)");
 		DrawStringEx(10, height1 * 5 + 10 + 40, 1, "item(未実装)");
 
-		DrawStringEx(width1 * 7, height1 * 2, 1, "p1speed:%d", pmgr->person[0]->SPEED);
-		DrawStringEx(width1 * 7, height1 * 2 + 20, 1, "p2speed:%d", pmgr->person[1]->SPEED);
-		DrawStringEx(width1 * 7, height1 * 2 + 40, 1, "p3speed:%d", pmgr->person[2]->SPEED);
-		DrawStringEx(width1 * 7, height1 * 2 + 60, 1, "p4speed:%d", pmgr->person[3]->SPEED);
+		DrawStringEx(width1 * 7, height1 * 2, 1, "ally1_id:%d", amgr_->allies_[0]->getAllyID());
+		DrawStringEx(width1 * 7, height1 * 2 + 20, 1, "ally2_id:%d", amgr_->allies_[1]->getAllyID());
+		DrawStringEx(width1 * 7, height1 * 2 + 40, 1, "ally3_id:%d", amgr_->allies_[2]->getAllyID());
+		DrawStringEx(width1 * 7, height1 * 2 + 60, 1, "ally4_id:%d", amgr_->allies_[3]->getAllyID());
 		
 		DrawStringEx(width1 * 8, height1 * 2, 1, "p1speed:%d", pmgr->person[0]->PICK);
 		DrawStringEx(width1 * 8, height1 * 2 + 20, 1, "p2speed:%d", pmgr->person[1]->PICK);
@@ -599,6 +616,13 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 					}
 
+					for (int i = 0; i < amgr_->allies_.size(); ++i) {
+
+						if (amgr_->allies_[i] == amgr_->allies_[0]) { amgr_->allies_[0]->setIsEdited(true); }
+						else { amgr_->allies_[i]->setIsEdited(false); }
+
+					}
+
 					//pmgr->person[0]->EDIT = true;
 
 					//pmgr->person[1]->EDIT = false;
@@ -623,6 +647,13 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 					}
 
+					for (int i = 0; i < amgr_->allies_.size(); ++i) {
+
+						if (amgr_->allies_[i] == amgr_->allies_[0]) { amgr_->allies_[1]->setIsEdited(true); }
+						else { amgr_->allies_[i]->setIsEdited(false); }
+
+					}
+
 					tab1_cw = false;
 				}
 
@@ -640,6 +671,13 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 
 					}
 
+					for (int i = 0; i < amgr_->allies_.size(); ++i) {
+
+						if (amgr_->allies_[i] == amgr_->allies_[0]) { amgr_->allies_[2]->setIsEdited(true); }
+						else { amgr_->allies_[i]->setIsEdited(false); }
+
+					}
+
 					tab1_cw = false;
 				}
 
@@ -654,6 +692,13 @@ void SceneSelectPhase::OpCharaWindow(bool f, int mx, int my) {
 						else {
 							pmgr->person[i]->EDIT = false;
 						}
+
+					}
+
+					for (int i = 0; i < amgr_->allies_.size(); ++i) {
+
+						if (amgr_->allies_[i] == amgr_->allies_[0]) { amgr_->allies_[3]->setIsEdited(true); }
+						else { amgr_->allies_[i]->setIsEdited(false); }
 
 					}
 
